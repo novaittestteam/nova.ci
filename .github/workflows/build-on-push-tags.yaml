@@ -30,29 +30,29 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.REPO_GIT_TOKEN }}
 
-      - name: Set up Docker Context for Buildx
-        id: buildx-context
-        run: |
-          docker context create builder
+      # - name: Set up Docker Context for Buildx
+      #   id: buildx-context
+      #   run: |
+      #     docker context create builder
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@master
-        with:
-          install: true
-          endpoint: builder
-          buildkitd-flags: --debug
+      # - name: Set up Docker Buildx
+      #   id: buildx
+      #   uses: docker/setup-buildx-action@master
+      #   with:
+      #     install: true
+      #     endpoint: builder
+      #     buildkitd-flags: --debug
  
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        id: main_build_proc
-        with:
-          file: ./docker/server.Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          target: main
-          tags: | 
-            ghcr.io/${{ github.repository_owner }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
+      # - name: Build and push
+      #   uses: docker/build-push-action@v3
+      #   id: main_build_proc
+      #   with:
+      #     file: ./docker/server.Dockerfile
+      #     builder: ${{ steps.buildx.outputs.name }}
+      #     push: true
+      #     target: main
+      #     tags: | 
+      #       ghcr.io/${{ github.repository_owner }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
 
 
 
