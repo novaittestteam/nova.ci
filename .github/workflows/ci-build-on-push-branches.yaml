@@ -1,4 +1,4 @@
-name: Builder
+name: Build on Certain Branch
 on:
   workflow_call:
 
