@@ -75,7 +75,7 @@ jobs:
           if_true: |
             👷 ${{ github.actor }} created deploy tag.
             
-            Building was completed ✅
+            Image assembly has been completed ✅
             
             ▶️ Repositry_1: ${{ secrets.CR_DH_USERNAME }}/${{ needs.build-image.outputs.REP_NAME }}
             ▶️ Repositry_2: ${{ github.repository_owner }}/${{ needs.build-image.outputs.REP_NAME }}
