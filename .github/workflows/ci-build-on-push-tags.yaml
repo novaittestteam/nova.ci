@@ -59,18 +59,13 @@ jobs:
           target: main
           tags: | 
             ghcr.io/${{ github.repository_owner }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
+            ${{ secrets.CR_DH_USERNAME }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
 
   notify-telegram:
     name: Notifier
     runs-on: self-hosted
     needs: build-image
     steps:
-
-      - name: Catch Github Events
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo $GITHUB_CONTEXT
 
       - name: Set Telegram Message
         uses: haya14busa/action-cond@v1
@@ -82,7 +77,8 @@ jobs:
             
             Building was completed ✅
             
-            ▶️ Repositry: ${{ secrets.PILGANCHUK_DOCKERHUB_USERNAME }}/${{ needs.build-image.outputs.REP_NAME }}
+            ▶️ Repositry_1: ${{ secrets.CR_DH_USERNAME }}/${{ needs.build-image.outputs.REP_NAME }}
+            ▶️ Repositry_2: ${{ github.repository_owner }}/${{ needs.build-image.outputs.REP_NAME }}
 
             🔵 Image: ${{ needs.build-image.outputs.RELEASE }}_${{ needs.build-image.outputs.SHORT_REF_NAME }}_${{ needs.build-image.outputs.SHORT_SHA }}
 
