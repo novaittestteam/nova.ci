@@ -69,6 +69,8 @@ jobs:
       - name: Catch Github Events
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo $GITHUB_CONTEXT
 
       - name: Set Telegram Message
         uses: haya14busa/action-cond@v1
