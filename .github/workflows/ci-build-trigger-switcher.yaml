@@ -6,7 +6,7 @@ on:
 
 jobs:
   preparation:
-    name: Switcher
+    name: CI Build Trigger Switcher Start
     runs-on: self-hosted
     steps:
       - name: Catch Github Events
