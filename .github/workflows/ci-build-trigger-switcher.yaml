@@ -16,7 +16,7 @@ jobs:
           echo $GITHUB_CONTEXT
           echo ${{ github.event_name == 'push' }}
           echo ${{ contains(github.ref, 'tags') }}
-          echo ${{ contains(github.ref, 'build-') }}
+          echo ${{ contains(github.ref, 'build') }}
 
   call-external-on-push-tags:
     name: Call Builder On Push Tags
