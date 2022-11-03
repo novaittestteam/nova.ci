@@ -20,7 +20,7 @@ jobs:
 
   call-external-on-push-tags:
     name: Call Builder On Push Tags
-    if: ${{ github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build-') }}
+    if: ${{ github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags.yaml@main
     secrets: inherit
 
