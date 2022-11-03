@@ -1,4 +1,4 @@
-name: CI Build on Push TAG
+name: CI Build NTK on Push TAG
 on:
   workflow_call:
 

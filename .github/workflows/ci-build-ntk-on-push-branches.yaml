@@ -1,4 +1,4 @@
-name: Build on Certain Branch
+name: CI Build NTK on Certain Branch
 on:
   workflow_call:
 

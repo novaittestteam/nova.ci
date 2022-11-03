@@ -21,11 +21,11 @@ jobs:
   call-external-on-push-tags:
     name: Call Builder On Push Tags
     if: ${{ github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build-') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-on-push-tags.yaml@main
+    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags.yaml@main
     secrets: inherit
 
   call-external-on-push-branches:
     name: Call Builder If Push Certain Branches
     if: ${{ github.event_name == 'push' && github.ref_type == 'branch' && contains(github.ref_name, 'build-me-please') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-on-push-branches.yaml@main
+    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-branches.yaml@main
     secrets: inherit
