@@ -8,6 +8,7 @@ jobs:
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     permissions:
+      contents: read
       packages: write
     outputs:
       REP_NAME: ${{ steps.prep.outputs.REP_NAME }}
