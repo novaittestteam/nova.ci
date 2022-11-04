@@ -7,6 +7,8 @@ jobs:
     name: Build Image
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
+    permissions:
+      packages: write
     outputs:
       REP_NAME: ${{ steps.prep.outputs.REP_NAME }}
       SHORT_SHA: ${{ steps.prep.outputs.SHORT_SHA }} 
