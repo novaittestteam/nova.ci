@@ -36,11 +36,7 @@ jobs:
       - name: Step 1
         id: prep_1
         run: |
-          ls -la ./
-          ls -la /runner/
-          find /runner -name .env.example
-
-#          cat .env.example >> $GITHUB_ENV
+          cat .env.example >> $GITHUB_ENV
 
       - name: Step 2
         id: prep_2
