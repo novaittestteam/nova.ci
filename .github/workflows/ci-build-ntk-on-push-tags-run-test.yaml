@@ -36,7 +36,8 @@ jobs:
       - name: Step 1
         id: prep_1
         run: |
-          cat .env.example >> $GITHUB_ENV
+          sed '/^#/d' .env.example > .env
+          cat .env >> $GITHUB_ENV
 
       - name: Step 2
         id: prep_2
