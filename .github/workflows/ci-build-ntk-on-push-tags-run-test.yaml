@@ -1,0 +1,42 @@
+name: CI Build NTK on Push TAG
+on:
+  workflow_call:
+
+# env:
+  # # APPLICATION CONFIG
+  # NODE_ENV: production
+  # APP_HOST: 127.0.0.1
+  # APP_PORT: 3000
+  # FRONTEND_URL: http://127.0.0.1
+  # WIDGET_URL: https://storage.novatalks.ai/static/widget/v1
+  # STORE_URL: http://127.0.0.1
+  # SWAGGER_STATS_ENABLE: true
+  # LOG_LEVEL: info #error, warn, info, http, verbose, debug, silly
+  # THROTTLE_ENABLE: true
+  # THROTTLE_TTL: 60
+  # THROTTLE_LIMIT: 60
+  # AUTH_LOGOUT_TIMEOUT: 30000
+  # # DATABASE CONFIG
+  # DATABASE_DIALECT: postgres
+  # DATABASE_HOST: 127.0.0.1
+  # DATABASE_PORT: 5432
+  # DATABASE_USERNAME: postgres
+  # DATABASE_PASSWORD: password
+  # DATABASE_NAME: db_name
+
+jobs:
+  e2e-test:
+    name: Test Runner
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Step 1
+        id: prep_1
+        run: |
+          cat .env.example >> $GITHUB_ENV
+
+      - name: Step 2
+        id: prep_2
+        run: |
+          echo $GITHUB_ENV
+
