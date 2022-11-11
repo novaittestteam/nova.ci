@@ -18,10 +18,16 @@ jobs:
           echo ${{ contains(github.ref, 'tags') }}
           echo ${{ contains(github.ref, 'build') }}
 
-  call-external-on-push-tags:
+  call-external-on-push-tags-build:
     name: Call Builder On Push Tags
     if: ${{ github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags.yaml@main
+    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
+    secrets: inherit
+
+  call-external-on-push-tags-run-test:
+    name: Call Test Runner On Push Tags
+    if: ${{ github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'run-test') }}
+    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-test.yaml@main
     secrets: inherit
 
   call-external-on-push-branches:
