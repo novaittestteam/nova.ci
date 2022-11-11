@@ -34,6 +34,8 @@ jobs:
         id: prep_1
         run: |
           ls -la ./
+          ls -la /
+          find / -name .env.example
 
 #          cat .env.example >> $GITHUB_ENV
 
