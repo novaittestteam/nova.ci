@@ -30,12 +30,15 @@ jobs:
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Step 1
         id: prep_1
         run: |
           ls -la ./
-          ls -la /
-          find / -name .env.example
+          ls -la /runner/
+          find /runner -name .env.example
 
 #          cat .env.example >> $GITHUB_ENV
 
