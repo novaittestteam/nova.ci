@@ -29,6 +29,18 @@ jobs:
     name: Test Runner
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
+    container: node:16.17-alpine
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_PASSWORD: $DATABASE_PASSWORD
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,4 +55,16 @@ jobs:
         id: prep_2
         run: |
           echo $GITHUB_ENV
+      - run: apt update && apt install -y postgresql
+
+      - name: Test connection
+        run: psql -U $DATABASE_USERNAME -d $DATABASE_PASSWORD
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
+          
+
+      # - run: apt update && apt install -y postgresql
+
+      # - run: npm i -g npm@7.20.0
 
