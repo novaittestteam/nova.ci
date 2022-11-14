@@ -50,6 +50,10 @@ jobs:
       #   run: |
       #     sed '/^#/d' .env.example > .env
       #     cat .env >> $GITHUB_ENV
+      - name: Set up Docker Context 
+        run: |
+          docker context create tester
+
 
       - name: Step 2
         id: prep_2
