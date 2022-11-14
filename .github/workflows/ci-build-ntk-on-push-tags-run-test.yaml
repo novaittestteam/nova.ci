@@ -57,6 +57,8 @@ jobs:
           echo $GITHUB_ENV
       - run: |
           whoami
+          pwd
+          su runner
           sudo apt-get update
           sudo apt-get install -y postgresql
 
