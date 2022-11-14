@@ -66,10 +66,10 @@ jobs:
       - name: Test connection
         run: |
           psql --version
-          psql -U postgres -d postgres -h postgres
-        # env:
-        #   POSTGRES_HOST: postgres
-        #   POSTGRES_PORT: 5432
+          psql -U postgres -d postgres
+        env:
+          POSTGRES_HOST: postgres
+          POSTGRES_PORT: 5432
           
 
       # - run: apt update && apt install -y postgresql
