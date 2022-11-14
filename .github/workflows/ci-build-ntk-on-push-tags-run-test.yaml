@@ -60,7 +60,7 @@ jobs:
           pwd
           cat /etc/os-release
           apk update
-          apk add -y postgresql
+          apk add postgresql
 
       - name: Test connection
         run: psql -U $DATABASE_USERNAME -d $DATABASE_PASSWORD
