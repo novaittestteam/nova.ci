@@ -58,10 +58,9 @@ jobs:
       - run: |
           whoami
           pwd
-          hostnamectl
           cat /etc/os-release
-          apt-get update
-          apt-get install -y postgresql
+          apk update
+          apk add -y postgresql
 
       - name: Test connection
         run: psql -U $DATABASE_USERNAME -d $DATABASE_PASSWORD
