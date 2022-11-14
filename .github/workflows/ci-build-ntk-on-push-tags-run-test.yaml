@@ -62,7 +62,7 @@ jobs:
           pwd
           cat /etc/os-release
           sudo apt-get update
-          sudo apt-get install -y postgresql-client nodejs
+          sudo apt-get install -y postgresql-client nodejs npm
           psql --version
           docker ps -a
 
