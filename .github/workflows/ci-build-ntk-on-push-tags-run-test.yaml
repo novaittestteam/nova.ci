@@ -64,11 +64,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y postgresql-client nodejs
           psql --version
+          docker ps -a
 
       - name: Test connection
         run: |
           psql --version
-          pg_isready 
+          pg_isready -h localhost -p 5432
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
