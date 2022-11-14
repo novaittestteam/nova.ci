@@ -60,10 +60,13 @@ jobs:
           pwd
           cat /etc/os-release
           sudo apt-get update
-          sudo apt-get install -y postgresql
+          sudo apt-get install -y postgresql-client
+          psql --version
 
       - name: Test connection
-        run: psql -U $DATABASE_USERNAME -d $DATABASE_PASSWORD
+        run: |
+          psql --version
+          psql -U $DATABASE_USERNAME -d $DATABASE_PASSWORD
         env:
           POSTGRES_HOST: postgres
           POSTGRES_PORT: 5432
