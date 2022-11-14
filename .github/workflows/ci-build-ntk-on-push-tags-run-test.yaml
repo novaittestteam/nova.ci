@@ -55,7 +55,10 @@ jobs:
         id: prep_2
         run: |
           echo $GITHUB_ENV
-      - run: sudo apt-get update && sudo apt-get install -y postgresql
+      - run: |
+          whoami
+          sudo apt-get update
+          sudo apt-get install -y postgresql
 
       - name: Test connection
         run: psql -U $DATABASE_USERNAME -d $DATABASE_PASSWORD
