@@ -68,9 +68,9 @@ jobs:
       - name: Test connection
         run: |
           psql --version
-          pg_isready -h postgres -p 5432
+          pg_isready -h localhost -p 5432
         env:
-          POSTGRES_HOST: postgres
+          POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
           
 
