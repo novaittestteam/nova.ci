@@ -36,8 +36,8 @@ jobs:
         env:
           POSTGRES_PASSWORD: password
         # Set health checks to wait until postgres has started
-        ports:
-          - 5432:5432
+        # ports:
+        #   - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -62,18 +62,23 @@ jobs:
           pwd
           cat /etc/os-release
           sudo apt-get update
-          sudo apt-get install -y postgresql-client
+          sudo apt-get install -y postgresql-client nodejs
           psql --version
 
       - name: Test connection
         run: |
           psql --version
-          psql -U postgres -d postgres
+          pg_isready
         env:
-          POSTGRES_PASSWORD: password
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
-          
+
+      - name: Connect to PostgreSQL
+        run: node test_db.js
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+
 
       # - run: apt update && apt install -y postgresql
 
