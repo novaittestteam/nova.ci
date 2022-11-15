@@ -56,6 +56,8 @@ jobs:
         run: |
           sed '/^#/d' .env.example > .env
           cat .env >> $GITHUB_ENV
+        with:
+          configuration-path: ${{ inputs.config-path }}
 
       - name: Step 2
         id: prep_2
