@@ -9,7 +9,7 @@ jobs:
     name: CI Build Trigger Switcher Start
     runs-on: self-hosted
     outputs:
-      OUTPUT: ${{ steps.getenv.outputs.* }}
+      OUTPUT: ${{ steps.getenv.outputs }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,9 +25,9 @@ jobs:
           sed '/^#/d' .env.example > .env
           cat .env | tee -a $GITHUB_ENV $GITHUB_OUTPUT
 
-      # - name: Env Check
-      #   run: |
-      #     echo $GITHUB_OUTPUT
+      - name: Env Check
+        run: |
+          echo ${{ steps.getenv.outputs }}
 
 
       - name: Catch Github Events
