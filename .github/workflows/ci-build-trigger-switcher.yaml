@@ -52,7 +52,7 @@ jobs:
       - name: Check Env
         run: |
           echo ${{ toJSON(needs.preparation.outputs) }}
-          echo ${{ needs.preparation.outputs.*.DATABASE_HOST }}
+          echo ${{ toJSON(needs.preparation.outputs.*.DATABASE_HOST) }}
           echo ${{ needs.preparation.outputs.OUTPUT }}
 
       
