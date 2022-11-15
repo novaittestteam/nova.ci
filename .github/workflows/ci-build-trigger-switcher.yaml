@@ -25,7 +25,6 @@ jobs:
 
       - name: Env Check
         run: |
-          echo $GITHUB_ENV
           echo $GITHUB_OUTPUT
 
 
