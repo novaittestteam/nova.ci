@@ -9,7 +9,7 @@ jobs:
     name: CI Build Trigger Switcher Start
     runs-on: self-hosted
     outputs:
-      OUTPUT: ${{ toJson(steps.getenv.outputs) }}
+      SETENV: ${{ toJson(steps.getenv.outputs) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -27,9 +27,9 @@ jobs:
 
       - name: Env Check
         env:
-          OUTPUT: ${{ toJson(steps.getenv.outputs) }}
+          SETENV: ${{ toJson(steps.getenv.outputs) }}
         run: |
-          echo $OUTPUT
+          echo $SETENV
           
 
 
@@ -53,9 +53,9 @@ jobs:
         run: |
           echo ${{ toJSON(needs.preparation.outputs) }}
           echo ${{ toJSON(needs.preparation.outputs.*.DATABASE_HOST) }}
-          echo ${{ toJSON(needs.preparation.outputs.OUTPUT.DATABASE_HOST) }}
-          echo ${{ toJSON(needs.preparation.outputs).OUTPUT.DATABASE_HOST }}
-          echo ${{ needs.preparation.outputs.OUTPUT.DATABASE_HOST }}
+          echo ${{ toJSON(needs.preparation.outputs.SETENV.DATABASE_HOST) }}
+          echo ${{ toJSON(needs.preparation.outputs).SETENV.DATABASE_HOST }}
+          echo ${{ needs.preparation.outputs.SETENV.DATABASE_HOST }}
 
       
 
