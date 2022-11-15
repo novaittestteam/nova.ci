@@ -12,6 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Env
+        uses: falti/dotenv-action@master
+        with:
+          path: .env.example
+
+      - name: Env Check
+        run: |
+          echo $GITHUB_ENV
+
+
       - name: Catch Github Events
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -32,8 +42,6 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'run-test') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-test.yaml@main
     secrets: inherit
-    with:
-      config-path: .env.example
 
   call-external-on-push-branches:
     name: Call Builder If Push Certain Branches
