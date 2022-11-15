@@ -27,8 +27,9 @@ jobs:
 
       - name: Env Check
         run: |
-          echo $GITHUB_OUTPUT
-          echo ${{ steps.getenv.outputs.env }}
+          echo ${{ steps.getenv.outputs }}
+          cat $GITHUB_OUTPUT
+          
 
 
       - name: Catch Github Events
