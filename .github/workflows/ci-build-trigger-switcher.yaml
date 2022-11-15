@@ -33,7 +33,7 @@ jobs:
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-test.yaml@main
     secrets: inherit
     with:
-      configuration-path: .env.example
+      config-path: .env.example
 
   call-external-on-push-branches:
     name: Call Builder If Push Certain Branches
