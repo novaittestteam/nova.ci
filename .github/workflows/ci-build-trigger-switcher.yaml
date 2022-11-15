@@ -41,6 +41,7 @@ jobs:
 
   check:
     runs-on: self-hosted
+    needs: preparation
     steps:
       - name: Check Env
         run: |
