@@ -8,8 +8,8 @@ jobs:
   preparation:
     name: CI Build Trigger Switcher Start
     runs-on: self-hosted
-    outputs:
-      SETENV: ${{ toJson(steps.getenv.outputs) }}
+    # outputs:
+    #   # SETENV: ${{ toJson(steps.getenv.outputs) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
