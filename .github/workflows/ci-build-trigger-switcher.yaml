@@ -51,11 +51,13 @@ jobs:
 
       - name: Check Env
         run: |
-          echo ${{ toJSON(needs.preparation.outputs) }}
-          echo ${{ toJSON(needs.preparation.outputs.*.DATABASE_HOST) }}
-          echo ${{ toJSON(needs.preparation.outputs.SETENV.DATABASE_HOST) }}
-          echo ${{ toJSON(needs.preparation.outputs).SETENV.DATABASE_HOST }}
-          echo ${{ needs.preparation.outputs.SETENV.DATABASE_HOST }}
+          echo ${{ needs.preparation.outputs }}
+          echo ${{ needs.preparation.outputs.SETENV }}
+          
+#          echo ${{ toJSON(needs.preparation.outputs.*.DATABASE_HOST) }}
+#          echo ${{ toJSON(needs.preparation.outputs.SETENV.DATABASE_HOST) }}
+#          echo ${{ toJSON(needs.preparation.outputs).SETENV.DATABASE_HOST }}
+#          echo ${{ needs.preparation.outputs.SETENV.DATABASE_HOST }}
 
       
 
