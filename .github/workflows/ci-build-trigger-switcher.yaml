@@ -46,6 +46,9 @@ jobs:
     runs-on: self-hosted
     needs: preparation
     steps:
+      - name: Debug
+        uses: hmarr/debug-action@v2
+
       - name: Check Env
         run: |
           echo ${{ fromJSON(needs.preparation.outputs) }}
