@@ -53,7 +53,9 @@ jobs:
         run: |
           echo ${{ toJSON(needs.preparation.outputs) }}
           echo ${{ toJSON(needs.preparation.outputs.*.DATABASE_HOST) }}
-          echo ${{ needs.preparation.outputs.OUTPUT }}
+          echo ${{ toJSON(needs.preparation.outputs.OUTPUT.DATABASE_HOST) }}
+          echo ${{ toJSON(needs.preparation.outputs).OUTPUT.DATABASE_HOST }}
+          echo ${{ needs.preparation.outputs.OUTPUT.DATABASE_HOST }}
 
       
 
