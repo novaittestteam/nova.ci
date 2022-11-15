@@ -26,9 +26,10 @@ jobs:
           cat .env | tee -a $GITHUB_ENV $GITHUB_OUTPUT
 
       - name: Env Check
+        env:
+          OUTPUT: ${{ toJson(steps.getenv.outputs) }}
         run: |
-          echo ${{ steps.getenv.outputs }}
-          cat $GITHUB_OUTPUT
+          echo $OUTPUT
           
 
 
