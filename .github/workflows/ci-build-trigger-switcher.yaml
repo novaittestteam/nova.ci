@@ -9,7 +9,7 @@ jobs:
     name: CI Build Trigger Switcher Start
     runs-on: self-hosted
     outputs:
-      OUTPUT: ${{ steps.getenv.outputs.env }}
+      OUTPUT: ${{ toJSON(steps.getenv.outputs.env) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
