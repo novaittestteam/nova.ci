@@ -1,6 +1,10 @@
 name: CI Build NTK on Push TAG
 on:
   workflow_call:
+    inputs:
+      config-path:
+        required: true
+        type: string
 
 # env:
   # # APPLICATION CONFIG
@@ -70,19 +74,13 @@ jobs:
       - name: Test connection
         run: |
           psql --version
-          pg_isready -h localhost -p 5432
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-
-      # - name: Install dependencies
-      #   run: npm ci
+          pg_isready -h ${{ env.DATABASE_HOST }} -p ${{ env.DATABASE_PORT }}
 
       - name: Connect to PostgreSQL
         run: node test_db.js
         env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
+          POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
+          POSTGRES_PORT: ${{ env.DATABASE_PORT }}
 
 
       # - run: apt update && apt install -y postgresql

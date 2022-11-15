@@ -9,6 +9,9 @@ jobs:
     name: CI Build Trigger Switcher Start
     runs-on: self-hosted
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Catch Github Events
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -35,3 +38,5 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref_type == 'branch' && contains(github.ref_name, 'build-me-please') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-branches.yaml@main
     secrets: inherit
+    with:
+      configuration-path: .env.example
