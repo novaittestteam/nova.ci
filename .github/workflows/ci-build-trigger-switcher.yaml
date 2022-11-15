@@ -8,6 +8,8 @@ jobs:
   preparation:
     name: CI Build Trigger Switcher Start
     runs-on: self-hosted
+    outputs:
+      OUTPUT: ${{ steps.getenv.outputs.* }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,9 +25,9 @@ jobs:
           sed '/^#/d' .env.example > .env
           cat .env | tee -a $GITHUB_ENV $GITHUB_OUTPUT
 
-      - name: Env Check
-        run: |
-          echo $GITHUB_OUTPUT
+      # - name: Env Check
+      #   run: |
+      #     echo $GITHUB_OUTPUT
 
 
       - name: Catch Github Events
@@ -36,6 +38,14 @@ jobs:
           echo ${{ github.event_name == 'push' }}
           echo ${{ contains(github.ref, 'tags') }}
           echo ${{ contains(github.ref, 'build') }}
+
+  check:
+    runs-on: self-hosted
+    steps:
+      - name: Check Env
+        run: |
+          echo ${{ needs.preparation.outputs.OUTPUT }}
+      
 
   call-external-on-push-tags-build:
     name: Call Builder On Push Tags
