@@ -46,6 +46,9 @@ jobs:
       - name: Check Env
         run: |
           echo ${{ needs.preparation.outputs.OUTPUT }}
+          echo ${{ needs.preparation.outputs.OUTPUT.DATABASE_HOST }}
+          echo ${{ needs.preparation.outputs.OUTPUT.env }}
+
       
 
   call-external-on-push-tags-build:
