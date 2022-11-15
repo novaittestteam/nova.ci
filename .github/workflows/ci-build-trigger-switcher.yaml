@@ -48,8 +48,8 @@ jobs:
     steps:
       - name: Check Env
         run: |
-          echo ${{ needs.preparation.outputs.OUTPUT.DATABASE_HOST }}
-          echo ${{ needs.preparation.outputs.OUTPUT.DATABASE_PORT }}
+          echo ${{ needs.preparation.outputs.DATABASE_HOST }}
+          echo ${{ needs.preparation.outputs.DATABASE_PORT }}
 
       
 
