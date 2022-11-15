@@ -9,7 +9,7 @@ jobs:
     name: CI Build Trigger Switcher Start
     runs-on: self-hosted
     outputs:
-      ${{ steps.getenv.outputs }}
+      matrix: $GITHUB_OUTPUT
     steps:
       - name: Checkout
         uses: actions/checkout@v3
