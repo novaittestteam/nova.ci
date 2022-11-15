@@ -12,14 +12,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # - name: Env
+      #   uses: falti/dotenv-action@master
+      #   with:
+      #     path: .env.example
+
       - name: Env
-        uses: falti/dotenv-action@master
-        with:
-          path: .env.example
+        id: getenv
+        run: |
+          sed '/^#/d' .env.example > .env
+          cat .env | tee -a $GITHUB_ENV $GITHUB_OUTPUT
 
       - name: Env Check
         run: |
           echo $GITHUB_ENV
+          echo $GITHUB_OUTPUT
 
 
       - name: Catch Github Events
