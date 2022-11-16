@@ -38,11 +38,11 @@ jobs:
         with:
           node-version: 16.17
 
-      # - name: Step 1
-      #   id: prep_1
-      #   run: |
-      #     sed '/^#/d' .env.example > .env
-      #     cat .env >> $GITHUB_ENV
+      - name: Step 1
+        id: prep_1
+        run: |
+          sed '/^#/d' .env.example > .env
+          cat .env >> $GITHUB_ENV
 
       # - name: Step 2
       #   id: prep_2
@@ -64,11 +64,20 @@ jobs:
           psql --version
           pg_isready -h ${{ env.DATABASE_HOST }} -p ${{ env.DATABASE_PORT }}
 
-      - name: Connect to PostgreSQL
-        run: node test_db.js
-        env:
-          POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
-          POSTGRES_PORT: ${{ env.DATABASE_PORT }}
+      # - name: Connect to PostgreSQL
+      #   run: node test_db.js
+      #   env:
+      #     POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
+      #     POSTGRES_PORT: ${{ env.DATABASE_PORT }}
+
+      - name: Run Engine
+        run: npm run db:setup:prod
+        # env:
+        #   POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
+        #   POSTGRES_PORT: ${{ env.DATABASE_PORT }}
+
+
+          
 
 
       # - run: apt update && apt install -y postgresql
