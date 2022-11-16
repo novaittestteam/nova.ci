@@ -73,6 +73,7 @@ jobs:
 
       - name: Prepare Engine
         run: |
+          npm install -g @nestjs/cli
           npm install
           npm run build
 
