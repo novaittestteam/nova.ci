@@ -64,11 +64,17 @@ jobs:
           psql --version
           pg_isready -h ${{ env.DATABASE_HOST }} -p ${{ env.DATABASE_PORT }}
 
+
       # - name: Connect to PostgreSQL
       #   run: node test_db.js
       #   env:
       #     POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
       #     POSTGRES_PORT: ${{ env.DATABASE_PORT }}
+
+      - name: Prepare Engine
+        run: |
+          npm install
+          npm run build
 
       - name: Run Engine
         run: npm run db:setup:prod
