@@ -81,7 +81,7 @@ jobs:
         run: |
           npm pkg delete scripts.prepare
           npm install 
-          npm run build
+    
 
 
       - name: Run Engine
