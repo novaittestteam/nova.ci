@@ -73,7 +73,6 @@ jobs:
 
       - name: Prepare Engine
         run: |
-          npm config set legacy-peer-deps true
           npm install -g @nestjs/cli
           npm install
           npm run build
