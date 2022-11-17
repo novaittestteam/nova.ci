@@ -82,7 +82,7 @@ jobs:
           npm run build
         env:
           NODE_ENV: development
-          NODE_OPTIONS: "--max-old-space-size=4096"
+          NODE_OPTIONS: "--max-old-space-size=2048"
 
       - name: Run Engine
         run: npm run db:setup:prod
