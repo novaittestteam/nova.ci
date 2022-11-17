@@ -1,0 +1,19 @@
+name: CI Build NTK on Push TAG
+on:
+  workflow_call:
+
+
+jobs:
+  deploy-pages:
+    name: Test Runner
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy docs
+        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_FILE: ./mkdocs.yml
