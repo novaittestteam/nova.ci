@@ -85,7 +85,7 @@ jobs:
 
 
       - name: Run Engine
-        run: npm run db:setup:prod
+        run: npm run test
         # env:
         #   POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
         #   POSTGRES_PORT: ${{ env.DATABASE_PORT }}
