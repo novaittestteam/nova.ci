@@ -76,12 +76,11 @@ jobs:
           npm pkg delete scripts.prepare
           npm install -g @nestjs/cli
           npm install
-          npm run build
         env:
           NODE_ENV: development
 
       - name: Run Engine
-        run: npm run db:setup:prod
+        run: npm run test
         # env:
         #   POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
         #   POSTGRES_PORT: ${{ env.DATABASE_PORT }}
