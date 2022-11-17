@@ -14,19 +14,19 @@ jobs:
 
       - run: mkdir -p ./mkdocs-material/material
 
-      - name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
+      # - name: Install Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: 3.x
 
-      - name: Isntall Dependency and Build
-        run: |
-         pip install mkdocs
-         pip install mkdocs-material
-         pip install mkdocs-material-extensions
-         pip install mkdocs-include-markdown-plugin
-         pip install mkdocs-redirects
-         mkdocs serve
+      # - name: Isntall Dependency and Build
+      #   run: |
+      #    pip install mkdocs
+      #    pip install mkdocs-material
+      #    pip install mkdocs-material-extensions
+      #    pip install mkdocs-include-markdown-plugin
+      #    pip install mkdocs-redirects
+      #    mkdocs serve
 
       - name: Deploy docs
         uses: mhausenblas/mkdocs-deploy-gh-pages@master
