@@ -37,8 +37,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.17
-        env:
-          NODE_ENV: development
+
 
       - name: Step 1
         id: prep_1
@@ -76,13 +75,14 @@ jobs:
         run: rm package-lock.json
 
       - name: Prepare Engine
+        env:
+          NODE_ENV: development
+          NODE_OPTIONS: "--max-old-space-size=4096"
         run: |
           npm pkg delete scripts.prepare
           npm install 
           npm run build
-        env:
-          NODE_ENV: development
-          NODE_OPTIONS: "--max-old-space-size=2048"
+
 
       - name: Run Engine
         run: npm run db:setup:prod
