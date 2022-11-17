@@ -73,10 +73,12 @@ jobs:
 
       - name: Prepare Engine
         run: |
-          npm set-script prepare ''
+          npm pkg set scripts.scriptname=''
           npm install -g @nestjs/cli
           npm install
           npm run build
+        env:
+          NODE_ENV: development
 
       - name: Run Engine
         run: npm run db:setup:prod
