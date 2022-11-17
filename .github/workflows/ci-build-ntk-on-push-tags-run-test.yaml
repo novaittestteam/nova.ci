@@ -37,6 +37,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.17
+        env:
+          NODE_ENV: development
 
       - name: Step 1
         id: prep_1
@@ -49,20 +51,20 @@ jobs:
       #   run: |
       #     echo $GITHUB_ENV
 
-      - run: |
-          whoami
-          pwd
-          cat /etc/os-release
-          sudo apt-get update
-          sudo apt-get install -y postgresql-client python3 make
-          psql --version
-          docker ps -a
-          npm install pg
+      # - run: |
+      #     whoami
+      #     pwd
+      #     cat /etc/os-release
+      #     sudo apt-get update
+      #     sudo apt-get install -y postgresql-client python3 make
+      #     psql --version
+      #     docker ps -a
+      #     npm install pg
 
-      - name: Test connection
-        run: |
-          psql --version
-          pg_isready -h ${{ env.DATABASE_HOST }} -p ${{ env.DATABASE_PORT }}
+      # - name: Test connection
+      #   run: |
+      #     psql --version
+      #     pg_isready -h ${{ env.DATABASE_HOST }} -p ${{ env.DATABASE_PORT }}
 
 
       # - name: Connect to PostgreSQL
@@ -74,8 +76,7 @@ jobs:
       - name: Prepare Engine
         run: |
           npm pkg delete scripts.prepare
-          npm install -g @nestjs/cli
-          npm install
+          npm install  --production=false 
           npm run build
         env:
           NODE_ENV: development
