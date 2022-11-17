@@ -73,7 +73,7 @@ jobs:
 
       - name: Prepare Engine
         run: |
-          npm pkg set scripts.scriptname=''
+          npm pkg delete scripts.prepare
           npm install -g @nestjs/cli
           npm install
           npm run build
