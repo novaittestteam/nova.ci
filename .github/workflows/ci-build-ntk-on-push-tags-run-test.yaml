@@ -72,8 +72,8 @@ jobs:
       #   env:
       #     POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
       #     POSTGRES_PORT: ${{ env.DATABASE_PORT }}
-      - name: Delete yarn.lock
-        run: rm yarn.lock
+      - name: Delete package-lock.json
+        run: rm package-lock.json
 
       - name: Prepare Engine
         run: |
