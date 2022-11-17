@@ -76,7 +76,7 @@ jobs:
       - name: Prepare Engine
         run: |
           npm pkg delete scripts.prepare
-          npm install  --production=false 
+          npm install --save-dev
           npm run build
         env:
           NODE_ENV: development
