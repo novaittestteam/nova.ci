@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy-pages:
-    name: Test Runner
+    name: Deploy Pages
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     steps:
