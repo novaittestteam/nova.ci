@@ -78,10 +78,11 @@ jobs:
       - name: Prepare Engine
         run: |
           npm pkg delete scripts.prepare
-          npm install --save-dev
+          npm install 
           npm run build
         env:
           NODE_ENV: development
+          NODE_OPTIONS: "--max-old-space-size=4096"
 
       - name: Run Engine
         run: npm run db:setup:prod
