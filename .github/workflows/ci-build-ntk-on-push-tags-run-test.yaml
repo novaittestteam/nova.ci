@@ -47,14 +47,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y yarn
 
-      - name: NPM install
-        uses: bahmutov/npm-install@v1
-        env:
-          NODE_ENV: development
-          NODE_OPTIONS: "--max-old-space-size=8192"
-        with:
-          useLockFile: false
-          working-directory: ./
+      # - name: NPM install
+      #   uses: bahmutov/npm-install@v1
+      #   env:
+      #     NODE_ENV: development
+      #     NODE_OPTIONS: "--max-old-space-size=8192"
+      #   with:
+      #     useLockFile: false
+      #     working-directory: ./
 
 
       # - name: Step 2
@@ -86,23 +86,23 @@ jobs:
       # - name: Delete package-lock.json
       #   run: rm package-lock.json
 
-      # - name: Delete yarn.lock
-      #   run: rm yarn.lock
+      - name: Delete yarn.lock
+        run: rm yarn.lock
 
-      # - name: Prepare Engine
-      #   env:
-      #     NODE_ENV: development
-      #     NODE_OPTIONS: "--max-old-space-size=8192"
-      #   run: |
-      #     npm pkg delete scripts.prepare
-      #     yarn install 
-
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: install 
+      - name: Prepare Engine
         env:
           NODE_ENV: development
           NODE_OPTIONS: "--max-old-space-size=8192"
+        run: |
+          npm pkg delete scripts.prepare
+          yarn install 
+
+      # - uses: borales/actions-yarn@v3.0.0
+      #   with:
+      #     cmd: install 
+      #   env:
+      #     NODE_ENV: development
+      #     NODE_OPTIONS: "--max-old-space-size=8192"
 
 
       - name: Run Engine
