@@ -49,7 +49,7 @@ jobs:
           node-version: 16.17
 
       - run: exit 1
-      
+
       - name: ▶️ Get Env From Example
         id: prep_1
         run: |
@@ -116,12 +116,17 @@ jobs:
     if: always()
     needs: e2e-test
     steps:
-      - name: Catch Github Events
+      - name: Catch Github Events 1
         env:
           GITHUB_NEEDS: ${{ toJson(needs) }}
         run: |
           echo $GITHUB_NEEDS
 
+      - name: Catch Github Events 2
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo $GITHUB_CONTEXT
 
   # notify-telegram:
   #   name: Notifier
