@@ -48,7 +48,8 @@ jobs:
         with:
           node-version: 16.17
 
-
+      - run: exit 1
+      
       - name: ▶️ Get Env From Example
         id: prep_1
         run: |
@@ -108,6 +109,19 @@ jobs:
       - name: 🏃 Run Test Modules
         run: npm run test --loglevel info
         #run: npm run test account.controller.integration.spec.ts --loglevel info
+
+  notify-telegram:
+    name: Notifier
+    runs-on: self-hosted
+    if: always()
+    needs: e2e-test
+    steps:
+      - name: Catch Github Events
+        env:
+          GITHUB_NEEDS: ${{ toJson(needs) }}
+        run: |
+          echo $GITHUB_NEEDS
+
 
   # notify-telegram:
   #   name: Notifier
