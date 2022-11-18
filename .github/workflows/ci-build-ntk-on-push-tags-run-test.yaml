@@ -50,15 +50,15 @@ jobs:
       #   run: |
       #     echo $GITHUB_ENV
 
-      # - run: |
-      #     whoami
-      #     pwd
-      #     cat /etc/os-release
-      #     sudo apt-get update
-      #     sudo apt-get install -y postgresql-client python3 make
-      #     psql --version
-      #     docker ps -a
-      #     npm install pg
+      - run: |
+          whoami
+          pwd
+          cat /etc/os-release
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client python3 make yarn
+          psql --version
+          docker ps -a
+          npm install pg
 
       # - name: Test connection
       #   run: |
@@ -74,13 +74,16 @@ jobs:
       - name: Delete package-lock.json
         run: rm package-lock.json
 
+      - name: Delete yarn.lock
+        run: rm yarn.lock
+
       - name: Prepare Engine
         env:
           NODE_ENV: development
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           npm pkg delete scripts.prepare
-          npm install 
+          yarn install 
     
 
 
