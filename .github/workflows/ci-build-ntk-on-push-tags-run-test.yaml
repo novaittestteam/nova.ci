@@ -55,8 +55,8 @@ jobs:
         run: |
           sed '/^#/d' .env.example > .env
           cat .env >> $GITHUB_ENV
-          echo ${{ toJson(steps.node_inst.outputs) }}
-          
+          echo ${{ toJson(steps.node_inst) }}
+
       - run: exit 1
 
       # - name: Step 2
