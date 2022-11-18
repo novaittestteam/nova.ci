@@ -100,7 +100,7 @@ jobs:
         with:
           eslint: true
           eslint_extensions: .ts
-          eslint_dir: ./
+          eslint_dir: .
 
       # - name: ▶️ Create DB
       #   run: npm run db:create --loglevel info
@@ -122,14 +122,14 @@ jobs:
         with:
           cond: ${{ contains(join(needs.*.result, ','), 'success') }}
           if_true: |
-            :godmode: ${{ github.actor }} start test
+            👷 ${{ github.actor }} start test
             
             Test assembly has been completed ✅
             
             Repository: ${{ github.repository }}  
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
           if_false: |
-            :godmode: ${{ github.actor }} start test
+            👷 ${{ github.actor }} start test
             
             ❌Tests Failed
             
