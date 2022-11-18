@@ -45,20 +45,30 @@ jobs:
           sed '/^#/d' .env.example > .env
           cat .env >> $GITHUB_ENV
 
+      - name: NPM install
+        uses: bahmutov/npm-install@v1
+        env:
+          NODE_ENV: development
+          NODE_OPTIONS: "--max-old-space-size=8192"
+        with:
+          useLockFile: false
+          node-version: 16.17
+
+
       # - name: Step 2
       #   id: prep_2
       #   run: |
       #     echo $GITHUB_ENV
 
-      - run: |
-          whoami
-          pwd
-          cat /etc/os-release
-          sudo apt-get update
-          sudo apt-get install -y postgresql-client python3 make yarn
-          psql --version
-          docker ps -a
-          npm install pg
+      # - run: |
+      #     whoami
+      #     pwd
+      #     cat /etc/os-release
+      #     sudo apt-get update
+      #     sudo apt-get install -y postgresql-client python3 make yarn
+      #     psql --version
+      #     docker ps -a
+      #     npm install pg
 
       # - name: Test connection
       #   run: |
@@ -71,20 +81,26 @@ jobs:
       #   env:
       #     POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
       #     POSTGRES_PORT: ${{ env.DATABASE_PORT }}
-      - name: Delete package-lock.json
-        run: rm package-lock.json
+      # - name: Delete package-lock.json
+      #   run: rm package-lock.json
 
-      - name: Delete yarn.lock
-        run: rm yarn.lock
+      # - name: Delete yarn.lock
+      #   run: rm yarn.lock
 
-      - name: Prepare Engine
+      # - name: Prepare Engine
+      #   env:
+      #     NODE_ENV: development
+      #     NODE_OPTIONS: "--max-old-space-size=8192"
+      #   run: |
+      #     npm pkg delete scripts.prepare
+      #     yarn install 
+
+      - uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: install 
         env:
           NODE_ENV: development
           NODE_OPTIONS: "--max-old-space-size=8192"
-        run: |
-          npm pkg delete scripts.prepare
-          yarn install 
-    
 
 
       - name: Run Engine
