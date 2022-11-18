@@ -52,7 +52,7 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=8192"
         with:
           useLockFile: false
-          node-version: 16.17
+          working-directory: ./
 
 
       # - name: Step 2
