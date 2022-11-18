@@ -95,7 +95,7 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           npm pkg delete scripts.prepare
-          yarn install 
+          npm install --loglevel verbose
 
       # - uses: borales/actions-yarn@v3.0.0
       #   with:
