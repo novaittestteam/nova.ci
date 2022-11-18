@@ -16,17 +16,24 @@ jobs:
     name: Test Runner
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
-    #container: node:16.17-alpine
     services:
       postgres:
         image: postgres:12
         env:
           POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
-        # Set health checks to wait until postgres has started
         ports:
           - 5432:5432
         options: >-
           --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -44,18 +51,6 @@ jobs:
         run: |
           sed '/^#/d' .env.example > .env
           cat .env >> $GITHUB_ENV
-          sudo apt-get update
-          sudo apt-get install -y yarn
-
-      # - name: NPM install
-      #   uses: bahmutov/npm-install@v1
-      #   env:
-      #     NODE_ENV: development
-      #     NODE_OPTIONS: "--max-old-space-size=8192"
-      #   with:
-      #     useLockFile: false
-      #     working-directory: ./
-
 
       # - name: Step 2
       #   id: prep_2
@@ -93,31 +88,11 @@ jobs:
       - name: Prepare Engine
         env:
           NODE_ENV: development
-          NODE_OPTIONS: "--max-old-space-size=8192"
+          #NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           npm pkg delete scripts.prepare
-          npm install --loglevel verbose
-
-
-      # - uses: borales/actions-yarn@v3.0.0
-      #   with:
-      #     cmd: install 
-      #   env:
-      #     NODE_ENV: development
-      #     NODE_OPTIONS: "--max-old-space-size=8192"
+          npm install --loglevel info
 
 
       - name: Run Engine
-        run: npm run test --loglevel verbose
-        # env:
-        #   POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
-        #   POSTGRES_PORT: ${{ env.DATABASE_PORT }}
-
-
-          
-
-
-      # - run: apt update && apt install -y postgresql
-
-      # - run: npm i -g npm@7.20.0
-
+        run: npm run test --loglevel info
