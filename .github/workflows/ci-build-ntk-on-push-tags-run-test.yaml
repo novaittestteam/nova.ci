@@ -94,11 +94,13 @@ jobs:
         run: |
           npm pkg delete scripts.prepare
           npm install --loglevel info
-          
+
       - name: Run linters
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
+          eslint_extensions: .ts
+          eslint_dir: ./
 
       # - name: ▶️ Create DB
       #   run: npm run db:create --loglevel info
