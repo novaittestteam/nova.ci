@@ -77,7 +77,7 @@ jobs:
       - name: Prepare Engine
         env:
           NODE_ENV: development
-          NODE_OPTIONS: "--max-old-space-size=4096"
+          NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           npm pkg delete scripts.prepare
           npm install 
