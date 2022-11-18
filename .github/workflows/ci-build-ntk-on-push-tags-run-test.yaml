@@ -49,7 +49,7 @@ jobs:
           node-version: 16.17
 
 
-      - name: ✔️ Get Env From Example
+      - name: ▶️ Get Env From Example
         id: prep_1
         run: |
           sed '/^#/d' .env.example > .env
@@ -82,7 +82,7 @@ jobs:
       #     POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
       #     POSTGRES_PORT: ${{ env.DATABASE_PORT }}
 
-      - name: ✔️ Delete Lock Files
+      - name: ▶️ Delete Lock Files
         run: |
           rm package-lock.json
           rm yarn.lock
@@ -95,8 +95,8 @@ jobs:
           npm pkg delete scripts.prepare
           npm install --loglevel info
 
-      - name: ✔️ Create DB
-        run: npm run db:create --loglevel info
+      # - name: ▶️ Create DB
+      #   run: npm run db:create --loglevel info
 
       - name: 🏃 Run Test Modules
         run: npm run test --loglevel info
