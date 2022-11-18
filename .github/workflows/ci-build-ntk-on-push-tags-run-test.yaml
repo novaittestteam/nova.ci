@@ -94,9 +94,48 @@ jobs:
         run: |
           npm pkg delete scripts.prepare
           npm install --loglevel info
+          
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
 
       # - name: ▶️ Create DB
       #   run: npm run db:create --loglevel info
 
       - name: 🏃 Run Test Modules
-        run: npm run test account.controller.integration.spec.ts --loglevel info
+        run: npm run test --loglevel info
+        #run: npm run test account.controller.integration.spec.ts --loglevel info
+
+  notify-telegram:
+    name: Notifier
+    runs-on: self-hosted
+    if: always()
+    needs: e2e-test
+    steps:
+
+      - name: Set Telegram Message
+        uses: haya14busa/action-cond@v1
+        id: telegram_message
+        with:
+          cond: ${{ contains(join(needs.*.result, ','), 'success') }}
+          if_true: |
+            :godmode: ${{ github.actor }} start test
+            
+            Test assembly has been completed ✅
+            
+            Repository: ${{ github.repository }}  
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          if_false: |
+            :godmode: ${{ github.actor }} start test
+            
+            ❌Tests Failed
+            
+            Repository: ${{ github.repository }}  
+    
+      - name: Send to Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_NOTIFICATION_BOT_ID }}
+          token: ${{ secrets.TG_NOTIFICATION_BOT_TOKEN }}
+          message: ${{ steps.telegram_message.outputs.value }}
