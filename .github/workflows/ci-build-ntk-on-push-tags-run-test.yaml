@@ -99,8 +99,8 @@ jobs:
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
-          eslint_extensions: .ts
           eslint_dir: .
+          eslint_extensions: .ts
 
       # - name: ▶️ Create DB
       #   run: npm run db:create --loglevel info
