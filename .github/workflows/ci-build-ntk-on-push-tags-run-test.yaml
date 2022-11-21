@@ -68,7 +68,7 @@ jobs:
         id: jobs
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          job_name: failed_step
+          job_name: e2e-test
           per_page: 30
 
       - name: End
