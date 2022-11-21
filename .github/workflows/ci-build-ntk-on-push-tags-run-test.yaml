@@ -16,32 +16,31 @@ jobs:
     name: Test Runner
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
-    # services:
-    #   postgres:
-    #     image: postgres:12
-    #     env:
-    #       POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
-    #       POSTGRES_DB: ${{ env.DATABASE_NAME }}
-    #       POSTGRES_USER: ${{ env.DATABASE_USERNAME }}
-    #     ports:
-    #       - 5432:5432
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
-    #   redis:
-    #     image: redis
-    #     ports:
-    #       - 6379:6379
-    #     options: >-
-    #       --health-cmd "redis-cli ping"
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
+          POSTGRES_DB: ${{ env.DATABASE_NAME }}
+          POSTGRES_USER: ${{ env.DATABASE_USERNAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     outputs:
-      END_STEP_JOB_ID: ${{ steps.end_step.outputs.END_STEP_JOB_ID }}
-    
+      END_STEP_JOB_ID: ${{ steps.end_step.outputs.END_STEP_JOB_ID }}    
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -59,15 +58,6 @@ jobs:
           sed '/^#/d' .env.example > .env
           cat .env >> $GITHUB_ENV
 
-      - run: exit 1
-        id: failed_step
-
-
-
-      - name: End
-        if: failure()
-        id: end_step
-        run: echo "END_STEP_JOB_ID=`echo ${{ github.run_id }}`" | tee -a $GITHUB_OUTPUT
 
       # - name: Step 2
       #   id: prep_2
@@ -123,6 +113,11 @@ jobs:
         run: npm run test --loglevel info
         #run: npm run test account.controller.integration.spec.ts --loglevel info
 
+      - name: End
+        if: failure()
+        id: end_step
+        run: echo "END_STEP_JOB_ID=`echo ${{ github.run_id }}`" | tee -a $GITHUB_OUTPUT
+
   notify-telegram:
     name: Notifier
     runs-on: self-hosted
@@ -130,50 +125,29 @@ jobs:
     needs: e2e-test
     steps:
 
-      - name: Catch Github Events 1
-        env:
-          GITHUB_NEEDS: ${{ toJson(needs) }}
-        run: |
-          echo ${{ needs.e2e-test.outputs.END_STEP_JOB_ID }}
-          echo ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ needs.e2e-test.outputs.END_STEP_JOB_ID}}
-          echo $GITHUB_NEEDS
-
-
-      - name: Catch Github Events 2
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo $GITHUB_CONTEXT
-
-  # notify-telegram:
-  #   name: Notifier
-  #   runs-on: self-hosted
-  #   if: always()
-  #   needs: e2e-test
-  #   steps:
-
-  #     - name: Set Telegram Message
-  #       uses: haya14busa/action-cond@v1
-  #       id: telegram_message
-  #       with:
-  #         cond: ${{ contains(join(needs.*.result, ','), 'success') }}
-  #         if_true: |
-  #           👷 ${{ github.actor }} start test
+      - name: Set Telegram Message
+        uses: haya14busa/action-cond@v1
+        id: telegram_message
+        with:
+          cond: ${{ contains(join(needs.*.result, ','), 'success') }}
+          if_true: |
+            👷 ${{ github.actor }} start test
             
-  #           Test assembly has been completed ✅
+            Test assembly has been completed ✅
             
-  #           Repository: ${{ github.repository }}  
-  #           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-  #         if_false: |
-  #           👷 ${{ github.actor }} start test
+            Repository: ${{ github.repository }}  
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          if_false: |
+            👷 ${{ github.actor }} start test
             
-  #           ❌Tests Failed
-            
-  #           Repository: ${{ github.repository }}  
+            ❌Tests Failed
+              
+            🔗 See Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ needs.e2e-test.outputs.END_STEP_JOB_ID}}
+            Repository: ${{ github.repository }}  
     
-  #     - name: Send to Telegram
-  #       uses: appleboy/telegram-action@master
-  #       with:
-  #         to: ${{ secrets.TG_NOTIFICATION_BOT_ID }}
-  #         token: ${{ secrets.TG_NOTIFICATION_BOT_TOKEN }}
-  #         message: ${{ steps.telegram_message.outputs.value }}
+      - name: Send to Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_NOTIFICATION_BOT_ID }}
+          token: ${{ secrets.TG_NOTIFICATION_BOT_TOKEN }}
+          message: ${{ steps.telegram_message.outputs.value }}
