@@ -117,7 +117,7 @@ jobs:
       #   run: npm run db:create --loglevel info
 
       - name: 🏃 Run Test Modules
-        run: npm run test account.controller.integration.spec.ts --loglevel info
+        run: npm run test --loglevel info
         #run: npm run test account.controller.integration.spec.ts --loglevel info
 
       - name: End Step On Failure
