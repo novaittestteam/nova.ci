@@ -144,7 +144,7 @@ jobs:
           GITHUB_NEEDS: ${{ toJson(needs) }}
         run: |
           echo $GITHUB_NEEDS
-          echo ${{ steps.jobs.outputs.html_url }}
+          echo ${{ steps.jobs.outputs.job_id }}
 
       - name: Catch Github Events 2
         env:
