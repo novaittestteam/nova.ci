@@ -131,20 +131,13 @@ jobs:
     if: always()
     needs: e2e-test
     steps:
-      - name: Get Current Job Log URL
-        uses: Tiryoh/gha-jobid-action@v0
-        id: jobs
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          job_name: e2e-test
-          per_page: 30
 
       - name: Catch Github Events 1
         env:
           GITHUB_NEEDS: ${{ toJson(needs) }}
         run: |
           echo $GITHUB_NEEDS
-          echo ${{ steps.jobs.outputs.job_id }}
+          echo ${{ toJson(jobs.e2e-test.steps) }}
 
       - name: Catch Github Events 2
         env:
