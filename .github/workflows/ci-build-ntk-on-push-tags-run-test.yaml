@@ -113,12 +113,12 @@ jobs:
           eslint_dir: "."
           eslint_extensions: "ts"
 
-      # - name: ▶️ Create DB
-      #   run: npm run db:create --loglevel info
+      - name: ▶️ Migrate DB
+        run: npm run db:migrate --loglevel info
 
       - name: 🏃 Run Test Modules
-        run: npm run test --loglevel info
-        #run: npm run test account.controller.integration.spec.ts --loglevel info
+        #run: npm run test --loglevel info
+        run: npm run test account.controller.integration.spec.ts --loglevel info
 
       - name: End Step On Failure
         if: failure()
