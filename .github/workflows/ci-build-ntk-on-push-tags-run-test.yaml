@@ -65,6 +65,7 @@ jobs:
 
       - name: End
         if: failure()
+        run: sleep 2
         env: 
           TESTVAR: ${{ steps.failed_step.conclusion }}        
 
