@@ -39,6 +39,9 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    outputs:
+      REP_NAME: ${{ steps.failed_step.conclusion }}  
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -58,6 +61,10 @@ jobs:
           echo ${{ toJson(steps.node_inst) }}
 
       - run: exit 1
+        id: failed_step
+        env: 
+          TESTVAR: ${{ steps.failed_step.conclusion }}
+          
 
       # - name: Step 2
       #   id: prep_2
