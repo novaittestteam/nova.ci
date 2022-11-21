@@ -40,7 +40,7 @@ jobs:
     #       --health-timeout 5s
     #       --health-retries 5
     outputs:
-      END_STEP_JOB_ID: ${{ steps.prep.outputs.END_STEP_JOB_ID }}
+      END_STEP_JOB_ID: ${{ steps.end_step.outputs.END_STEP_JOB_ID }}
     
     steps:
       - name: Checkout
