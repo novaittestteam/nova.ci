@@ -45,6 +45,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Delete Tag
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+
       - name: 💿 Setup NODEJS
         uses: actions/setup-node@v3
         id: node_inst
@@ -110,10 +117,10 @@ jobs:
       #   run: npm run db:create --loglevel info
 
       - name: 🏃 Run Test Modules
-        run: npm run test --loglevel info
+        run: npm run test account.controller.integration.spec.ts --loglevel info
         #run: npm run test account.controller.integration.spec.ts --loglevel info
 
-      - name: End
+      - name: End Step On Failure
         if: failure()
         id: end_step
         run: echo "END_STEP_JOB_ID=`echo ${{ github.run_id }}`" | tee -a $GITHUB_OUTPUT
