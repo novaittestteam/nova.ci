@@ -67,7 +67,7 @@ jobs:
         if: failure()
         run: |
           echo ${{ github.run_id }}
-          echo ${{ github.run_number }}
+          echo ${{ toJson(github.job) }}
         env: 
           TESTVAR: ${{ steps.failed_step.conclusion }}        
 
