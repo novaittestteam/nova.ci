@@ -118,8 +118,10 @@ jobs:
 
       - name: 🏃 Run Test Modules
         #run: npm run test #--loglevel info
-        run: npm run test account.controller.integration.spec.ts #--loglevel info
+        #run: npm run test account.controller.integration.spec.ts #--loglevel info
+        run: npm run test inbox.controller.integration.spec.ts
         env:
+          NODE_ENV: development
           NODE_OPTIONS: "--max-old-space-size=8192"
 
       - name: End Step On Failure
