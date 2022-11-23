@@ -17,6 +17,7 @@ jobs:
           echo ${{ github.event_name == 'push' }}
           echo ${{ contains(github.ref, 'tags') }}
           echo ${{ contains(github.ref, 'build') }}
+          echo ${{ toJson(github.event.commits.*.messages) }}
 
   call-external-on-push-tags-build:
     name: Call Builder On Push Tags
