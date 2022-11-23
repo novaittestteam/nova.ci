@@ -26,7 +26,7 @@ jobs:
 
   call-external-on-pull-request-merged:
     name: Call Builder On Merge PR
-    if: ${{ github.event_name == 'push' && contains(github.event.commits.*.messages, 'build')' }}
+    if: ${{ github.event_name == 'push' && contains(github.event.commits.*.messages, 'build') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
     secrets: inherit
 
