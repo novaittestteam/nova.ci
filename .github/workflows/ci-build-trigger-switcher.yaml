@@ -17,7 +17,7 @@ jobs:
           echo ${{ github.event_name == 'push' }}
           echo ${{ contains(github.ref, 'tags') }}
           echo ${{ contains(github.ref, 'build') }}
-          echo ${{ toJson(github.event.commits.*.messages) }}
+          echo ${{ toJson(github.event.head_commit.message) }}
 
   call-external-on-push-tags-build:
     name: Call Builder On Push Tags
@@ -27,7 +27,7 @@ jobs:
 
   call-external-on-pull-request-merged:
     name: Call Builder On Merge PR
-    if: ${{ github.event_name == 'push' && contains(github.event.commits.*.messages, 'build') }}
+    if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, 'build') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
     secrets: inherit
 
