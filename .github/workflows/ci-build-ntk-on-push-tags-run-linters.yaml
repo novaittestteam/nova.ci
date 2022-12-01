@@ -12,7 +12,7 @@ env:
   DATABASE_NAME: db_name
 
 jobs:
-  e2e-test:
+  linter-test:
     name: Test Runner
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
@@ -34,9 +34,11 @@ jobs:
         id: node_inst
         with:
           node-version: 16.17
+          
+      - name: Install Node.js dependencies
+        run: npm ci
 
-
-      - name: Run linters
+      - name: 🏃 Run linters
         uses: wearerequired/lint-action@v2
         with:
           eslint: "true"
@@ -53,7 +55,7 @@ jobs:
     name: Notifier
     runs-on: self-hosted
     if: always()
-    needs: e2e-test
+    needs: linter-test
     steps:
 
       - name: Set Telegram Message
