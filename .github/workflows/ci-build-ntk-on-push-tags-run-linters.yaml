@@ -1,0 +1,84 @@
+name: CI Build NTK on Push TAG
+on:
+  workflow_call:
+
+env:
+  #DATABASE CONFIG
+  DATABASE_DIALECT: postgres
+  DATABASE_HOST: 127.0.0.1
+  DATABASE_PORT: 5432
+  DATABASE_USERNAME: postgres
+  DATABASE_PASSWORD: password
+  DATABASE_NAME: db_name
+
+jobs:
+  e2e-test:
+    name: Test Runner
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    outputs:
+      END_STEP_JOB_ID: ${{ steps.end_step.outputs.END_STEP_JOB_ID }}    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Delete Tag
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+
+      - name: 💿 Setup NODEJS
+        uses: actions/setup-node@v3
+        id: node_inst
+        with:
+          node-version: 16.17
+
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: "true"
+          eslint_dir: "."
+          eslint_extensions: "ts"
+
+
+      - name: End Step On Failure
+        if: failure()
+        id: end_step
+        run: echo "END_STEP_JOB_ID=`echo ${{ github.run_id }}`" | tee -a $GITHUB_OUTPUT
+
+  notify-telegram:
+    name: Notifier
+    runs-on: self-hosted
+    if: always()
+    needs: e2e-test
+    steps:
+
+      - name: Set Telegram Message
+        uses: haya14busa/action-cond@v1
+        id: telegram_message
+        with:
+          cond: ${{ contains(join(needs.*.result, ','), 'success') }}
+          if_true: |
+            👷 ${{ github.actor }} start test
+            
+            Test assembly has been completed ✅
+            
+            Repository: ${{ github.repository }}  
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          if_false: |
+            👷 ${{ github.actor }} start test
+            
+            ❌Tests Failed
+              
+            🔗 See Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ needs.e2e-test.outputs.END_STEP_JOB_ID}}
+            Repository: ${{ github.repository }}  
+    
+      - name: Send to Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_NOTIFICATION_BOT_ID }}
+          token: ${{ secrets.TG_NOTIFICATION_BOT_TOKEN }}
+          message: ${{ steps.telegram_message.outputs.value }}

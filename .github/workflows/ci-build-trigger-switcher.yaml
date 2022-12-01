@@ -34,8 +34,14 @@ jobs:
 
   call-external-on-push-tags-run-test:
     name: Call Test Runner On Push Tags
-    if: ${{ github.event.repository.name == 'novatalks.engine' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'run-test') }}
+    if: ${{ github.event.repository.name == 'novatalks.engine' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'int-test') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-test.yaml@main
+    secrets: inherit
+
+  call-external-on-push-tags-run-linters:
+    name: Call Test Runner On Push Tags
+    if: ${{ github.event.repository.name == 'novatalks.engine' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'linter') }}
+    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-linters.yaml@main
     secrets: inherit
 
   call-external-on-push-tags-gh-deploy:

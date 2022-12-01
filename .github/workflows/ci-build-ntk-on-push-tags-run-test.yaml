@@ -105,14 +105,7 @@ jobs:
         run: |
           npm pkg delete scripts.prepare
           npm install --loglevel info
-
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: "true"
-          eslint_dir: "."
-          eslint_extensions: "ts"
-
+          
       - name: ▶️ Migrate DB
         run: npm run db:migrate #--loglevel info
 
