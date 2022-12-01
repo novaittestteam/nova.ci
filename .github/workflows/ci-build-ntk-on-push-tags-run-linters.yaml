@@ -1,4 +1,4 @@
-name: CI Build NTK on Push TAG
+name: CI Linter NTK on Push
 on:
   workflow_call:
 
@@ -13,7 +13,7 @@ env:
 
 jobs:
   linter-test:
-    name: Test Runner
+    name: Linter
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     outputs:
