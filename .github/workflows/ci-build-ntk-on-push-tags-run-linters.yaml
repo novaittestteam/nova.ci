@@ -34,8 +34,14 @@ jobs:
         id: node_inst
         with:
           node-version: 16.17
-          
-      - name: Install Node.js dependencies
+
+      - name: ▶️ Delete Lock Files
+        run: |
+          rm package-lock.json
+          rm yarn.lock
+
+
+      - name: ▶️ Install Node.js dependencies
         run: npm ci
 
       - name: 🏃 Run linters
