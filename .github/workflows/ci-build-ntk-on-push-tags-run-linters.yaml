@@ -35,23 +35,29 @@ jobs:
         with:
           node-version: 16.17
 
-      - name: ▶️ Delete Lock Files
-        run: |
-          rm package-lock.json
-          rm yarn.lock
-
-
-      - name: ▶️ Install Node.js dependencies
-        run: |
-          npm install 
-          npm ci
-
-      - name: 🏃 Run linters
-        uses: wearerequired/lint-action@v2
+      - name: nodejsscan scan
+        id: njsscan
+        uses: ajinabraham/njsscan-action@master
         with:
-          eslint: "true"
-          eslint_dir: "."
-          eslint_extensions: "ts"
+          args: '.'
+
+      # - name: ▶️ Delete Lock Files
+      #   run: |
+      #     rm package-lock.json
+      #     rm yarn.lock
+
+
+      # - name: ▶️ Install Node.js dependencies
+      #   run: |
+      #     npm install 
+      #     npm ci
+
+      # - name: 🏃 Run linters
+      #   uses: wearerequired/lint-action@v2
+      #   with:
+      #     eslint: "true"
+      #     eslint_dir: "."
+      #     eslint_extensions: "ts"
 
 
       - name: End Step On Failure
