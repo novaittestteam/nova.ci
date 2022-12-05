@@ -51,6 +51,7 @@ jobs:
         run: |
           npm install 
           npm ci
+          npm i eslint-plugin-security
 
       - name: 🏃 Run linters
         uses: wearerequired/lint-action@v2
