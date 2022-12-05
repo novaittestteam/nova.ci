@@ -58,7 +58,9 @@ jobs:
         with:
           eslint: "true"
           eslint_dir: "."
+          eslint_args: "--debug"
           eslint_extensions: "ts"
+          
 
 
       - name: End Step On Failure
