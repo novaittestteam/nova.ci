@@ -58,7 +58,7 @@ jobs:
         with:
           eslint: "true"
           eslint_dir: "."
-          eslint_args: "--debug"
+          eslint_args: " --debug"
           eslint_extensions: "ts"
           
 
