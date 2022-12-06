@@ -71,7 +71,7 @@ jobs:
           VALIDATE_JAVASCRIPT_ES: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVASCRIPT_ES_CONFIG_FILE: ".eslintrc.js"
+          JAVASCRIPT_ES_CONFIG_FILE: ".eslintrc_security.js"
           LINTER_RULES_PATH: "."
           LOG_LEVEL: "WARN"
           FILTER_REGEX_INCLUDE: "./src/.*"
