@@ -65,13 +65,16 @@ jobs:
       #     eslint_extensions: "ts"
 
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: github/super-linter/slim@v4
         env:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JAVASCRIPT_ES_CONFIG_FILE: ".eslintrc.js"
           LINTER_RULES_PATH: "."
+          LOG_LEVEL: "WARN"
+          FILTER_REGEX_INCLUDE: "./src/.*"
+          IGNORE_GITIGNORED_FILES: "true"
 
 
       - name: End Step On Failure
