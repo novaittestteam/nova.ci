@@ -116,6 +116,7 @@ jobs:
         env:
           NODE_ENV: development
           NODE_OPTIONS: "--max-old-space-size=8192"
+          LOG_LEVEL: "error"
 
       - name: End Step On Failure
         if: failure()
