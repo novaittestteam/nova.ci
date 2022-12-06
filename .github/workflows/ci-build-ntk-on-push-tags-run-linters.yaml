@@ -50,18 +50,27 @@ jobs:
       - name: ▶️ Install Node.js dependencies
         run: |
           npm install 
-          npm ci
           npm i eslint-plugin-security
-          npm run lint
 
-      - name: 🏃 Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: "true"
-          eslint_dir: "."
-          eslint_args: " --quiet --color"
-          eslint_extensions: "ts"
-          
+#         npm ci
+#         npm run lint
+
+      # - name: 🏃 Run linters
+      #   uses: wearerequired/lint-action@v2
+      #   with:
+      #     continue_on_error: "true"
+      #     eslint: "true"
+      #     eslint_dir: "."
+      #     eslint_args: " --quiet --color"
+      #     eslint_extensions: "ts"
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JAVASCRIPT_ES_CONFIG_FILE: ".eslintrc.js"
 
 
       - name: End Step On Failure
