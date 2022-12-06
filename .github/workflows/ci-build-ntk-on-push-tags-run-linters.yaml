@@ -49,9 +49,9 @@ jobs:
 
       - name: ▶️ Install Node.js dependencies
         run: |
-          npm install 
           npm i eslint-plugin-security
 
+#         npm install 
 #         npm ci
 #         npm run lint
 
@@ -67,10 +67,11 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JAVASCRIPT_ES_CONFIG_FILE: ".eslintrc.js"
+          LINTER_RULES_PATH: "."
 
 
       - name: End Step On Failure
