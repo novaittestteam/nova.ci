@@ -74,7 +74,7 @@ jobs:
           LINTER_RULES_PATH: /
           JAVASCRIPT_ES_CONFIG_FILE: ".eslintrc_security.json"
           LOG_LEVEL: "VERBOSE"
-          FILTER_REGEX_INCLUDE: "./src/.*"
+#          FILTER_REGEX_INCLUDE: "./src/.*"
 #          IGNORE_GITIGNORED_FILES: "true"
 
 
