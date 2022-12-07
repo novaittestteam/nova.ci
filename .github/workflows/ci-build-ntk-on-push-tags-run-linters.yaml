@@ -41,16 +41,16 @@ jobs:
       #   with:
       #     args: '.'
 
-      - name: ▶️ Delete Lock Files
-        run: |
-          rm package-lock.json
-          rm yarn.lock
+      # - name: ▶️ Delete Lock Files
+      #   run: |
+      #     rm package-lock.json
+      #     rm yarn.lock
 
 
       - name: ▶️ Install Node.js dependencies
         run: |
           npm i eslint-plugin-security
-
+          npm i @typescript-eslint/eslint-plugin
 #         npm install 
 #         npm ci
 #         npm run lint
