@@ -51,6 +51,7 @@ jobs:
         run: |
           npm i eslint-plugin-security
           npm i @typescript-eslint/eslint-plugin
+          npx eslint -c ./.eslintrc_security.json ./src --quiet
 #         npm install 
 #         npm ci
 #         npm run lint
@@ -64,18 +65,18 @@ jobs:
       #     eslint_args: " --quiet --color"
       #     eslint_extensions: "ts"
 
-      - name: Lint Code Base
-        uses: github/super-linter/slim@v4
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_TYPESCRIPT_ES: true
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LINTER_RULES_PATH: /
-          TYPESCRIPT_ES_CONFIG_FILE: ".eslintrc_security.json"
-          LOG_LEVEL: "VERBOSE"
-#          FILTER_REGEX_INCLUDE: "./src/.*"
-#          IGNORE_GITIGNORED_FILES: "true"
+#       - name: Lint Code Base
+#         uses: github/super-linter/slim@v4
+#         env:
+#           VALIDATE_ALL_CODEBASE: true
+#           VALIDATE_TYPESCRIPT_ES: true
+#           DEFAULT_BRANCH: master
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           LINTER_RULES_PATH: /
+#           TYPESCRIPT_ES_CONFIG_FILE: ".eslintrc_security.json"
+#           LOG_LEVEL: "VERBOSE"
+# #          FILTER_REGEX_INCLUDE: "./src/.*"
+# #          IGNORE_GITIGNORED_FILES: "true"
 
 
       - name: End Step On Failure
