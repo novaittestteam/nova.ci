@@ -19,6 +19,11 @@ jobs:
         with:
           node-version: 16.17
 
+      - name: ▶️ Install Node.js dependencies
+        run: |
+          npm i eslint-plugin-security
+          npm i @typescript-eslint/eslint-plugin
+
       - name: 🇪🇸 Lint SRC
         run: npx eslint ./src --quiet
 
