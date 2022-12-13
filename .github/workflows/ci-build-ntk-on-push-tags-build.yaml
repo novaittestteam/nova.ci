@@ -3,6 +3,26 @@ on:
   workflow_call:
 
 jobs:
+  linter: 
+    name: Linter
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    outputs:
+      END_STEP_JOB_ID: ${{ steps.end_step.outputs.END_STEP_JOB_ID }}    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 💿 Setup NODEJS
+        uses: actions/setup-node@v3
+        id: node_inst
+        with:
+          node-version: 16.17
+
+      - name: 🇪🇸 Lint SRC
+        run: npx eslint ./src --quiet
+
+
   build-image:
     name: Build Image
     runs-on: self-hosted
