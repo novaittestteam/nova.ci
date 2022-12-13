@@ -64,7 +64,6 @@ jobs:
         run: |
           sed '/^#/d' .env.example > .env
           cat .env >> $GITHUB_ENV
-          echo "LONG_TAG=`echo ${{ github.ref_name }} | cut -d "-" -f3 `" | tee -a $GITHUB_ENV
 
 
       # - name: Step 2
@@ -114,8 +113,7 @@ jobs:
       - name: 🚶 Run One Test
         if: ${{ contains(github.ref_name, 'int-test') && endsWith( github.ref_name, '.ts' ) }}
         run: |
-          echo ${{ env.LONG_TAG }}
-          npm run ${{ env.LONG_TAG }}
+          npm run `echo ${{ github.ref_name }} | cut -d "-" -f3 `
         #run: npm run test account.controller.integration.spec.ts #--loglevel info
         #run: npm run test inbox.controller.integration.spec.ts
         env:
