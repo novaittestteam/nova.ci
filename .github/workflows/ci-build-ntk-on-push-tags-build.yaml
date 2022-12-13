@@ -25,7 +25,7 @@ jobs:
           npm i @typescript-eslint/eslint-plugin
 
       - name: 🇪🇸 Lint SRC
-        run: npx eslint ./src --quiet
+        run: npx eslint --quiet
 
 
   build-image:
