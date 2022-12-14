@@ -26,13 +26,14 @@ jobs:
           npm i @typescript-eslint/eslint-plugin
 
       - name: 🇪🇸 Lint SRC
+        id: linter
         run: npx eslint --ext .js,.vue,.ts --ignore-path .gitignore . --quiet
 
       - name: End Step
-        if: always()
+        if: success() || failure()
         id: linter_res
         run: |
-          if [[ ${{ success() }} == 'true' ]];
+          if [[ ${{ steps.linter.outcome  }} == 'success' ]];
           then
             echo "LINTER_CHECK=✅" | tee -a $GITHUB_OUTPUT
           else
