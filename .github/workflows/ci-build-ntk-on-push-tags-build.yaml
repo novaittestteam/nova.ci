@@ -8,7 +8,8 @@ jobs:
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     outputs:
-      END_STEP_JOB_ID: ${{ steps.end_step.outputs.END_STEP_JOB_ID }}    
+      END_STEP_JOB_ID: ${{ steps.linter_res.outputs.END_STEP_JOB_ID }}
+      LINTER_CHECK: ${{ steps.linter_res.outputs.LINTER_CHECK }} 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -27,6 +28,18 @@ jobs:
       - name: 🇪🇸 Lint SRC
         run: npx eslint --ext .js,.vue,.ts --ignore-path .gitignore . --quiet
 
+      - name: End Step
+        if: always()
+        id: linter_res
+        run: |
+          if ${{ success() }};
+          then
+            echo "LINTER_CHECK=✅" | tee -a $GITHUB_OUTPUT
+          else
+            echo "END_STEP_JOB_ID=`echo ${{ github.run_id }}`" | tee -a $GITHUB_OUTPUT
+            echo "LINTER_CHECK=❌" | tee -a $GITHUB_OUTPUT
+          fi
+      
 
   build-image:
     name: Build Image
@@ -111,7 +124,7 @@ jobs:
     name: Notifier
     runs-on: self-hosted
     if: always()
-    needs: build-image
+    needs: [build-image, linter]
     steps:
 
       - name: Set Telegram Message
@@ -131,12 +144,16 @@ jobs:
 
             🔵 Image Name: ${{ needs.build-image.outputs.RELEASE }}_${{ needs.build-image.outputs.SHORT_REF_NAME }}_${{ needs.build-image.outputs.SHORT_SHA }}
 
+            ESLinter Check Status: ${{ needs.linter.outputs.LINTER_CHECK }}
+
             Repository: ${{ github.repository }}  
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
           if_false: |
             👷 ${{ github.actor }} created deploy tag.
             
             ❌Build Failed
+
+            ESLinter Check Status: ${{ needs.linter.outputs.LINTER_CHECK }}
             
             Repository: ${{ github.repository }}  
     
