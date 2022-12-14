@@ -32,7 +32,7 @@ jobs:
         if: always()
         id: linter_res
         run: |
-          if ${{ success() }};
+          if [[ ${{ success() }} == 'true' ]];
           then
             echo "LINTER_CHECK=✅" | tee -a $GITHUB_OUTPUT
           else
