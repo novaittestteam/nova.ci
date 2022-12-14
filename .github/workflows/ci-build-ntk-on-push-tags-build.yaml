@@ -8,7 +8,6 @@ jobs:
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     outputs:
-      END_STEP_JOB_ID: ${{ steps.linter_res.outputs.END_STEP_JOB_ID }}
       LINTER_CHECK: ${{ steps.linter_res.outputs.LINTER_CHECK }} 
     steps:
       - name: Checkout
@@ -18,7 +17,7 @@ jobs:
         uses: actions/setup-node@v3
         id: node_inst
         with:
-          node-version: 16.17
+          node-version: 18
 
       - name: ▶️ Install Node.js dependencies
         run: |
@@ -29,16 +28,15 @@ jobs:
         id: linter
         run: npx eslint --ext .js,.vue,.ts --ignore-path .gitignore . --quiet
 
-      - name: End Step
+      - name: End Linter Step
         if: success() || failure()
         id: linter_res
         run: |
           if [[ ${{ steps.linter.outcome  }} == 'success' ]];
           then
-            echo "LINTER_CHECK=✅" | tee -a $GITHUB_OUTPUT
+            echo "LINTER_CHECK=✅OK" | tee -a $GITHUB_OUTPUT
           else
-            echo "END_STEP_JOB_ID=`echo ${{ github.run_id }}`" | tee -a $GITHUB_OUTPUT
-            echo "LINTER_CHECK=❌" | tee -a $GITHUB_OUTPUT
+            echo "LINTER_CHECK=❌FAILED" | tee -a $GITHUB_OUTPUT
           fi
       
 
@@ -66,9 +64,6 @@ jobs:
           else
             echo "SHORT_REF_NAME=`echo ${{ github.event.base_ref }} | cut -d "/" -f3`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
           fi
-
-
-
 
 
       - name: Delete Tag
