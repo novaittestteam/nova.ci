@@ -89,6 +89,11 @@ jobs:
           username: ${{ secrets.CR_DH_USERNAME }}
           password: ${{ secrets.CR_DH_TOKEN }}
 
+      - name: Set up Docker Context for Buildx
+        id: buildx-context
+        run: |
+          docker context create builder
+
 
       - name: Set up Docker Buildx
         id: buildx
@@ -98,16 +103,13 @@ jobs:
           endpoint: builder
           buildkitd-flags: --debug
 
-      - name: Set up Docker Context for Buildx
-        id: buildx-context
-        run: |
-          docker context create builder
+
  
       - name: Build and push
         uses: docker/build-push-action@v3
         id: main_build_proc
         with:
-          context: builder
+          context: .
           file: ./docker/server.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
