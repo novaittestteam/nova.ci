@@ -107,7 +107,7 @@ jobs:
         uses: docker/build-push-action@v3
         id: main_build_proc
         with:
-          context: builderxxx
+          context: builder
           file: ./docker/server.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
