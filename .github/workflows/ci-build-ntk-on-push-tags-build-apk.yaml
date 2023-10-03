@@ -51,6 +51,8 @@ jobs:
         with:
           node-version: 18
 
+      - run: npm install yarn -g
+
       - run: yarn install && yarn global add @quasar/cli
 
       - run: quasar build -m capacitor -T android --skip-pkg
