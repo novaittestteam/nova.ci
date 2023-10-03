@@ -1,0 +1,90 @@
+name: CI Build NTK on Push TAG
+on:
+  workflow_call:
+
+jobs:
+  build-apk:
+    name: Build Image
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    # permissions:
+    #   contents: read
+    #   packages: write
+    outputs:
+      REP_NAME: ${{ steps.prep.outputs.REP_NAME }}
+      SHORT_SHA: ${{ steps.prep.outputs.SHORT_SHA }} 
+      SHORT_REF_NAME: ${{ steps.prep.outputs.SHORT_REF_NAME }}
+      RELEASE: ${{ steps.prep.outputs.RELEASE }}
+    steps:
+      - name: Prepare Vars
+        id: prep
+        run: |
+          echo "REP_NAME=`echo ${GITHUB_REPOSITORY} | cut -d "/" -f2 `" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+          echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+          echo "RELEASE=`echo $(date +'%Y_R%q')`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+          if [[ ${{ github.ref_type }} == 'branch' ]]; then
+            echo "SHORT_REF_NAME=`echo ${{ github.ref_name }}`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+          else
+            echo "SHORT_REF_NAME=`echo ${{ github.event.base_ref }} | cut -d "/" -f3`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+          fi
+
+
+      - name: Delete Tag
+        uses: dev-drprasad/delete-tag-and-release@v0.2.1
+        with:
+          #delete_release: false # default: false
+          tag_name: ${{ github.ref_name }} # tag name to delete
+          #repo: ${{ github.repository_owner }}/${{ env.REP_NAME }} # target repo (optional). defaults to repo running this action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}         
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 💿 Setup NODEJS
+        uses: actions/setup-node@v3
+        id: node_inst
+        with:
+          node-version: 18
+
+      - run: yarn install && yarn global add @quasar/cli
+
+      - run: quasar build -m capacitor -T android --skip-pkg
+
+      - run: chmod +x ./src-capacitor/android/gradlew
+
+      - name: Gradle Android
+        uses: vgaidarji/android-github-actions-build@v1.0.1
+        with:
+          args: ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android assembleDebug
+      - run: zip -r ../android-debug.zip ./src-capacitor/android/app/build/outputs/apk/debug/
+    
+      - name: Create a Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          body: Automated Deployment
+          draft: false
+          prerelease: false
+          
+      - name: Upload a Release Asset
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./android-debug.zip
+          asset_name: android-debug.zip
+          asset_content_type: appliction/zip
+
+      
+        
