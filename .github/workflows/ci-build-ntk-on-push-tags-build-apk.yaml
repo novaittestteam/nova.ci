@@ -53,11 +53,11 @@ jobs:
 
       - name: Setup Components
         run: |
-          npm i yarn
-          npm i @quasar/cli
-          yarn install
+          npm i yarn -g
+          npm i @quasar/cli -g
           yarn --version
           quasar --version
+          yarn install
           quasar build -m capacitor -T android --skip-pkg
           chmod +x ./src-capacitor/android/gradlew
 
