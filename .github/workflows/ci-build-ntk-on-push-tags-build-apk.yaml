@@ -51,13 +51,13 @@ jobs:
         with:
           node-version: 18
 
-      - run: npm install yarn -g
-
-      - run: yarn install && yarn global add @quasar/cli
-
-      - run: quasar build -m capacitor -T android --skip-pkg
-
-      - run: chmod +x ./src-capacitor/android/gradlew
+      - name: Setup Components
+        run: |
+          npm install yarn -g
+          yarn install 
+          yarn install -g  @quasar/cli
+          quasar build -m capacitor -T android --skip-pkg
+          chmod +x ./src-capacitor/android/gradlew
 
       - name: Gradle Android
         uses: vgaidarji/android-github-actions-build@v1.0.1
