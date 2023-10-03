@@ -50,16 +50,11 @@ jobs:
         id: node_inst
         with:
           node-version: '18'
-          cache: 'yarn'
-
-      - name: Run install
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install # will run `yarn install` command
 
       - name: Setup Components
         run: |
-          yarn global add @quasar/cli
+          npm i @quasar/cli
+          npm i yarn
           yarn --version
           quasar --version
           quasar build -m capacitor -T android --skip-pkg
