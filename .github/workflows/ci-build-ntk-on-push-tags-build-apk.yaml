@@ -16,6 +16,9 @@ jobs:
       SHORT_REF_NAME: ${{ steps.prep.outputs.SHORT_REF_NAME }}
       RELEASE: ${{ steps.prep.outputs.RELEASE }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Prepare Vars
         id: prep
         run: |
@@ -44,6 +47,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      
 
       - name: 💿 Setup NODEJS
         uses: actions/setup-node@v3
@@ -62,7 +67,7 @@ jobs:
           find /home/runner -name 'quasar.config.js'
           ls -la /home/runner/work/novatalks.ui-lite/novatalks.ui-lite
           ls -la /home/runner/work/novatalks.ui-lite
-          ls -la //home/runner/work/
+          ls -la /home/runner/work/_temp
           yarn install
           yarn global add quasar
           yarn global add @quasar/cli
