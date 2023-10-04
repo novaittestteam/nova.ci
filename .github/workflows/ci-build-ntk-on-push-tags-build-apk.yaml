@@ -59,7 +59,7 @@ jobs:
           yarn --version
           export PATH="$(yarn global bin):$PATH"
           pwd
-          find / -name 'quasar.config.js'
+          find /home/runner -name 'quasar.config.js'
           ls -la /home/runner/work/novatalks.ui-lite/novatalks.ui-lite
           ls -la /home/runner/work/novatalks.ui-lite
           ls -la //home/runner/work/
