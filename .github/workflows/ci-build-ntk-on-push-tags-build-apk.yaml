@@ -58,6 +58,7 @@ jobs:
           sudo apt-get update && sudo apt-get install yarn -y
           yarn --version
           yarn install
+          yarn global add quasar
           yarn global add @quasar/cli
           quasar --version
           quasar build -m capacitor -T android --skip-pkg
