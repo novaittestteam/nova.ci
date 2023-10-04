@@ -64,7 +64,9 @@ jobs:
           yarn --version
           export PATH="$(yarn global bin):$PATH"
           yarn install
-          echo "{\"appId\": \"ntk.ui.lite\", \"appName\": \"novatalks-ui-lite\", \"webDir"\: \"www\" }" > ./src-capacitor/capacitor.config.json
+          mkdir ./src-capacitor
+          touch ./src-capacitor/capacitor.config.json
+          echo "{\"appId\": \"ntk.ui.lite\", \"appName\": \"novatalks-ui-lite\", \"webDir\": \"www\" }" > ./src-capacitor/capacitor.config.json
           cat ./src-capacitor/capacitor.config.json
           yarn global add quasar
           yarn global add @quasar/cli
