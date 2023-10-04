@@ -58,7 +58,10 @@ jobs:
           sudo apt-get update && sudo apt-get install yarn -y
           yarn --version
           export PATH="$(yarn global bin):$PATH"
-          ls -la
+          pwd
+          ls -la /home/runner/work/novatalks.ui-lite/novatalks.ui-lite
+          ls -la /home/runner/work/novatalks.ui-lite
+          ls -la //home/runner/work/
           yarn install
           yarn global add quasar
           yarn global add @quasar/cli
