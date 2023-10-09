@@ -75,10 +75,10 @@ jobs:
           cd ./src-cordova
           pwd
           ls -la
+          sleep 1000000
           cordova platform add android
           cordova requirements
           cd ..
-          sleep 1000000
           quasar --version
           quasar build -m android
 
