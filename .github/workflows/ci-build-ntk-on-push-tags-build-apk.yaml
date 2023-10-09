@@ -94,7 +94,8 @@ jobs:
           echo $PATH
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0/bin
-          com.ntk.ui-lite | cordova platform add android
+          com.ntk.ui-lite | quasar mode add cordova
+          cordova platform add android
           cordova requirements
           cd ..
           quasar --version
