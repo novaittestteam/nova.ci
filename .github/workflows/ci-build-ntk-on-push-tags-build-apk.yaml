@@ -79,7 +79,8 @@ jobs:
           sudo apt-get update && sudo apt-get install yarn -y
           yarn --version
           export PATH="$(yarn global bin):$PATH"
-          export PATH="$ANDROID_HOME/tools:$PATH" 
+          export PATH="$ANDROID_HOME/tools:$PATH"
+          export PATH="$ANDROID_SDK_ROOT:$PATH" 
           yarn global add quasar
           yarn global add @quasar/cli
           yarn global add cordova
