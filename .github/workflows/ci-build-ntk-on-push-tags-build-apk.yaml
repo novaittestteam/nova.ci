@@ -146,8 +146,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./android-release.zip
-          asset_name: android-release.zip
+          asset_path: ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
+          asset_name: android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
           asset_content_type: appliction/zip
 
       
