@@ -78,13 +78,15 @@ jobs:
           sudo apt-get update && sudo apt-get install yarn -y
           yarn --version
           export PATH="$(yarn global bin):$PATH"
+          export PATH="$ANDROID_HOME/tools:$PATH" 
           yarn global add quasar
           yarn global add @quasar/cli
           yarn global add cordova
           yarn install
           cd ./src-cordova
           pwd
-          echo 
+          echo $ANDROID_HOME
+          echo $PATH
           ls -la 
           cordova platform add android
           cordova requirements
