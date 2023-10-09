@@ -80,21 +80,21 @@ jobs:
           sudo apt-get update && sudo apt-get install yarn -y
           yarn --version
           export PATH="$(yarn global bin):$PATH"
-          export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools/
-          export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/
-          export PATH=$PATH:$ANDROID_SDK_ROOT/emulator/
+          export PATH=$ANDROID_SDK_ROOT/platform-tools/:$PATH
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/:$PATH
+          export PATH=$ANDROID_SDK_ROOT/emulator/:$PATH
           yarn global add quasar
           yarn global add @quasar/cli
           yarn global add cordova
           yarn install
+          mkdir ./src-cordova
           cd ./src-cordova
           pwd
           echo $ANDROID_HOME
           echo $PATH
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0/bin
-          cordova platform ls android
-          cordova platform add android@13
+          com.ntk.ui-lite | cordova platform add android
           cordova requirements
           cd ..
           quasar --version
