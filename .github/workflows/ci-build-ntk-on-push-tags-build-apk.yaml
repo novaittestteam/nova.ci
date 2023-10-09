@@ -93,8 +93,8 @@ jobs:
           echo $PATH
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0/bin
-          cordova platform ls
-          cordova platform add android
+          cordova platform ls android
+          cordova platform add android@13
           cordova requirements
           cd ..
           quasar --version
