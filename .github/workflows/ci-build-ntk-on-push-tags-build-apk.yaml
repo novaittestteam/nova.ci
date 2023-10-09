@@ -87,14 +87,13 @@ jobs:
           yarn global add @quasar/cli
           yarn global add cordova
           yarn install
-          mkdir ./src-cordova
-          cd ./src-cordova
           pwd
           echo $ANDROID_HOME
           echo $PATH
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0/bin
           com.ntk.ui-lite | quasar mode add cordova
+          cd ./src-cordova
           cordova platform add android
           cordova requirements
           cd ..
