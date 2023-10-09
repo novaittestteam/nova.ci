@@ -71,6 +71,7 @@ jobs:
           yarn global add quasar
           yarn global add @quasar/cli
           yarn global add cordova
+          yarn install
           quasar --version
           quasar build -m android
 
