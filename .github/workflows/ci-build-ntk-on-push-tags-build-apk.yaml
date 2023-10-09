@@ -61,9 +61,6 @@ jobs:
           distribution: 'microsoft' # See 'Supported distributions' for available options
           java-version: '17'
 
-      - name: Test Java
-        run: java -cp java HelloWorldApp
-
       - name: Setup Components
         run: |
           curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -74,6 +71,7 @@ jobs:
           yarn global add quasar
           yarn global add @quasar/cli
           quasar --version
+          cordova requirements
           quasar build -m android
 
 
