@@ -71,7 +71,8 @@ jobs:
 
       - name: Setup Components
         env:
-          ANDROID_HOME: '/home/runner/.android/sdk/'
+          ANDROID_HOME: '/home/runner/.android/sdk'
+          ANDROID_SDK_ROOT: '/home/runner/.android/sdk'
         run: |
           curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
           echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
