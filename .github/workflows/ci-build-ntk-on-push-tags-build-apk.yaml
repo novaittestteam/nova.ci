@@ -72,7 +72,6 @@ jobs:
           yarn global add @quasar/cli
           yarn global add cordova
           quasar --version
-          cordova requirements ./src-cordova
           quasar build -m android
 
 
