@@ -99,7 +99,7 @@ jobs:
           cordova requirements
           cd ..
           quasar --version
-          quasar build -m android
+          quasar build -m android -- -- --packageType=apk
           sleep 10000
 
 
