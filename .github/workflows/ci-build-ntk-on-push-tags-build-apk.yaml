@@ -95,6 +95,7 @@ jobs:
           cd ./src-cordova
           cordova platform add android
           sdkmanager "platform-tools" "platforms;android-33"
+          sdkmanager "build-tools;33.0.2"
           cordova requirements
           cd ..
           quasar --version
