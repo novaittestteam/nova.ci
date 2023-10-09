@@ -73,6 +73,8 @@ jobs:
           yarn global add cordova
           yarn install
           cd ./src-cordova
+          pwd
+          ls -la
           cordova platform add android
           cordova requirements
           cd ..
