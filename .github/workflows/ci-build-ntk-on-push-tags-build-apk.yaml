@@ -84,8 +84,8 @@ jobs:
           yarn install
           cd ./src-cordova
           pwd
-          echp 
-          ls -la $ANDROID_HOME
+          echo 
+          ls -la 
           cordova platform add android
           cordova requirements
           cd ..
