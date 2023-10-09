@@ -92,7 +92,7 @@ jobs:
           echo $PATH
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0
           ls -la /home/runner/.android/sdk/cmdline-tools/11.0/bin
-          echo 'com.ntk.ui-lite' | quasar mode add cordova
+          echo 'com.novatalks.ui.lite' | quasar mode add cordova
           cd ./src-cordova
           cordova platform add android
           cordova requirements
