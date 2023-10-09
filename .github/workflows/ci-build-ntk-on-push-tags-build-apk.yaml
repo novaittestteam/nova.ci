@@ -95,7 +95,6 @@ jobs:
           echo 'com.novatalks.ui.lite' | quasar mode add cordova
           cd ./src-cordova
           cordova platform add android
-          cordova requirements
           cd ..
           quasar --version
           quasar build -m android
