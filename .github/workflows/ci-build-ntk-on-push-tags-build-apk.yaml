@@ -91,7 +91,8 @@ jobs:
           pwd
           echo $ANDROID_HOME
           echo $PATH
-          ls -la export /home/runner/.android/sdk/cmdline-tools/
+          ls -la /home/runner/.android/sdk/cmdline-tools/11.0
+          ls -la /home/runner/.android/sdk/cmdline-tools/11.0/bin
           cordova platform ls
           cordova platform add android
           cordova requirements
