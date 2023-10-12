@@ -86,6 +86,7 @@ jobs:
           ANDROID_HOME: '/home/runner/.android/sdk'
           ANDROID_SDK_ROOT: '/home/runner/.android/sdk'
 
+
         run: |
           curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
           echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
@@ -102,7 +103,7 @@ jobs:
           echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
           chmod +x ./src-capacitor/android/gradlew
           ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android
-          apksigner sign --ks my-release-key.keystore --ks-key-alias ntk-ui-lite-release-key ./src-capacitor/android/app/build/outputs/apk/release/
+          $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks my-release-key.keystore --ks-key-alias ntk-ui-lite-release-key ./src-capacitor/android/app/build/outputs/apk/release/
           sleep 10000
 #          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 
