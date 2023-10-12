@@ -103,7 +103,7 @@ jobs:
           echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
           chmod +x ./src-capacitor/android/gradlew
           ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android
-          $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks my-release-key.keystore --ks-key-alias ntk-ui-lite-release-key ./src-capacitor/android/app/build/outputs/apk/release/
+          $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks my-release-key.keystore --ks-key-alias ntk-ui-lite-release-key ./src-capacitor/android/app/build/outputs/apk/release/ -storepass android -keypass android
           sleep 10000
 #          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 
