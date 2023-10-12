@@ -77,7 +77,7 @@ jobs:
 
       - name: Displaying debug.keystore file
         run: |
-          keytool -list -v -keystore ./release-key.keystore -alias AndroidDebugKey -storepass android -keypass android
+          keytool -list -v -keystore ./release-key.keystore -alias ntk-ui-lite-release-key -storepass android -keypass android
 
         
 
