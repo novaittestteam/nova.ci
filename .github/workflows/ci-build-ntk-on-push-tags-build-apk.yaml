@@ -69,6 +69,17 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+
+      - name: Generating Release Key
+        run: |
+          keytool -genkey -dname "cn=NovaitDevTeam, ou=IT, o=Novait, l=Pune, st=Kyib, c=UA" -v -keystore release-key.keystore -alias ntk-ui-lite-release-key -keyalg RSA -keysize 2048 -validity 20000
+
+      - name: Displaying debug.keystore file
+        run: |
+          keytool -list -v -keystore ./release-key.keystore -alias AndroidDebugKey -storepass android -keypass android
+
+        
+
       - name: Setup Components & Build
         env:
           ANDROID_HOME: '/home/runner/.android/sdk'
@@ -87,10 +98,16 @@ jobs:
           quasar --version
           echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android --skip-pkg
           chmod +x ./src-capacitor/android/gradlew
-          ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android assembleDebug
-          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
+          ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android
+          sleep 10000
+          apksigner sign --ks my-release-key.keystore --ks-key-alias ntk-ui-lite-release-key ./src-cordova/platforms/android/app/build/outputs/apk/release/
+          
+#          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 
 
+
+
+  
 
 
 
@@ -127,28 +144,28 @@ jobs:
  #     - run: zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-cordova/platforms/android/app/build/outputs/apk/release/
   
     
-      - name: Create a Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
-          release_name: NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
-          body: Automated Deployment
-          draft: false
-          prerelease: false
+      # - name: Create a Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
+      #     release_name: NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
+      #     body: Automated Deployment
+      #     draft: false
+      #     prerelease: false
 
-      - name: Upload a Release Asset
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
-          asset_name: android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
-          asset_content_type: appliction/zip
+      # - name: Upload a Release Asset
+      #   id: upload_release_asset
+      #   uses: actions/upload-release-asset@v1.0.2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
+      #     asset_name: android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
+      #     asset_content_type: appliction/zip
 
       
         
