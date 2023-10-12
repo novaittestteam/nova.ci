@@ -88,8 +88,7 @@ jobs:
           echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android --skip-pkg
           chmod +x ./src-capacitor/android/gradlew
           ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android assembleDebug
-          zip -r ../android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
-
+          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 
 
 
