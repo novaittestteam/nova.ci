@@ -87,6 +87,8 @@ jobs:
           quasar --version
           echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android --skip-pkg
           chmod +x ./src-capacitor/android/gradlew
+          ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android assembleDebug
+          zip -r ../android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 
 
 
@@ -115,12 +117,12 @@ jobs:
       #     quasar build -m capacitor -T android --skip-pkg
       #     chmod +x ./src-capacitor/android/gradlew
 
-      - name: Gradle Android
-        uses: vgaidarji/android-github-actions-build@v1.0.1
-        with:
-          args: ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android assembleDebug
+      # - name: Gradle Android
+      #   uses: vgaidarji/android-github-actions-build@v1.0.1
+      #   with:
+      #     args: ./src-capacitor/android/gradlew --project-dir=./src-capacitor/android assembleDebug
       
-      - run: zip -r ../android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
+      # - run: zip -r ../android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 
 
  #     - run: zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-cordova/platforms/android/app/build/outputs/apk/release/
