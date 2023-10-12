@@ -72,7 +72,8 @@ jobs:
 
       - name: Generating Release Key
         run: |
-          keytool -genkey -dname "cn=NovaitDevTeam, ou=IT, o=Novait, l=Pune, st=Kyib, c=UA" -v -keystore release-key.keystore -alias ntk-ui-lite-release-key -keyalg RSA -keysize 2048 -validity 20000
+          keytool -genkey -dname "cn=NovaitDevTeam, ou=IT, o=Novait, l=Pune, st=Kyib, c=UA" -v -keystore ./release-key.keystore -alias ntk-ui-lite-release-key -keyalg RSA -keysize 2048 -validity 20000
+          ls -la ./
 
       - name: Displaying debug.keystore file
         run: |
