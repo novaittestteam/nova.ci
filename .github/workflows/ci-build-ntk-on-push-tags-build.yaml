@@ -42,6 +42,10 @@ jobs:
   security:
     name: Security
     runs-on: self-hosted
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout
