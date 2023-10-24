@@ -64,7 +64,7 @@ jobs:
     
       - uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 8.1
+          gradle-version: 8.0
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -103,18 +103,18 @@ jobs:
           echo "Step 1"
           quasar --version
           echo "Step2"
-          mkdir -p ./src-capacitor/android/
-          $(find /home/runner/gradle-installations/ -name gradle) wrapper --project-dir=./src-capacitor/android
           chmod +x ./src-capacitor/android/gradlew
-          ls -la ./src-capacitor/android/
-#          echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
+          quasar build -m capacitor -T android
+          $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks ./release-key.keystore --ks-key-alias ntk-ui-lite-release-key --ks-pass pass:android --key-pass pass:android ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
+          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/release/
+          $(find $ANDROID_SDK_ROOT -name apksigner) verify --print-certs ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
+          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 
-
-#          $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks ./release-key.keystore --ks-key-alias ntk-ui-lite-release-key --ks-pass pass:android --key-pass pass:android ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
-#          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/release/
-#          $(find $ANDROID_SDK_ROOT -name apksigner) verify --print-certs ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
-#          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 #          chmod +x ./src-capacitor/android/gradlew
+#          mkdir -p ./src-capacitor/android/
+#          $(find /home/runner/gradle-installations/ -name gradle) wrapper --project-dir=./src-capacitor/android
+#          chmod +x ./src-capacitor/android/gradlew
+#          ls -la ./src-capacitor/android/
 
 
 
