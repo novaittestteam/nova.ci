@@ -64,11 +64,7 @@ jobs:
     
       - uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: wrapper
-
-      - run: |
-          find /home/runner/ -name gradlew
-          sleep 10000
+          gradle-version: 8.1
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -107,11 +103,12 @@ jobs:
           echo "Step 1"
           quasar --version
           echo "Step2"
-          $(find /home/runner/ -name gradlew)
-          sleep 10000
+          $(find /home/runner -name gradle) wrapper --project-dir=./src-capacitor/android
+          chmod +x ./src-capacitor/android/gradlew
+          ls -la ./src-capacitor/android/
 #          echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
 
-#          /home/runner/gradle-installations/installs/gradle-8.1/bin/gradle --project-dir=./src-capacitor/android
+
 #          $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks ./release-key.keystore --ks-key-alias ntk-ui-lite-release-key --ks-pass pass:android --key-pass pass:android ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
 #          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/release/
 #          $(find $ANDROID_SDK_ROOT -name apksigner) verify --print-certs ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
