@@ -96,10 +96,13 @@ jobs:
           export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/:$PATH
           export PATH=$ANDROID_SDK_ROOT/emulator/:$PATH
           export PATH=$ANDROID_SDK_ROOT/build-tools/:$PATH
+          echo "Step 0"
           yarn global add quasar
           yarn global add @quasar/cli
           yarn install
+          echo "Step 1"
           quasar --version
+          echo "Step2"
           echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
           ls -la /home/runner/gradle-installations/installs/gradle-8.1/bin/gradle
           $(find /home/runner/gradle-installations -name gradlew)
