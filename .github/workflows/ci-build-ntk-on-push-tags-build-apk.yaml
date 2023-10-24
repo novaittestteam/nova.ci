@@ -64,7 +64,7 @@ jobs:
     
       - uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 8.1
+          gradle-version: wrapper
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -103,7 +103,6 @@ jobs:
           echo "Step 1"
           quasar --version
           echo "Step2"
-          sleep 10000
           echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
           ls -la /home/runner/gradle-installations/installs/gradle-8.1/bin/gradle
           $(find /home/runner/gradle-installations -name gradlew)
