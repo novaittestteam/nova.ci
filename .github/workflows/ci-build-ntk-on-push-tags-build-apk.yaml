@@ -103,7 +103,7 @@ jobs:
           echo "Step 1"
           quasar --version
           echo "Step2"
-          $(find /home/runner -name gradle) wrapper --project-dir=./src-capacitor/android
+          $(find /home/runner/gradle-installations/ -name gradle) wrapper --project-dir=./src-capacitor/android
           chmod +x ./src-capacitor/android/gradlew
           ls -la ./src-capacitor/android/
 #          echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
