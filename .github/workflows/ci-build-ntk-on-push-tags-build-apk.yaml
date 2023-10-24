@@ -103,7 +103,7 @@ jobs:
           echo "Step 1"
           quasar --version
           echo "Step2"
-          mkdir ./src-capacitor/android/
+          mkdir -p ./src-capacitor/android/
           $(find /home/runner/gradle-installations/ -name gradle) wrapper --project-dir=./src-capacitor/android
           chmod +x ./src-capacitor/android/gradlew
           ls -la ./src-capacitor/android/
