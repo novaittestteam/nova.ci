@@ -67,7 +67,8 @@ jobs:
           gradle-version: wrapper
 
       - run: |
-          $(find /home/runner/ -name gradlew)
+          find /home/runner/ -name gradlew
+          sleep 10000
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
