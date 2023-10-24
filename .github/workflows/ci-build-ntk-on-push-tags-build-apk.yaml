@@ -103,9 +103,9 @@ jobs:
           echo "Step 1"
           quasar --version
           echo "Step2"
-          echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
-          ls -la /home/runner/gradle-installations/installs/gradle-8.1/bin/gradle
-          $(find /home/runner/gradle-installations -name gradlew)
+          $(find /home/runner/ -name gradlew)
+          sleep 10000
+#          echo 'com.novatalks.ui.lite' | quasar build -m capacitor -T android
 
 #          /home/runner/gradle-installations/installs/gradle-8.1/bin/gradle --project-dir=./src-capacitor/android
 #          $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks ./release-key.keystore --ks-key-alias ntk-ui-lite-release-key --ks-pass pass:android --key-pass pass:android ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
