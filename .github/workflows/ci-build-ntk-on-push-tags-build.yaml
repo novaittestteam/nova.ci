@@ -178,7 +178,7 @@ jobs:
     name: Notifier
     runs-on: self-hosted
     if: always()
-    needs: [build-image, linter]
+    needs: [build-image]
     steps:
 
       - name: Set Telegram Message
