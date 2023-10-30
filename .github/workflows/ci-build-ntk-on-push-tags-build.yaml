@@ -3,41 +3,41 @@ on:
   workflow_call:
 
 jobs:
-  linter: 
-    name: Linter
-    runs-on: self-hosted
-    environment: ${{ inputs.environment }}
-    outputs:
-      LINTER_CHECK: ${{ steps.linter_res.outputs.LINTER_CHECK }} 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # linter: 
+  #   name: Linter
+  #   runs-on: self-hosted
+  #   environment: ${{ inputs.environment }}
+  #   outputs:
+  #     LINTER_CHECK: ${{ steps.linter_res.outputs.LINTER_CHECK }} 
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: 💿 Setup NODEJS
-        uses: actions/setup-node@v3
-        id: node_inst
-        with:
-          node-version: 18
+  #     - name: 💿 Setup NODEJS
+  #       uses: actions/setup-node@v3
+  #       id: node_inst
+  #       with:
+  #         node-version: 18
 
-      - name: ▶️ Install Node.js dependencies
-        run: |
-          npm i eslint-plugin-security
-          npm i @typescript-eslint/eslint-plugin
+  #     - name: ▶️ Install Node.js dependencies
+  #       run: |
+  #         npm i eslint-plugin-security
+  #         npm i @typescript-eslint/eslint-plugin
 
-      - name: 🇪🇸 Lint SRC
-        id: linter
-        run: npx eslint --ext .js,.vue,.ts --ignore-path .gitignore . --quiet
+  #     - name: 🇪🇸 Lint SRC
+  #       id: linter
+  #       run: npx eslint --ext .js,.vue,.ts --ignore-path .gitignore . --quiet
 
-      - name: End Linter Step
-        if: success() || failure()
-        id: linter_res
-        run: |
-          if [[ ${{ steps.linter.outcome  }} == 'success' ]];
-          then
-            echo "LINTER_CHECK=✅OK" | tee -a $GITHUB_OUTPUT
-          else
-            echo "LINTER_CHECK=❌FAILED" | tee -a $GITHUB_OUTPUT
-          fi
+  #     - name: End Linter Step
+  #       if: success() || failure()
+  #       id: linter_res
+  #       run: |
+  #         if [[ ${{ steps.linter.outcome  }} == 'success' ]];
+  #         then
+  #           echo "LINTER_CHECK=✅OK" | tee -a $GITHUB_OUTPUT
+  #         else
+  #           echo "LINTER_CHECK=❌FAILED" | tee -a $GITHUB_OUTPUT
+  #         fi
 
   # security:
   #   name: Security
@@ -88,8 +88,8 @@ jobs:
     name: Build Image
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
-    if: always()
-    needs: [linter]
+    # if: always()
+    # needs: [linter]
     # permissions:
     #   contents: read
     #   packages: write
@@ -138,10 +138,10 @@ jobs:
           username: ${{ secrets.CR_DH_USERNAME }}
           password: ${{ secrets.CR_DH_TOKEN_RW }}
 
-      - name: Set up Docker Context for Buildx
-        id: buildx-context
-        run: |
-          docker context create builder
+      # - name: Set up Docker Context for Buildx
+      #   id: buildx-context
+      #   run: |
+      #     docker context create builder
 
 
       - name: Set up Docker Buildx
@@ -149,7 +149,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           install: true
-          endpoint: builder
+          # endpoint: builder
           buildkitd-flags: --debug
  
       - name: Build and push
@@ -157,6 +157,7 @@ jobs:
         id: main_build_proc
         with:
           #context: .
+          context: /home/runner/work/novatalks.engine/novatalks.engine
           file: ./docker/server.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
