@@ -151,6 +151,8 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v3
+        env:
+          DOCKER_TLS_CERTDIR: ""
         with:
           install: true
           endpoint: tcp://localhost:2376
