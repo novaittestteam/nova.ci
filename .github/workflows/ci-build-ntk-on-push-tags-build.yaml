@@ -2,6 +2,10 @@ name: CI Build NTK on Push TAG
 on:
   workflow_call:
 
+defaults:
+  run:
+    working-directory: /home/runner/work/
+
 jobs:
   # linter: 
   #   name: Linter
