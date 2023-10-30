@@ -155,6 +155,7 @@ jobs:
           install: true
           endpoint: builder
           buildkitd-flags: --debug
+          cleanup: false
  
       - name: Build and push
         uses: docker/build-push-action@v5
