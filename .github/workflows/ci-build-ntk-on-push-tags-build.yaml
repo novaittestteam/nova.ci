@@ -138,11 +138,10 @@ jobs:
           username: ${{ secrets.CR_DH_USERNAME }}
           password: ${{ secrets.CR_DH_TOKEN_RW }}
 
-      - run: docker context ls
-      # - name: Set up Docker Context for Buildx
-      #   id: buildx-context
-      #   run: |
-      #     docker context create builder
+      - name: Set up Docker Context for Buildx
+        id: buildx-context
+        run: |
+          docker context create builder
 
 
       - name: Set up Docker Buildx
@@ -150,8 +149,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           install: true
-          # endpoint: builder
-          endpoint: default
+          endpoint: ${{ steps.buildx.outputs.name }}
           buildkitd-flags: --debug
  
       - name: Build and push
@@ -159,7 +157,7 @@ jobs:
         id: main_build_proc
         with:
           #context: .
-          context: /home/runner/work/novatalks.engine/novatalks.engine
+          cacher-from: type=local,dest=/home/runner/work/novatalks.engine/novatalks.engine
           file: ./docker/server.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
