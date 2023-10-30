@@ -153,9 +153,10 @@ jobs:
         uses: docker/setup-buildx-action@v3
         env:
           DOCKER_TLS_CERTDIR: ""
+          DOCKER_HOST: tcp://localhost:2376
         with:
           install: true
-          endpoint: tcp://localhost:2376
+          endpoint: default
           buildkitd-flags: --debug
           cleanup: false
  
