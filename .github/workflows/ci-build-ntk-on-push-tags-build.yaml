@@ -104,7 +104,7 @@ jobs:
       RELEASE: ${{ steps.prep.outputs.RELEASE }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
     
       - name: Prepare Vars
         id: prep
@@ -152,7 +152,7 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v3
         with:
-          install: true
+          # install: true
           endpoint: default
           buildkitd-flags: --debug
           cleanup: false
