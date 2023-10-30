@@ -142,10 +142,10 @@ jobs:
           username: ${{ secrets.CR_DH_USERNAME }}
           password: ${{ secrets.CR_DH_TOKEN_RW }}
 
-      - name: Set up Docker Context for Buildx
-        id: buildx-context
-        run: |
-          docker context create builder
+      # - name: Set up Docker Context for Buildx
+      #   id: buildx-context
+      #   run: |
+      #     docker context create builder
 
 
       - name: Set up Docker Buildx
@@ -153,7 +153,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           install: true
-          endpoint: builder
+          endpoint: default
           buildkitd-flags: --debug
           cleanup: false
  
