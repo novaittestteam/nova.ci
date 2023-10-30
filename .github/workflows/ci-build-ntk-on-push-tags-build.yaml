@@ -157,7 +157,7 @@ jobs:
         id: main_build_proc
         with:
           #context: .
-          cache-from: type=local,dest=/home/runner/work/novatalks.engine/novatalks.engine
+          cache-from: type=local,dest=/home/runner/work/novatalks.engine/novatalks.engine/src
           file: ./docker/server.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
