@@ -155,14 +155,14 @@ jobs:
           install: true
           endpoint: builder
           buildkitd-flags: --debug
-          cleanup: false
+          cleanup: true
  
       - name: Build and push
         uses: docker/build-push-action@v5
         id: main_build_proc
         with:
           #context: .
-          context: /home/runner/work/novatalks.engine/novatalks.engine
+          context: .
           file: ./docker/server.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: false
