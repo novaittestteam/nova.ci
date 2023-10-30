@@ -138,6 +138,7 @@ jobs:
           username: ${{ secrets.CR_DH_USERNAME }}
           password: ${{ secrets.CR_DH_TOKEN_RW }}
 
+      - run: docker context ls
       # - name: Set up Docker Context for Buildx
       #   id: buildx-context
       #   run: |
