@@ -149,7 +149,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           install: true
-          endpoint: ${{ steps.buildx.outputs.name }}
+          endpoint: builder
           buildkitd-flags: --debug
  
       - name: Build and push
