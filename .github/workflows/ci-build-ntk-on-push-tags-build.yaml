@@ -153,11 +153,11 @@ jobs:
           buildkitd-flags: --debug
  
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         id: main_build_proc
         with:
           #context: .
-          cacher-from: type=local,dest=/home/runner/work/novatalks.engine/novatalks.engine
+          cache-from: type=local,dest=/home/runner/work/novatalks.engine/novatalks.engine
           file: ./docker/server.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
