@@ -156,7 +156,7 @@ jobs:
           endpoint: builder
           buildkitd-flags: --debug
           cleanup: true
-          driver: kubernetes
+
  
       - name: Build and push
         uses: docker/build-push-action@v5
