@@ -163,18 +163,21 @@ jobs:
           #context: .
           file: ./docker/server.Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
-          push: true
+          push: false
           target: main
           tags: | 
             ghcr.io/${{ github.repository_owner }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
             ${{ secrets.CR_DH_USERNAME }}/${{ env.REP_NAME }}-test:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
+      
+      - name: Debug
+        run: /bin/sleep 10000
 
-      - name: Push image to GHCR
-        if: ${{ contains( github.event.base_ref, 'main' ) }}
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ secrets.CR_DH_USERNAME }}/${{ env.REP_NAME }}-test:latest \
-            ${{ secrets.CR_DH_USERNAME }}/${{ env.REP_NAME }}-test:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }} 
+      # - name: Push image to GHCR
+      #   if: ${{ contains( github.event.base_ref, 'main' ) }}
+      #   run: |
+      #     docker buildx imagetools create \
+      #       --tag ${{ secrets.CR_DH_USERNAME }}/${{ env.REP_NAME }}-test:latest \
+      #       ${{ secrets.CR_DH_USERNAME }}/${{ env.REP_NAME }}-test:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }} 
         
 
   # notify-telegram:
