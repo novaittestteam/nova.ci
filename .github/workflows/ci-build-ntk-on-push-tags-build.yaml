@@ -154,6 +154,7 @@ jobs:
         env:
           DOCKER_TLS_CERTDIR: ""
           DOCKER_HOST: tcp://localhost:2376
+          DOCKER_TLS_VERIFY: 0
         with:
           install: true
           endpoint: default
