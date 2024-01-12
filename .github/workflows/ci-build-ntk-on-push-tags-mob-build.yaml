@@ -107,7 +107,9 @@ jobs:
           quasar build -m capacitor -T android
           $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks ./release-key.keystore --ks-key-alias ntk-ui-lite-release-key --ks-pass pass:android --key-pass pass:android ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
           zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/release/
-          echo "BUILD=`echo $(find ~+ -name android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip)`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+          cp ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip /home/runner/work/
+          
+#          echo "BUILD=`echo $(find ~+ -name android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip)`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
 
 #          $(find $ANDROID_SDK_ROOT -name apksigner) verify --print-certs ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
 #          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
@@ -177,8 +179,8 @@ jobs:
         with:
           repository: 'novaittestteam/ntk.mob'
 
-      - name: Debug
-        run: echo ${{ env.BUILD }}
+      # - name: Debug
+      #   run: echo ${{ env.BUILD }}
 
       - name: Create a Release
         id: create_release
@@ -199,7 +201,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.BUILD }}
+          asset_path: /home/runner/work/android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
           asset_name: android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
           asset_content_type: appliction/zip   
         
