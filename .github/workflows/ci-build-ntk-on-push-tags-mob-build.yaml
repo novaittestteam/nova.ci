@@ -107,8 +107,9 @@ jobs:
           quasar build -m capacitor -T android
           $(find $ANDROID_SDK_ROOT -name apksigner) sign --ks ./release-key.keystore --ks-key-alias ntk-ui-lite-release-key --ks-pass pass:android --key-pass pass:android ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
           zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/release/
-          $(find $ANDROID_SDK_ROOT -name apksigner) verify --print-certs ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
-          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
+
+#          $(find $ANDROID_SDK_ROOT -name apksigner) verify --print-certs ./src-capacitor/android/app/build/outputs/apk/release/app-release-unsigned.apk
+#          zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/debug/
 
 #          chmod +x ./src-capacitor/android/gradlew
 #          mkdir -p ./src-capacitor/android/
@@ -178,5 +179,32 @@ jobs:
       #     asset_name: android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
       #     asset_content_type: appliction/zip
 
-      
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: 'novaittestteam/ntk.mob'
+
+      - name: Create a Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
+          release_name: NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}
+          body: Automated Deployment
+          draft: false
+          prerelease: false
+
+      - name: Upload a Release Asset
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
+          asset_name: android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
+          asset_content_type: appliction/zip   
         
