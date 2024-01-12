@@ -178,6 +178,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 'novaittestteam/ntk.mob'
+          github-server-url: https://github.com/novaittestteam/ntk.mob
+          path: ./ntk.mob
 
       # - name: Debug
       #   run: echo ${{ env.BUILD }}
