@@ -177,6 +177,9 @@ jobs:
         with:
           repository: 'novaittestteam/ntk.mob'
 
+      - name: Debug
+        run: echo ${{ env.BUILD }}
+
       - name: Create a Release
         id: create_release
         uses: actions/create-release@v1
@@ -196,7 +199,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.BUILD }}
+          asset_path: /${{ env.BUILD }}
           asset_name: android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip
           asset_content_type: appliction/zip   
         
