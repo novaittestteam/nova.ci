@@ -22,6 +22,7 @@ jobs:
           repository: 'novaittestteam/novatalks.ui-lite'
           github-server-url: https://github.com/novaittestteam/novatalks.ui-lite
           path: ./novatalks.ui-lite
+          ssh-key: ${{ secrets.NTK_UI_LITE_DEPLOY_KEY }}
 
 
       - name: Prepare Vars
