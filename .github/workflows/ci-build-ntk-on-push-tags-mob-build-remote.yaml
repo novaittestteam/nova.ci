@@ -43,7 +43,7 @@ jobs:
           ref: ${{ env.REMOTE_BRANCH }}
 
       - name: debug checkout
-        run: echo ${{join(steps.run_tests.outputs.*, '\n')}}
+        run: echo ${{join(steps.checkout-remote.outputs.*, '\n')}}
 
       - name: Prepare Vars
         id: prep
