@@ -42,10 +42,14 @@ jobs:
           ssh-key: ${{ secrets.NTK_UI_LITE_DEPLOY_KEY }}
           ref: ${{ env.REMOTE_BRANCH }}
 
-      - name: debug checkout
-        run: |
-          echo ${{ steps.checkout-remote.outputs.commits }}
-          echo ${{ steps.checkout-remote.outputs.ref }}
+      - name: test get sha
+        working-directory: ./novatalks.ui-lite
+        run: echo "REMOTE_SHA=`/usr/bin/git log -1 --format='%H' | cut -c1-8`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+
+      # - name: debug checkout
+      #   run: |
+      #     echo ${{ steps.checkout-remote.outputs.commits }}
+      #     echo ${{ steps.checkout-remote.outputs.ref }}
 
       - name: Prepare Vars
         id: prep
