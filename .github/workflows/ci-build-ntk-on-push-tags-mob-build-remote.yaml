@@ -16,14 +16,34 @@ jobs:
       SHORT_REF_NAME: ${{ steps.prep.outputs.SHORT_REF_NAME }}
       RELEASE: ${{ steps.prep.outputs.RELEASE }}
     steps:
-      - name: Checkout
+      - name: Remote Checkout Master
         uses: actions/checkout@v4
+        id: checkout
+        if: ${{ contains(github.ref_name, 'build') && endsWith( github.ref_name, 'apk' ) }}
         with:
-          repository: 'novaittestteam/novatalks.ui-lite'
-          github-server-url: https://github.com/novaittestteam/novatalks.ui-lite
+          repository: 'novaitdevteam/novatalks.ui-lite'
+          github-server-url: https://github.com/novaitdevteam/novatalks.ui-lite
           path: ./novatalks.ui-lite
           ssh-key: ${{ secrets.NTK_UI_LITE_DEPLOY_KEY }}
 
+      - name: Any additional Tag?
+        if: ${{ contains(github.ref_name, 'build-apk-') }}    
+        run: |
+          echo "REMOTE_BRANCH=`echo ${{ github.ref_name }} | cut -d "-" -f3-4`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
+    
+      - name: Remote Checkout On Certain branch
+        uses: actions/checkout@v4
+        if: ${{ contains(github.ref_name, 'build-apk-') }}
+        id: checkout-remote
+        with:
+          repository: 'novaitdevteam/novatalks.ui-lite'
+          github-server-url: https://github.com/novaitdevteam/novatalks.ui-lite
+          path: ./novatalks.ui-lite
+          ssh-key: ${{ secrets.NTK_UI_LITE_DEPLOY_KEY }}
+          ref: ${{ env.REMOTE_BRANCH }}
+
+      - name: debug checkout
+        run: echo ${{join(steps.run_tests.outputs.*, '\n')}}
 
       - name: Prepare Vars
         id: prep
