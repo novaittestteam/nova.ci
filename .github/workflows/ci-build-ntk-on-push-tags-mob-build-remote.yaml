@@ -21,8 +21,8 @@ jobs:
         id: checkout
         if: ${{ contains(github.ref_name, 'build') && endsWith( github.ref_name, 'apk' ) }}
         with:
-          repository: 'novaitdevteam/novatalks.ui-lite'
-          github-server-url: https://github.com/novaitdevteam/novatalks.ui-lite
+          repository: 'novaittestteam/novatalks.ui-lite'
+          github-server-url: https://github.com/novaittestteam/novatalks.ui-lite
           path: ./novatalks.ui-lite
           ssh-key: ${{ secrets.NTK_UI_LITE_DEPLOY_KEY }}
 
@@ -36,8 +36,8 @@ jobs:
         if: ${{ contains(github.ref_name, 'build-apk-') }}
         id: checkout-remote
         with:
-          repository: 'novaitdevteam/novatalks.ui-lite'
-          github-server-url: https://github.com/novaitdevteam/novatalks.ui-lite
+          repository: 'novaittestteam/novatalks.ui-lite'
+          github-server-url: https://github.com/novaittestteam/novatalks.ui-lite
           path: ./novatalks.ui-lite
           ssh-key: ${{ secrets.NTK_UI_LITE_DEPLOY_KEY }}
           ref: ${{ env.REMOTE_BRANCH }}
