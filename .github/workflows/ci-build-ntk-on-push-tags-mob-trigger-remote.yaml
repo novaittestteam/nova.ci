@@ -27,4 +27,16 @@ jobs:
           tag_name: ${{ github.ref_name }} # tag name to delete
           #repo: ${{ github.repository_owner }}/${{ env.REP_NAME }} # target repo (optional). defaults to repo running this action
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: octokit/request-action@v2.x
+        id: push_tag
+        with:
+          route: POST /repos/{owner}/{repo}/git/tags
+          owner: novaittestteam
+          repo: ntk.mob
+          body: ${{ toJSON(env.REQUEST_BODY) }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REQUEST_BODY: |
+            "'`{"tag":"build-apk","message":"Auto API Call","object":"8ca53e0a330bc36b53a9d5ad1e38f3cd520a4acd","type":"commit","tagger":{"name":"Auto API Call","email":"support@novait.com.ua"}}`'"
