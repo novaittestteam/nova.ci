@@ -1,0 +1,21 @@
+name: CI Call API NTK on Push TAG
+on:
+  workflow_call:
+
+jobs:
+  logLatestRelease:
+    name: Call API
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    # permissions:
+    #   contents: read
+    #   packages: write
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/{owner}/{repo}/releases/latest
+          owner: novaittesttem
+          repo: ntk.mob
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
