@@ -10,6 +10,7 @@ jobs:
     # permissions:
     #   contents: read
     #   packages: write
+    permissions: write-all
     steps:
       - uses: octokit/request-action@v2.x
         id: get_latest_release
@@ -39,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REQUEST_BODY: |
-            {"tag":"build-apk","message":"Auto API Call","object":"8ca53e0a330bc36b53a9d5ad1e38f3cd520a4acd","type":"commit","tagger":{"name":"pilganchuk","email":"aleksei.pilganchuk@novait.com.ua"}}
+            {"tag":"build-apk","message":"Auto API Call","object":"8ca53e0a330bc36b53a9d5ad1e38f3cd520a4acd","type":"commit","tagger":{"name":"AutoAPICall","email":"support@novait.com.ua"}}
       
       - run: "echo Push response: '${{ steps.push_tag.outputs.data }}'"
 
