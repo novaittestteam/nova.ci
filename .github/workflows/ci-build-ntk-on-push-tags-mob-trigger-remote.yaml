@@ -37,6 +37,8 @@ jobs:
           owner: novaittestteam
           repo: ntk.mob
           body: ${{ toJSON(env.REQUEST_BODY) }}
+          mediaType: |
+            format: raw
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REQUEST_BODY: |
