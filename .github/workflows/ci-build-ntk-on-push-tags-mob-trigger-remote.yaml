@@ -43,5 +43,5 @@ jobs:
       
       - run: "echo Push response: '${{ steps.push_tag.outputs.data }}'"
 
-      - run: "echo Push status: '${{ steps.push_tag.outputs.status }}'"
+      - run: "echo Push status: '${{ steps.push_tag.outputs }}'"
         if: ${{ failure() }}
