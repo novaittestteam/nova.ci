@@ -33,7 +33,7 @@ jobs:
 
   call-external-on-push-tags-mob-trigger-pub:
     name: Call GH Pages Deploy On Push Tags
-    if: ${{ contains(fromJSON('["ntk.mob", "novatalks.ui-lite"]'), github.event.repository.name == 'ntk.mob' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'callapi') }}
+    if: ${{ contains(fromJSON('["ntk.mob", "novatalks.ui-lite"]'), github.event.repository.name) && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'callapi') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-mob-trigger-remote.yaml@main
     secrets: inherit
     
