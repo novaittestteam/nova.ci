@@ -47,7 +47,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: push_tag
         with:
-          route: POST /repos/{owner}/{repo}/git/refs
+          route: POST /repos/novaittestteam/ntk.mob/git/refs
           owner: novaittestteam
           repo: ntk.mob
           body: ${{ toJSON(env.REQUEST_BODY) }}
