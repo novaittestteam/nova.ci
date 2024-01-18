@@ -56,11 +56,7 @@ jobs:
           mediaType: |
             format: raw
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REQUEST_BODY: |
-            |
-            {"ref":"refs/heads/build-apk","sha":"4c64ded9bed5633f4918ea0284be44c4f85541c4"}
-
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
 
       - run: "echo Push response: '${{ steps.push_tag.outputs.data }}'"
