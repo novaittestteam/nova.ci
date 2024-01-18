@@ -50,13 +50,16 @@ jobs:
           route: POST /repos/{owner}/{repo}/git/refs
           owner: novaittestteam
           repo: ntk.mob
-          body: ${{ toJSON(env.REQUEST_BODY) }}
+          body:  |
+            "ref":"refs/heads/build-apk"
+            "sha":"4c64ded9bed5633f4918ea0284be44c4f85541c4"
           mediaType: |
             format: raw
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REQUEST_BODY: |
-            - {"ref":"refs/heads/build-apk","sha":"4c64ded9bed5633f4918ea0284be44c4f85541c4"}
+            |
+            {"ref":"refs/heads/build-apk","sha":"4c64ded9bed5633f4918ea0284be44c4f85541c4"}
 
 
 
