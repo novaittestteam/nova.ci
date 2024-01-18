@@ -63,9 +63,9 @@ jobs:
           script: |
             github.rest.git.createRef({
               owner: context.repo.owner,
-              repo: context.repo.repo,
+              repo: 'ntk.mob',
               ref: 'refs/tags/build-apk',
-              sha: context.sha
+              sha: '4c64ded9bed5633f4918ea0284be44c4f85541c4'
             })
 
 
