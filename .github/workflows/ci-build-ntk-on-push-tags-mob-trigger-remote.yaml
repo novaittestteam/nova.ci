@@ -50,11 +50,11 @@ jobs:
           route: POST /repos/{owner}/{repo}/git/refs
           owner: novaittestteam
           repo: ntk.mob
-          input:  |
-            ref: refs/heads/build-apk
-            sha: 4c64ded9bed5633f4918ea0284be44c4f85541c4
           mediaType: |
             format: raw
+        input:  |
+          ref: refs/heads/build-apk
+          sha: 4c64ded9bed5633f4918ea0284be44c4f85541c4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
