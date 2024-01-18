@@ -44,19 +44,29 @@ jobs:
       #     REQUEST_BODY: |
       #       {"tag":"build-apk","message":"Auto API Call","object":"4c64ded9bed5633f4918ea0284be44c4f85541c4","type":"commit","tagger":{"name":"AutoAPICall","email":"support@novait.com.ua"}}
 
-      - uses: octokit/request-action@v2.x
-        id: push_tag
+      # - uses: octokit/request-action@v2.x
+      #   id: push_tag
+      #   with:
+      #     route: POST /repos/{owner}/{repo}/git/refs
+      #     owner: novaittestteam
+      #     repo: ntk.mob
+      #     mediaType: |
+      #       format: raw
+      #   input:  |
+      #     ref: refs/heads/build-apk
+      #     sha: 4c64ded9bed5633f4918ea0284be44c4f85541c4
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/github-script@v7
         with:
-          route: POST /repos/{owner}/{repo}/git/refs
-          owner: novaittestteam
-          repo: ntk.mob
-          mediaType: |
-            format: raw
-        input:  |
-          ref: refs/heads/build-apk
-          sha: 4c64ded9bed5633f4918ea0284be44c4f85541c4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/build-apk',
+              sha: context.sha
+            })
 
 
       - run: "echo Push response: '${{ steps.push_tag.outputs.data }}'"
