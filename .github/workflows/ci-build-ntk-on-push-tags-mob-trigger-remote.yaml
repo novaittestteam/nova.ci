@@ -30,10 +30,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # - uses: octokit/request-action@v2.x
+      #   id: push_tag
+      #   with:
+      #     route: POST /repos/{owner}/{repo}/git/tags
+      #     owner: novaittestteam
+      #     repo: ntk.mob
+      #     body: ${{ toJSON(env.REQUEST_BODY) }}
+      #     mediaType: |
+      #       format: raw
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     REQUEST_BODY: |
+      #       {"tag":"build-apk","message":"Auto API Call","object":"4c64ded9bed5633f4918ea0284be44c4f85541c4","type":"commit","tagger":{"name":"AutoAPICall","email":"support@novait.com.ua"}}
+
       - uses: octokit/request-action@v2.x
         id: push_tag
         with:
-          route: POST /repos/{owner}/{repo}/git/tags
+          route: POST /repos/{owner}/{repo}/git/refs
           owner: novaittestteam
           repo: ntk.mob
           body: ${{ toJSON(env.REQUEST_BODY) }}
@@ -42,8 +56,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REQUEST_BODY: |
-            {"tag":"build-apk","message":"Auto API Call","object":"4c64ded9bed5633f4918ea0284be44c4f85541c4","type":"commit","tagger":{"name":"AutoAPICall","email":"support@novait.com.ua"}}
-      
+            {"ref":"refs/heads/build-apk","sha":"4c64ded9bed5633f4918ea0284be44c4f85541c4"}
+            
+
+
+
       - run: "echo Push response: '${{ steps.push_tag.outputs.data }}'"
 
       - run: "echo Push status: '${{ steps.push_tag.outputs.status }}'"
