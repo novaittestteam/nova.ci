@@ -51,8 +51,8 @@ jobs:
           owner: novaittestteam
           repo: ntk.mob
           body:  |
-            "ref":"refs/heads/build-apk"
-            "sha":"4c64ded9bed5633f4918ea0284be44c4f85541c4"
+            ref: refs/heads/build-apk,
+            sha: 4c64ded9bed5633f4918ea0284be44c4f85541c4
           mediaType: |
             format: raw
         env:
