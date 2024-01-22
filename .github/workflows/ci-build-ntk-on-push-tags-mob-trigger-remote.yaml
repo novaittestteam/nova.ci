@@ -76,12 +76,17 @@ jobs:
           script: |
             const owner = 'novaittestteam'
             const repo = 'ntk.mob'
-
-            const commits =  github.rest.repos.listCommits({
-                owner,
-                repo,
-            });
-            console.log('You are here' + JSON.stringify(commits));
+            const pushContents = async () => {
+              try {
+                const commits =  await github.rest.repos.listCommits({
+                    owner,
+                    repo,
+                });
+                console.log('You are here ' + JSON.stringify(commits));
+              } catch (err) {
+              console.log('Error: ' + err)
+              }
+            }
 
 
       # - uses: actions/github-script@v6
