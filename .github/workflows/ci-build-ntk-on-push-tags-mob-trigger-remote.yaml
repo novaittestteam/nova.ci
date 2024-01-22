@@ -97,7 +97,7 @@ jobs:
               }
             };
             getLastCommit()
-              .then((data) => console.log('SHA' + data[0].sha));
+              .then((data) => console.log('SHA: ' + data));
             
 
 
