@@ -81,7 +81,7 @@ jobs:
                 owner,
                 repo,
             });
-
+            const latestCommitSHA = commits.data[0].sha;
             // make changes
             const files = [{
                 mode: '100644',
