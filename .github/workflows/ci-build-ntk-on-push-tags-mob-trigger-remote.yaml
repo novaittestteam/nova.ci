@@ -93,6 +93,16 @@ jobs:
                 content: '{"test": "test"}',
             }];
 
+            // git add .
+            const {
+                data: { sha: treeSHA },
+            } =  github.rest.git.createTree({
+                owner,
+                repo,
+                tree: files,
+                base_tree: latestCommitSHA,
+            });
+
 
 
       # - uses: actions/github-script@v6
