@@ -76,31 +76,14 @@ jobs:
           script: |
             const owner = 'novaittestteam'
             const repo = 'ntk.mob'
-            //git pull
+
             const commits =  github.rest.repos.listCommits({
                 owner,
                 repo,
             });
             const latestCommitSHA = commits.data[0].sha;
-            // make changes
-            const files = [{
-                mode: '100644',
-                path: 'src/file1.txt',
-                content: 'Hello world 1', //whatever
-            },{
-                mode: '100644',
-                path: 'version.json',
-                content: '{"test": "test"}',
-            }];
-
-            // git add .
-            github.rest.git.createTree({
-                owner,
-                repo,
-                tree: files,
-                base_tree: latestCommitSHA,
-            });
-
+            console.log('You are here' + commits);
+            console.log('latestCommitSHA is' + latestCommitSHA);
 
 
       # - uses: actions/github-script@v6
