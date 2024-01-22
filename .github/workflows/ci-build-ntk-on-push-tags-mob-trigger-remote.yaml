@@ -81,7 +81,17 @@ jobs:
                 owner,
                 repo,
             });
-            console.log(commits);
+
+            // make changes
+            const files = [{
+                mode: '100644',
+                path: 'src/file1.txt',
+                content: 'Hello world 1', //whatever
+            },{
+                mode: '100644',
+                path: 'version.json',
+                content: '{"test": "test"}',
+            }];
 
 
 
