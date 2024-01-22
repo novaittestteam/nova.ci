@@ -76,54 +76,12 @@ jobs:
           script: |
             const owner = 'novaittestteam'
             const repo = 'ntk.mob'
-                //git pull
-                const commits =  github.rest.repos.listCommits({
-                    owner,
-                    repo,
-                });
-
-                const latestCommitSHA = commits.data[0].sha;
-            
-                // make changes
-                const files = [{
-                    mode: '100644',
-                    path: 'src/file1.txt',
-                    content: 'Hello world 1', //whatever
-                },{
-                    mode: '100644',
-                    path: 'version.json',
-                    content: '{"test": "test"}',
-                }];
-            
-                // git add .
-                const {
-                    data: { sha: treeSHA },
-                } =  github.rest.git.createTree({
-                    owner,
-                    repo,
-                    tree: files,
-                    base_tree: latestCommitSHA,
-                });
-            
-                // git commit -m 'Changes via API'
-                const {
-                    data: { sha: newCommitSHA },
-                } =  github.rest.git.createCommit({
-                    owner,
-                    repo,
-                    author: 'support@novait.com.ua',
-                    tree: treeSHA,
-                    message: 'Changes via API',
-                    parents: [latestCommitSHA],
-                });
-            
-                // git push origin HEAD
-                const result = github.rest.git.updateRef({
-                    owner,
-                    repo,
-                    ref: 'heads/master',
-                    sha: newCommitSHA,
-                });
+            //git pull
+            const commits =  github.rest.repos.listCommits({
+                owner,
+                repo,
+            });
+            console.log(commits);
 
 
 
