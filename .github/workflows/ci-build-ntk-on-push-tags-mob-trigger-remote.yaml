@@ -69,9 +69,10 @@ jobs:
       #         sha: '4c64ded9bed5633f4918ea0284be44c4f85541c4'
       #       })
 
-      - uses: actions/github-script@v7 #THIS IS WORK
+      - uses: actions/github-script@v7 
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          debug: true
           script: |
             const owner = 'novaittestteam'
             const repo = 'ntk.mob'
