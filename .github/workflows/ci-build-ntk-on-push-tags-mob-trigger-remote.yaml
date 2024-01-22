@@ -111,7 +111,7 @@ jobs:
                 } =  github.rest.git.createCommit({
                     owner,
                     repo,
-                    author,
+                    author: 'support@novait.com.ua',
                     tree: treeSHA,
                     message: 'Changes via API',
                     parents: [latestCommitSHA],
@@ -122,7 +122,7 @@ jobs:
                 const result = github.rest.git.updateRef({
                     owner,
                     repo,
-                    ref,
+                    ref: 'heads/master',
                     sha: newCommitSHA,
                 });
 
