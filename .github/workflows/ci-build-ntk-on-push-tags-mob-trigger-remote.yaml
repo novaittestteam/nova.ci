@@ -76,20 +76,30 @@ jobs:
           script: |
             const owner = 'novaittestteam'
             const repo = 'ntk.mob'
-            async function pushContents() {
+            const files = [{
+              mode: '100644',
+              path: 'src/file1.txt',
+              content: 'Hello world 1', //whatever
+            },{
+                  mode: '100644',
+                  path: 'version.json',
+                  content: '{"test"":"1.1"}',
+            }];
+            
+            async function getLastCommit() {
               try {
-                const commits =  await github.rest.repos.listCommits({
+                await github.rest.repos.listCommits({
                     owner,
                     repo,
                 });
-                console.log('You are here ' + JSON.stringify(commits));
               } catch (err) {
               console.log('Error: ' + err)
               }
             };
-            pushContents()
-              .then(console.log)
-              .catch(alert);
+            console.log('Last Commit: 'getLastCommit().data[0].sha);
+            
+
+
 
 
 
