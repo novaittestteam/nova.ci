@@ -85,7 +85,7 @@ jobs:
                   path: 'version.json',
                   content: '{"test"":"1.1"}',
             }];
-            
+
             async function getLastCommit() {
               try {
                 await github.rest.repos.listCommits({
@@ -96,7 +96,7 @@ jobs:
               console.log('Error: ' + err)
               }
             };
-            console.log('Last Commit: 'getLastCommit().data[0].sha);
+            console.log('Last Commit: ' + getLastCommit().data[0].sha);
             
 
 
