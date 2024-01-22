@@ -94,9 +94,7 @@ jobs:
             }];
 
             // git add .
-            const {
-                data: { sha: treeSHA },
-            } =  github.rest.git.createTree({
+            github.rest.git.createTree({
                 owner,
                 repo,
                 tree: files,
