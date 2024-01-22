@@ -76,9 +76,8 @@ jobs:
           script: |
             const owner = 'novaittestteam'
             const repo = 'ntk.mob'
-            const  pushFiles  =  async () => {
                 //git pull
-                const commits =  await github.rest.repos.listCommits({
+                const commits =  github.rest.repos.listCommits({
                     owner,
                     repo,
                 });
@@ -99,7 +98,7 @@ jobs:
                 // git add .
                 const {
                     data: { sha: treeSHA },
-                } =  await github.rest.git.createTree({
+                } =  github.rest.git.createTree({
                     owner,
                     repo,
                     tree: files,
@@ -120,13 +119,13 @@ jobs:
             
                 console.log(data);
                 // git push origin HEAD
-                const result = await github.rest.git.updateRef({
+                const result = github.rest.git.updateRef({
                     owner,
                     repo,
                     ref,
                     sha: newCommitSHA,
                 });
-            };
+
 
 
       # - uses: actions/github-script@v6
