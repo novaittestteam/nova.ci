@@ -76,7 +76,7 @@ jobs:
           script: |
             const owner = 'novaittestteam'
             const repo = 'ntk.mob'
-            const pushContents = async () => {
+            async function pushContents() {
               try {
                 const commits =  await github.rest.repos.listCommits({
                     owner,
@@ -86,7 +86,11 @@ jobs:
               } catch (err) {
               console.log('Error: ' + err)
               }
-            }
+            };
+            pushContents()
+              .then(console.log)
+              .catch(alert);
+
 
 
       # - uses: actions/github-script@v6
