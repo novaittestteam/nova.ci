@@ -82,7 +82,7 @@ jobs:
                     owner,
                     repo,
                 });
-            
+                console.log(commits);
                 const latestCommitSHA = commits.data[0].sha;
             
                 // make changes
@@ -118,6 +118,7 @@ jobs:
                     parents: [latestCommitSHA],
                 });
             
+                console.log(data);
                 // git push origin HEAD
                 const result = await github.rest.git.updateRef({
                     owner,
