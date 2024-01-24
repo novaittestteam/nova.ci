@@ -268,7 +268,7 @@ jobs:
                         sha: newCommitSHA,
                     });
 
-                    let release = await github.rest.rest.repos.createRelease({
+                    let release = await github.rest.repos.createRelease({
                         owner,
                         repo,
                         tag_name: 'NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}',
@@ -276,7 +276,7 @@ jobs:
                     releaseID = release.data.id
                     //console.log(release.data)
                     releaseFilePath = '/home/runner/work/android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip'
-                    let uploadAPK = await github.rest.rest.repos.uploadReleaseAsset({
+                    let uploadAPK = await github.rest.repos.uploadReleaseAsset({
                         owner,
                         repo,
                         release_id: releaseID,
