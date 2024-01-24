@@ -174,12 +174,12 @@ jobs:
       #     asset_content_type: appliction/zip
 
 
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          repository: 'novaittestteam/ntk.mob'
-          github-server-url: https://github.com/novaittestteam/ntk.mob
-          path: ./ntk.mob
+      # - name: Checkout
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: 'novaittestteam/ntk.mob'
+      #     github-server-url: https://github.com/novaittestteam/ntk.mob
+      #     path: ./ntk.mob
 
       # - name: Debug
       #   run: echo ${{ env.BUILD }}
@@ -285,10 +285,10 @@ jobs:
 
                     return result;
                 } catch (e) {
-                // console.log(e)
-                // console.log('Error Request: ' + JSON.stringify(e.response))
-                // console.log('Error Status: ' + e.status)
-                // console.log('Error Response: ' + JSON.stringify(e.response))
+                console.log(e)
+                console.log('Error Request: ' + JSON.stringify(e.response))
+                console.log('Error Status: ' + e.status)
+                console.log('Error Response: ' + JSON.stringify(e.response))
 
                 }
               };
