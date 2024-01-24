@@ -213,6 +213,7 @@ jobs:
           github-token: ${{ secrets.PAT }}
           debug: true
           script: |
+            const fs = require('fs');
             const ref =  'heads/main';
             const owner = 'novaittestteam'
             const repo = 'ntk.mob'
