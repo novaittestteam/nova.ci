@@ -10,6 +10,7 @@ jobs:
     # permissions:
     #   contents: read
     #   packages: write
+    # permissions: write-all
     outputs:
       REP_NAME: ${{ steps.prep.outputs.REP_NAME }}
       SHORT_SHA: ${{ steps.prep.outputs.SHORT_SHA }} 
@@ -209,7 +210,7 @@ jobs:
         
       - uses: actions/github-script@v7 
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PAT }}
           debug: true
           script: |
             const ref =  'heads/main';
@@ -286,7 +287,7 @@ jobs:
                     return result;
                 } catch (e) {
                 console.log(e)
-                console.log('Error Request: ' + JSON.stringify(e.response))
+                console.log('Error Request: ' + JSON.stringify(e.request))
                 console.log('Error Status: ' + e.status)
                 console.log('Error Response: ' + JSON.stringify(e.response))
 
