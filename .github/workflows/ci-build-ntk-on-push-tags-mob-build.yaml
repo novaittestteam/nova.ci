@@ -215,7 +215,7 @@ jobs:
           script: |
             const fs = require('fs');
             const ref =  'heads/main';
-            const owner = 'novaittestteam'
+            //const owner = 'novaittestteam'
             const repo = 'ntk.mob'
             const author = {
                 name: 'Autodeploy Call',
@@ -226,12 +226,12 @@ jobs:
                 try {
                     
                     let commits = await github.rest.repos.listCommits({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                     });
                     latestCommitSHA = commits.data[0].sha
                     let versionJson = await github.rest.repos.getContent({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                         path: 'version.json',
                         ref: latestCommitSHA
@@ -239,9 +239,8 @@ jobs:
 
                     file = JSON.parse(Buffer.from(versionJson.data.content, versionJson.data.encoding).toString());
                     nextVersion = parseInt(file.version.split(".", 2)[0]) + '.' + (parseInt(file.version.split(".", 2)[1]) + 1)
-                    nextLink = 'https://github.com/novaittestteam/ntk.mob/releases/download/NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}/android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip'
+                    nextLink = 'https://github.com/' + context.repo.owner + '/' + repo + '/releases/download/NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}/android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip'
                     nextContent = { version: nextVersion, link: nextLink }
-                    console.log(nextVersion);
                     const files = [{
                         mode: '100644',
                         path: 'version.json',
@@ -249,13 +248,13 @@ jobs:
                     }];
 
                     let { data: { sha: treeSHA }, } = await github.rest.git.createTree ({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                         tree: files,
                         base_tree: latestCommitSHA,
                     });
                     let { data: { sha: newCommitSHA  }, } = await github.rest.git.createCommit({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                         author,
                         tree: treeSHA,
@@ -263,29 +262,28 @@ jobs:
                         parents: [latestCommitSHA],
                     }); 
                     let result = await github.rest.git.updateRef({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                         ref,
                         sha: newCommitSHA,
                     });
 
                     let release = await github.rest.repos.createRelease({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                         tag_name: 'NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}',
                     });
+
                     releaseID = release.data.id
-                    //console.log(release.data)
                     releaseFilePath = '/home/runner/work/android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip'
                     let uploadAPK = await github.rest.repos.uploadReleaseAsset({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                         release_id: releaseID,
                         name: 'android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip',
                         data: fs.readFileSync(releaseFilePath),
                       });
 
-                    return result;
                 } catch (e) {
                 console.log(e)
                 console.log('Error Request: ' + JSON.stringify(e.request))
