@@ -12,14 +12,14 @@ jobs:
     #   packages: write
     permissions: write-all
     steps:
-      - uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-          route: GET /repos/{owner}/{repo}/releases/latest
-          owner: novaittestteam
-          repo: ntk.mob
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: octokit/request-action@v2.x
+      #   id: get_latest_release
+      #   with:
+      #     route: GET /repos/{owner}/{repo}/releases/latest
+      #     owner: novaittestteam
+      #     repo: ntk.mob
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete Tag
         uses: dev-drprasad/delete-tag-and-release@v0.2.1
@@ -101,7 +101,7 @@ jobs:
 
       - uses: actions/github-script@v7 
         with:
-          github-token: 'ghs_affmBfbNLiSlsu7UVVNichBf7Evjpr4LBU6R'
+          github-token: 'ghs_nEnA1qUmUyFp7VCmamXKPGobzGBeZP3ABJ6L'
           debug: 'true'
           script: |
             const fs = require('fs');
