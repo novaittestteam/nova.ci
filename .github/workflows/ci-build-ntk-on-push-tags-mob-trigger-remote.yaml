@@ -82,23 +82,19 @@ jobs:
           script: |
             const pkey = '${{ secrets.PKEY }}'
             const { createAppAuth } = require("@octokit/auth-app");
-            const octokit = new Octokit({
-               authStrategy: createAppAuth,
-               auth: {
-                 appId: 809726,
-                 privateKey: pkey,
-                 installationId: 46669197,
-               },
+            const auth = createAppAuth({
+              appId: 809726,
+              privateKey: pkey,
             });
             async function generateGithubAuth() {
-
-              const { token } = await github.rest.auth({
-                type: "installation",
-                installationId: 46669197,
-                });
-                console.log(token);
-              }
-            generateGithubAuth();
+              const installationAuthentication  = await auth ({
+                  type: "installation",
+                  installationId: 46669197,
+          
+              });
+              console.log(installationAuthentication.token)
+            }
+            generateGithubAuth()
 
             
 
