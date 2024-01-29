@@ -101,7 +101,7 @@ jobs:
 
       - uses: actions/github-script@v7 
         with:
-          github-token: 'ghs_77GS3CFU02smlet2j5pkeZgnfXhAni2g7HxS'
+          github-token: 'ghs_TpXqTxlbK9D5OACAXotPlUOjLOwcFD1mu1QR'
           debug: 'true'
           script: |
             const fs = require('fs');
