@@ -94,7 +94,7 @@ jobs:
               clientSecret: "1a23476154210be10185646e32b246d6a26d4425",
             });
             const installationAuthentication = await auth({ type: "app" });
-            console.log(JSON.stringify(appAuthentication));
+            console.log(JSON.stringify(installationAuthentication));
             //const installationAuthentication  = await auth ({
             //    type: "installation",
             //    installationId: 46669197,
