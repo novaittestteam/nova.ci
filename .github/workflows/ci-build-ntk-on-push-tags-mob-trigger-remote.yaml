@@ -73,7 +73,7 @@ jobs:
         with:
           debug: true
           script: |
-            const pkey = ${{ secrets.PKEY }}
+            const pkey = '${{ secrets.PKEY }}'
             const { createAppAuth } = require("@octokit/auth-app");
             const octokit = new Octokit({
               authStrategy: createAppAuth,
