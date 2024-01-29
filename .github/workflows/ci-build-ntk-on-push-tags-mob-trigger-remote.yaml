@@ -71,33 +71,27 @@ jobs:
 
       - uses: actions/github-script@v7 
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           debug: true
           script: |
-            const owner = 'novaittestteam'
-            const repo = 'ntk.mob'
-            const files = [{
-              mode: '100644',
-              path: 'src/file1.txt',
-              content: 'Hello world 1', //whatever
-            },{
-                  mode: '100644',
-                  path: 'version.json',
-                  content: '{"test"":"1.1"}',
-            }];
+            const pkey = ${{ secrets.PKEY }}
+            const octokit = new Octokit({
+              authStrategy: createAppAuth,
+              auth: {
+                appId: 809726,
+                privateKey: pkey,
+                installationId: 46669197,
+              },
+            });
+            async function generateGithubAuth() {
 
-            async function getLastCommit() {
-              try {
-                const commits = await github.rest.repos.listCommits({
-                    owner,
-                    repo,
-                });
-              } catch (err) {
-              console.log('Error: ' + err)
-              }
-            };
-            getLastCommit()
-              .then((data) => console.log('SHA: ' + data));
+            const { token } = await octokit.auth({
+              type: "installation",
+              installationId: 46669197,
+              });
+              console.log(token);
+            }
+            generateGithubAuth();
+
             
 
 
