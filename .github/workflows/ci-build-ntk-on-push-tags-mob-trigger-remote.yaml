@@ -31,7 +31,7 @@ jobs:
           then
               sed -i s/$ver/\\'1.12345.1\\'/g ./variables.gradle
           else
-              sed -i 2i \    \ novatalksVersion = 'GIT_NTK.UI-LITE_2024_R1_main_796e4dc2' ./variables.gradle
+              sed -i "2i \    \ novatalksVersion = 'GIT_NTK.UI-LITE_2024_R1_main_796e4dc2'" ./variables.gradle
           fi;
           cat ./variables.gradle
 
