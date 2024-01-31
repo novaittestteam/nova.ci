@@ -23,17 +23,17 @@ jobs:
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Add Version
-        run: |
-          ver=""; 
-          while read -r line; do param=( $line ); if [[ "${param[0]}" == "novatalksVersion" ]]; then ver=${param[2]}; fi; done < ./variables.gradle
-          if [ -z "$ver" ];
-          then
-              sed -i s/$ver/\\'1.12345.1\\'/g ./variables.gradle
-          else
-              sed -i "2i \    \ novatalksVersion = 'GIT_NTK.UI-LITE_2024_R1_main_796e4dc2'" ./variables.gradle
-          fi;
-          cat ./variables.gradle
+      # - name: Add Version
+      #   run: |
+      #     ver=""; 
+      #     while read -r line; do param=( $line ); if [[ "${param[0]}" == "novatalksVersion" ]]; then ver=${param[2]}; fi; done < ./variables.gradle
+      #     if [ -z "$ver" ];
+      #     then
+      #         sed -i s/$ver/\\'1.12345.1\\'/g ./variables.gradle
+      #     else
+      #         sed -i "2i \    \ novatalksVersion = 'GIT_NTK.UI-LITE_2024_R1_main_796e4dc2'" ./variables.gradle
+      #     fi;
+      #     cat ./variables.gradle
 
       - name: Delete Tag
         uses: dev-drprasad/delete-tag-and-release@v0.2.1
