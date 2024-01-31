@@ -178,7 +178,7 @@ jobs:
                         sha: newCommitSHA,
                     });
                     let release = await github.rest.repos.createRelease({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                         prerelease: true,
                         name: 'NTK.UI-LITE_2024_R1_main_' + latestCommitSHA.slice(0,8),
@@ -188,7 +188,7 @@ jobs:
                     //console.log(release.data)
                     releaseFilePath = 'C:\\Users\\aleksei.pilganchuk\\Downloads\\android-release-NC2-856-877cd443.zip'
                     let uploadAPK = await github.rest.repos.uploadReleaseAsset({
-                        owner,
+                        owner: context.repo.owner,
                         repo,
                         release_id: releaseID,
                         name: 'novatalks-ui-lite.zip',
