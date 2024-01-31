@@ -12,6 +12,8 @@ jobs:
     #   packages: write
     permissions: write-all
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       # - uses: octokit/request-action@v2.x
       #   id: get_latest_release
       #   with:
@@ -20,6 +22,18 @@ jobs:
       #     repo: ntk.mob
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add Version
+        run: |
+          ver=""; 
+          while read -r line; do param=( $line ); if [[ "${param[0]}" == "androidxWebkitVersion" ]]; then ver=${param[2]}; fi; done < ./variables.gradle
+          if [ -z "$ver" ];
+          then
+              sed -i s/$ver/\\'1.12345.1\\'/g ./variables.gradle
+          else
+              sed -i '2i \    \ androidxWebkitVersion = "1"' ./variables.gradle
+          fi;
+          cat ./variables.gradle
 
       - name: Delete Tag
         uses: dev-drprasad/delete-tag-and-release@v0.2.1
@@ -69,111 +83,111 @@ jobs:
       #         sha: '4c64ded9bed5633f4918ea0284be44c4f85541c4'
       #       })
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20.x'
 
-      - run: npm install @octokit/auth-app
-
-
-      - uses: actions/github-script@v7 
-        id: get-token
-        with:
-          debug: true
-          script: |
-            const pkey = '${{ secrets.PKEY }}'
-            const { createAppAuth } = require("@octokit/auth-app");
-            //const auth = createAppAuth({
-            //  appId: 809726,
-            //  privateKey: pkey,
-            //});
-            const auth = createAppAuth({
-              appId: 809726,
-              privateKey: pkey,
-              clientId: "Iv1.4efab148b1aabf4a",
-              clientSecret: "1a23476154210be10185646e32b246d6a26d4425",
-            });
-            const installationAuthentication = await auth({ type: "app" });
-            console.log(JSON.stringify(installationAuthentication));
-            //const installationAuthentication  = await auth ({
-            //    type: "installation",
-            //    installationId: 46669197,
-            //});
-            return installationAuthentication.token
-
-      - name: Get result
-        run: echo "${{steps.get-token.outputs.result}}"
+      # - run: npm install @octokit/auth-app
 
 
-      - uses: actions/github-script@v7 
-        with:
-          github-token: 'token: ${{steps.get-token.outputs.result}}'
-          debug: 'true'
-          script: |
-            const fs = require('fs');
-            const ref =  'heads/main';
-            const repo = 'ntk.mob'
-            const author = {
-                name: 'Autodeploy Call',
-                email: 'support@novait.com.ua',
-            };
-            //https://codelounge.dev/getting-started-with-the-githubs-rest-api
-            async function generateGithubPubProc() {
-                try {
+      # - uses: actions/github-script@v7 
+      #   id: get-token
+      #   with:
+      #     debug: true
+      #     script: |
+      #       const pkey = '${{ secrets.PKEY }}'
+      #       const { createAppAuth } = require("@octokit/auth-app");
+      #       //const auth = createAppAuth({
+      #       //  appId: 809726,
+      #       //  privateKey: pkey,
+      #       //});
+      #       const auth = createAppAuth({
+      #         appId: 809726,
+      #         privateKey: pkey,
+      #         clientId: "Iv1.4efab148b1aabf4a",
+      #         clientSecret: "1a23476154210be10185646e32b246d6a26d4425",
+      #       });
+      #       const installationAuthentication = await auth({ type: "app" });
+      #       console.log(JSON.stringify(installationAuthentication));
+      #       //const installationAuthentication  = await auth ({
+      #       //    type: "installation",
+      #       //    installationId: 46669197,
+      #       //});
+      #       return installationAuthentication.token
+
+      # - name: Get result
+      #   run: echo "${{steps.get-token.outputs.result}}"
+
+
+      # - uses: actions/github-script@v7 
+      #   with:
+      #     github-token: 'token: ${{steps.get-token.outputs.result}}'
+      #     debug: 'true'
+      #     script: |
+      #       const fs = require('fs');
+      #       const ref =  'heads/main';
+      #       const repo = 'ntk.mob'
+      #       const author = {
+      #           name: 'Autodeploy Call',
+      #           email: 'support@novait.com.ua',
+      #       };
+      #       //https://codelounge.dev/getting-started-with-the-githubs-rest-api
+      #       async function generateGithubPubProc() {
+      #           try {
                     
-                    let commits = await github.rest.repos.listCommits({
-                        owner: context.repo.owner,
-                        repo,
-                    });
-                    latestCommitSHA = commits.data[0].sha
-                    let versionJson = await github.rest.repos.getContent({
-                        owner: context.repo.owner,
-                        repo,
-                        path: 'version.json',
-                        ref: latestCommitSHA
-                    });
+      #               let commits = await github.rest.repos.listCommits({
+      #                   owner: context.repo.owner,
+      #                   repo,
+      #               });
+      #               latestCommitSHA = commits.data[0].sha
+      #               let versionJson = await github.rest.repos.getContent({
+      #                   owner: context.repo.owner,
+      #                   repo,
+      #                   path: 'version.json',
+      #                   ref: latestCommitSHA
+      #               });
 
-                    file = JSON.parse(Buffer.from(versionJson.data.content, versionJson.data.encoding).toString());
-                    nextVersion = parseInt(file.version.split(".", 2)[0]) + '.' + (parseInt(file.version.split(".", 2)[1]) + 1)
-                    nextLink = 'https://github.com/' + context.repo.owner + '/' + repo + '/releases/download/NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}/android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip'
-                    nextContent = { version: nextVersion, link: nextLink }
-                    const files = [{
-                        mode: '100644',
-                        path: 'version.json',
-                        content: JSON.stringify(nextContent),
-                    }];
+      #               file = JSON.parse(Buffer.from(versionJson.data.content, versionJson.data.encoding).toString());
+      #               nextVersion = parseInt(file.version.split(".", 2)[0]) + '.' + (parseInt(file.version.split(".", 2)[1]) + 1)
+      #               nextLink = 'https://github.com/' + context.repo.owner + '/' + repo + '/releases/download/NTK.UI-LITE_${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}/android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip'
+      #               nextContent = { version: nextVersion, link: nextLink }
+      #               const files = [{
+      #                   mode: '100644',
+      #                   path: 'version.json',
+      #                   content: JSON.stringify(nextContent),
+      #               }];
 
-                    let { data: { sha: treeSHA }, } = await github.rest.git.createTree ({
-                        owner: context.repo.owner,
-                        repo,
-                        tree: files,
-                        base_tree: latestCommitSHA,
-                    });
-                    let { data: { sha: newCommitSHA  }, } = await github.rest.git.createCommit({
-                        owner: context.repo.owner,
-                        repo,
-                        author,
-                        tree: treeSHA,
-                        message: 'Autocreated by CI',
-                        parents: [latestCommitSHA],
-                    }); 
-                    let result = await github.rest.git.updateRef({
-                        owner: context.repo.owner,
-                        repo,
-                        ref,
-                        sha: newCommitSHA,
-                    });
+      #               let { data: { sha: treeSHA }, } = await github.rest.git.createTree ({
+      #                   owner: context.repo.owner,
+      #                   repo,
+      #                   tree: files,
+      #                   base_tree: latestCommitSHA,
+      #               });
+      #               let { data: { sha: newCommitSHA  }, } = await github.rest.git.createCommit({
+      #                   owner: context.repo.owner,
+      #                   repo,
+      #                   author,
+      #                   tree: treeSHA,
+      #                   message: 'Autocreated by CI',
+      #                   parents: [latestCommitSHA],
+      #               }); 
+      #               let result = await github.rest.git.updateRef({
+      #                   owner: context.repo.owner,
+      #                   repo,
+      #                   ref,
+      #                   sha: newCommitSHA,
+      #               });
 
-                } catch (e) {
-                console.log(e)
-                console.log('Error Request: ' + JSON.stringify(e.request))
-                console.log('Error Status: ' + e.status)
-                console.log('Error Response: ' + JSON.stringify(e.response))
+      #           } catch (e) {
+      #           console.log(e)
+      #           console.log('Error Request: ' + JSON.stringify(e.request))
+      #           console.log('Error Status: ' + e.status)
+      #           console.log('Error Response: ' + JSON.stringify(e.response))
 
-                }
-              };
+      #           }
+      #         };
 
-              generateGithubPubProc();
+      #         generateGithubPubProc();
 
 
             
