@@ -78,7 +78,11 @@ jobs:
 
       - name: Generating Release Key From Secrets
         run: |
-          openssl pkcs12 -export -out release-key.p12 -inkey ${{ secrets.ANDROID_KEY }} -in ${{ secrets.ANDROID_CERT }} -password pass:${{ secrets.ANDROID_PASS }} -name ntk-ui-lite-release-key
+          echo ${{ secrets.ANDROID_KEY }} > key.pem
+          echo ${{ secrets.ANDROID_CERT }} > cert.pem
+          cat key.pem
+          cat cert.pem
+          openssl pkcs12 -export -out release-key.p12 -inkey key.pem -in cert.pem -password pass:${{ secrets.ANDROID_PASS }} -name ntk-ui-lite-release-key
           keytool -v -importkeystore -srckeystore ./release.p12 -srcstoretype PKCS12  -destkeystore ./release-key.keystore -deststoretype JKS -storepass ${{ secrets.ANDROID_PASS }} -keypass ${{ secrets.ANDROID_PASS }} -srcstorepass ${{ secrets.ANDROID_PASS }} --srcalias ntk-ui-lite-release-key -destalias ntk-ui-lite-release-key
 
       - name: Displaying debug.keystore file
