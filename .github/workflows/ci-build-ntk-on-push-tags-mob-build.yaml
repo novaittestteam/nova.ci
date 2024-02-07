@@ -81,8 +81,8 @@ jobs:
           ANDROID_KEY: ${{ secrets.ANDROID_KEY }}
           ANDROID_CERT: ${{ secrets.ANDROID_CERT }}
         run: |
-          echo $ANDROID_KEY > key.pem
-          echo $ANDROID_CERT > cert.pem
+          echo $ANDROID_KEY | base64 -d > key.pem
+          echo $ANDROID_CERT | base64 -d > cert.pem
           cat key.pem
           cat cert.pem
           openssl pkcs12 -export -out release-key.p12 -inkey key.pem -in cert.pem -password pass:${{ secrets.ANDROID_PASS }} -name ntk-ui-lite-release-key
