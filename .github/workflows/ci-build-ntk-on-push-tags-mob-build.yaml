@@ -83,6 +83,8 @@ jobs:
         run: |
           echo $ANDROID_KEY > key.pem
           echo $ANDROID_CERT > cert.pem
+          echo ${{ secrets.ANDROID_KEY }} | base64 -d > key_sec.pem
+          echo ${{ secrets.ANDROID_CERT }} | base64 -d > key_cert.pem
           sleep 10000
           cat key.pem
           cat cert.pem
