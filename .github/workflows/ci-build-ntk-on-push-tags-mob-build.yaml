@@ -71,10 +71,15 @@ jobs:
         uses: android-actions/setup-android@v3
 
 
-      - name: Generating Release Key
+      # - name: Generating Release Key
+      #   run: |
+      #     keytool -genkey -dname "cn=NovaitDevTeam, ou=IT, o=NovaIT, l=Kyiv, st=Kyiv, c=UA" -v -keystore ./release-key.keystore -alias ntk-ui-lite-release-key -keyalg RSA -keysize 2048 -validity 20000 -storepass android -keypass android
+      #     ls -la ./
+
+      - name: Generating Release Key From Secrets
         run: |
-          keytool -genkey -dname "cn=NovaitDevTeam, ou=IT, o=NovaIT, l=Kyiv, st=Kyiv, c=UA" -v -keystore ./release-key.keystore -alias ntk-ui-lite-release-key -keyalg RSA -keysize 2048 -validity 20000 -storepass android -keypass android
-          ls -la ./
+          openssl pkcs12 -export -out release-key.p12 -inkey ${{ secrets.ANDROID_KEY }} -in ${{ secrets.ANDROID_CERT }} -password pass:${{ secrets.ANDROID_PASS }} -name ntk-ui-lite-release-key
+          keytool -v -importkeystore -srckeystore ./release.p12 -srcstoretype PKCS12  -destkeystore ./release-key.keystore -deststoretype JKS -storepass ${{ secrets.ANDROID_PASS }} -keypass ${{ secrets.ANDROID_PASS }} -srcstorepass ${{ secrets.ANDROID_PASS }} --srcalias ntk-ui-lite-release-key -destalias ntk-ui-lite-release-key
 
       - name: Displaying debug.keystore file
         run: |
