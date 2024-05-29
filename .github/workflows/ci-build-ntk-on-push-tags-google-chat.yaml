@@ -1,0 +1,43 @@
+name: CI Call API NTK on Push TAG
+on:
+  workflow_call:
+
+jobs:
+  logLatestRelease:
+    name: Call API
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    # permissions:
+    #   contents: read
+    #   packages: write
+    permissions: write-all
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Delete Tag
+        uses: dev-drprasad/delete-tag-and-release@v0.2.1
+        with:
+          #delete_release: false # default: false
+          tag_name: ${{ github.ref_name }} # tag name to delete
+          #repo: ${{ github.repository_owner }}/${{ env.REP_NAME }} # target repo (optional). defaults to repo running this action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send Message To GChat
+        uses: actions/github-script@v7 
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          debug: 'true'
+          script: |
+            async function webhook() {
+              const url = ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+              const res = await fetch(url, {
+                method: "POST",
+                headers: {"Content-Type": "application/json; charset=UTF-8"},
+                body: JSON.stringify({text: "Hello from a Node script!"})
+              });
+              return await res.json();
+            }
+            
+            webhook().then(res => console.log(res));
