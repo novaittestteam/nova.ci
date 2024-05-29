@@ -1,10 +1,10 @@
-name: CI Call API NTK on Push TAG
+name: CI Call GOOGLE Chat API NTK on Push TAG
 on:
   workflow_call:
 
 jobs:
   logLatestRelease:
-    name: Call API
+    name: Call Google Chat API
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     # permissions:
