@@ -243,4 +243,5 @@ jobs:
               return await res.json();
             }
             
-            webhook().then(res => console.log(res));
+            //webhook().then(res => console.log(res));
+            webhook();
