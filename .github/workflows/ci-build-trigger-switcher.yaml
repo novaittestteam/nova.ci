@@ -55,3 +55,9 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref_type == 'branch' && contains(github.ref_name, 'build-me-please') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-branches.yaml@main
     secrets: inherit
+
+  call-external-on-push-branches-google-chat-notify:
+    name: Call Notifier To Google Chat
+    if: ${{ github.event_name == 'push' && github.ref_type == 'branch' && contains(github.ref_name, 'notify') }}
+    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-google-chat.yaml@main
+    secrets: inherit
