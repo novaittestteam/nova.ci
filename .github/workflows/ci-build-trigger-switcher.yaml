@@ -61,3 +61,9 @@ jobs:
     if: ${{ github.event.repository.name == 'novatalks.engine' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'notify') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-google-chat.yaml@main
     secrets: inherit
+
+  call-external-on-push-branches-e2e-tests:
+    name: Call Notifier To Google Chat
+    if: ${{ github.event.repository.name == 'novatalks.tests' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'playtest') }}
+    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-e2e-tests.yaml@main
+    secrets: inherit
