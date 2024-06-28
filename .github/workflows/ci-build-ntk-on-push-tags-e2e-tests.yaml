@@ -8,7 +8,7 @@ defaults:
 
 jobs:
    build-tests:
-    name: Build Image
+    name: Run Playwright Tests
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     outputs:
@@ -48,7 +48,7 @@ jobs:
         with:
           node-version: 18
 
-      - run: rm package-lock.json
+      - run: ls -la ./ && rm ./package-lock.json
 
       - name: ▶️ Install Node.js dependencies
         run: npm ci
