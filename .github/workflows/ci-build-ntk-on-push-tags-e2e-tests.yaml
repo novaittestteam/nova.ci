@@ -48,7 +48,7 @@ jobs:
         with:
           node-version: 18
 
-      - run: ls -la ./ && rm ./package-lock.json
+      - run: ls -la ./novatalks.tests && rm ./novatalks.tests/package-lock.json
 
       - name: ▶️ Install Node.js dependencies
         run: npm ci
