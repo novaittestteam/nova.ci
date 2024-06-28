@@ -48,6 +48,8 @@ jobs:
         with:
           node-version: 18
 
+      - run: rm package-lock.json
+
       - name: ▶️ Install Node.js dependencies
         run: npm ci
 
