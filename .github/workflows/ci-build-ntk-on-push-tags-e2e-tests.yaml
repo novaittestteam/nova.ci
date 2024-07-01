@@ -46,7 +46,7 @@ jobs:
         uses: actions/setup-node@v4
         id: node_inst
         with:
-          node-version: 18
+          node-version: 20
 
       # - run: ls -la ./novatalks.tests/novatalks.tests/ && rm ./novatalks.tests/novatalks.tests/package-lock.json
 
