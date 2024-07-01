@@ -31,6 +31,7 @@ jobs:
           else
             echo "SHORT_REF_NAME=`echo ${{ github.event.base_ref }} | cut -d "/" -f3`" | tee -a $GITHUB_ENV $GITHUB_OUTPUT
           fi
+          cd ./novatalks.tests/novatalks.tests/
 
 
       - name: Delete Tag
@@ -51,13 +52,15 @@ jobs:
       # - run: ls -la ./novatalks.tests/novatalks.tests/ && rm ./novatalks.tests/novatalks.tests/package-lock.json
 
       - name: ▶️ Install Node.js dependencies
-        run: cd ./novatalks.tests/novatalks.tests/ && npm ci
+        # run: cd ./novatalks.tests/novatalks.tests/ && npm ci
+        run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Run Once
-        run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
+        # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
+        run: npx playwright test QANT-16-TimerStatus.spec.ts
         env:
           ENV_URL: ${{ secrets.LAB_ENV_URL }}
           BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
