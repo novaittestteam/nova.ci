@@ -55,6 +55,9 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: ./
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ./browsers
+
 
       - name: Run Once
         # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
@@ -67,6 +70,7 @@ jobs:
           UI_ADMIN_LOGIN: ${{ secrets.LAB_UI_ADMIN_LOGIN }}
           UI_ADMIN_PASSWORD: ${{ secrets.LAB_UI_ADMIN_PASSWORD }}
           API_TOKEN: ${{ secrets.LAB_API_TOKEN }}
+          PLAYWRIGHT_BROWSERS_PATH: ./browsers
 
 
 
