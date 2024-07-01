@@ -54,12 +54,12 @@ jobs:
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-        working-directory: ./${{ env.REP_NAME }}/${{ env.REP_NAME }}
+        working-directory: ./
 
       - name: Run Once
         # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
-        run: npx playwright test QANT-16-TimerStatus.spec.ts
-        working-directory: ./${{ env.REP_NAME }}/${{ env.REP_NAME }}
+        run: ls -la && npx playwright test QANT-16-TimerStatus.spec.ts
+        working-directory: ./
         env:
           ENV_URL: ${{ secrets.LAB_ENV_URL }}
           BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
