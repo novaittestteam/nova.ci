@@ -48,12 +48,8 @@ jobs:
         with:
           node-version: 20
 
-      - run: ls -la ./${{ env.REP_NAME }}/${{ env.REP_NAME }}
-
       - name: ▶️ Install Node.js dependencies
-        # run: cd ./novatalks.tests/novatalks.tests/ && npm ci
         run: npm ci
-        working-directory: ./${{ env.REP_NAME }}/${{ env.REP_NAME }}
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
