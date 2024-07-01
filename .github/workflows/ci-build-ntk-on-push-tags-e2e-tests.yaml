@@ -57,7 +57,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Once
-        run: npx playwright test QANT-16-TimerStatus.spec.ts
+        run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
         env:
           ENV_URL: ${{ secrets.LAB_ENV_URL }}
           BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
