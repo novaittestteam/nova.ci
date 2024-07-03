@@ -62,7 +62,7 @@ jobs:
       - name: Run Once
         # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
         # run: npx playwright test QANT-16-TimerStatus.spec.ts
-        run: npx playwright test--grep @bug
+        run: npx playwright test --grep @bug
         working-directory: ./
         env:
           ENV_URL: ${{ secrets.LAB_ENV_URL }}
