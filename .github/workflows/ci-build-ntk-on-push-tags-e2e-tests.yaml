@@ -62,7 +62,7 @@ jobs:
       - name: Run Once
         # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
         # run: npx playwright test QANT-16-TimerStatus.spec.ts
-        run: env; npx playwright test #--grep @bug
+        run: npx playwright test #--grep @bug
         working-directory: ./
         env:
           ENV_URL: ${{ secrets.LAB_ENV_URL }}
@@ -73,6 +73,8 @@ jobs:
           API_TOKEN: ${{ secrets.LAB_API_TOKEN }}
           PLAYWRIGHT_BROWSERS_PATH: ./browsers
 
+      - name: check
+        run: sleep 10000
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
