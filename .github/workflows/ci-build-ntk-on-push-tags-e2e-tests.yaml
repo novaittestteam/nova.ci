@@ -78,8 +78,8 @@ jobs:
         run: env; npx playwright test #--grep @bug
         working-directory: ./
         env:
-          # ENV_URL: ${{ secrets.LAB_ENV_URL }}
-          ENV_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
+          ENV_URL: ${{ secrets.LAB_ENV_URL }}
+          # ENV_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
           # BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
           # BOTFLOW_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
           BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
