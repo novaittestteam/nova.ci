@@ -58,27 +58,30 @@ jobs:
         env:
           PLAYWRIGHT_BROWSERS_PATH: ./browsers
 
-      - name: Manual Run
-        run: sleep 100000 
-        working-directory: ./
-        env:
-          ENV_URL: ${{ secrets.LAB_ENV_URL }}
-          BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
-          BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
-          BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}
-          UI_ADMIN_LOGIN: ${{ secrets.LAB_UI_ADMIN_LOGIN }}
-          UI_ADMIN_PASSWORD: ${{ secrets.LAB_UI_ADMIN_PASSWORD }}
-          API_TOKEN: ${{ secrets.LAB_API_TOKEN }}
-          PLAYWRIGHT_BROWSERS_PATH: ./browsers
+      # - name: Manual Run
+      #   run: sleep 100000 
+      #   working-directory: ./
+      #   env:
+      #     ENV_URL: ${{ secrets.LAB_ENV_URL }}
+      #     # BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
+
+      #     BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
+      #     BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}
+      #     UI_ADMIN_LOGIN: ${{ secrets.LAB_UI_ADMIN_LOGIN }}
+      #     UI_ADMIN_PASSWORD: ${{ secrets.LAB_UI_ADMIN_PASSWORD }}
+      #     API_TOKEN: ${{ secrets.LAB_API_TOKEN }}
+      #     PLAYWRIGHT_BROWSERS_PATH: ./browsers
 
       - name: Run Once
         # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
         # run: npx playwright test QANT-16-TimerStatus.spec.ts
-        run: npx playwright test #--grep @bug
+        run: env; npx playwright test #--grep @bug
         working-directory: ./
         env:
-          ENV_URL: ${{ secrets.LAB_ENV_URL }}
-          BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
+          # ENV_URL: ${{ secrets.LAB_ENV_URL }}
+          ENV_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
+          # BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
+          # BOTFLOW_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
           BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
           BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}
           UI_ADMIN_LOGIN: ${{ secrets.LAB_UI_ADMIN_LOGIN }}
