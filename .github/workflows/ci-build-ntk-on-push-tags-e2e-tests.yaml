@@ -99,7 +99,7 @@ jobs:
           path: playwright-report/
           retention-days: 30
       
-      - uses: sleep 100000
+      - run: sleep 100000
      
   publish-report:
     name: Publish HTML Report
