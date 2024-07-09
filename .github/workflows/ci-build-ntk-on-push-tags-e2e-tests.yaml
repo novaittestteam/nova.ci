@@ -16,6 +16,7 @@ jobs:
       SHORT_SHA: ${{ steps.prep.outputs.SHORT_SHA }} 
       SHORT_REF_NAME: ${{ steps.prep.outputs.SHORT_REF_NAME }}
       RELEASE: ${{ steps.prep.outputs.RELEASE }}
+      REPORT: ${{ steps.report.outputs.artifact-url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -92,11 +93,13 @@ jobs:
       - name: Save Artifact
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
+        id: report
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
 
+     
   publish-report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
@@ -120,10 +123,10 @@ jobs:
           git config --global user.email "<>"
 
       - name: Download zipped HTML report
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: playwright-report
-          #path: ${{ env.HTML_REPORT_URL_PATH }}
+          path: ${{ needs.build-tests.outputs.REPORT }}
 
       - name: Push HTML Report
         timeout-minutes: 3
