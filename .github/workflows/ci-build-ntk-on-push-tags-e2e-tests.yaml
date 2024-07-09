@@ -117,7 +117,7 @@ jobs:
         # see: https://github.com/actions/checkout/issues/13#issuecomment-724415212
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "<>""
+          git config --global user.email "<>"
 
       - name: Download zipped HTML report
         uses: actions/download-artifact@v2
