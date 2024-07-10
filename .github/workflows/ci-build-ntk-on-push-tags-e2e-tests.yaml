@@ -43,21 +43,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 💿 Setup NODEJS
-        uses: actions/setup-node@v4
-        id: node_inst
-        with:
-          node-version: 20
+      # - name: 💿 Setup NODEJS
+      #   uses: actions/setup-node@v4
+      #   id: node_inst
+      #   with:
+      #     node-version: 20
 
-      - name: ▶️ Install Node.js dependencies
-        run: ls -la ./ && npm ci
-        working-directory: ./
+      # - name: ▶️ Install Node.js dependencies
+      #   run: ls -la ./ && npm ci
+      #   working-directory: ./
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-        working-directory: ./
-        env:
-          PLAYWRIGHT_BROWSERS_PATH: ./browsers
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps
+      #   working-directory: ./
+      #   env:
+      #     PLAYWRIGHT_BROWSERS_PATH: ./browsers
 
       # - name: Manual Run
       #   run: sleep 100000 
@@ -73,31 +73,31 @@ jobs:
       #     API_TOKEN: ${{ secrets.LAB_API_TOKEN }}
       #     PLAYWRIGHT_BROWSERS_PATH: ./browsers
 
-      - name: Run Once
-        # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
-        run: npx playwright test QANT-16-TimerStatus.spec.ts
-        # run: env; npx playwright test #--grep @bug
-        working-directory: ./
-        env:
-          ENV_URL: ${{ secrets.LAB_ENV_URL }}
-          # ENV_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
-          # BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
-          # BOTFLOW_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
-          BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
-          BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}
-          UI_ADMIN_LOGIN: ${{ secrets.LAB_UI_ADMIN_LOGIN }}
-          UI_ADMIN_PASSWORD: ${{ secrets.LAB_UI_ADMIN_PASSWORD }}
-          API_TOKEN: ${{ secrets.LAB_API_TOKEN }}
-          PLAYWRIGHT_BROWSERS_PATH: ./browsers
+      # - name: Run Once
+      #   # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
+      #   run: npx playwright test QANT-16-TimerStatus.spec.ts
+      #   # run: env; npx playwright test #--grep @bug
+      #   working-directory: ./
+      #   env:
+      #     ENV_URL: ${{ secrets.LAB_ENV_URL }}
+      #     # ENV_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
+      #     # BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
+      #     # BOTFLOW_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
+      #     BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
+      #     BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}
+      #     UI_ADMIN_LOGIN: ${{ secrets.LAB_UI_ADMIN_LOGIN }}
+      #     UI_ADMIN_PASSWORD: ${{ secrets.LAB_UI_ADMIN_PASSWORD }}
+      #     API_TOKEN: ${{ secrets.LAB_API_TOKEN }}
+      #     PLAYWRIGHT_BROWSERS_PATH: ./browsers
 
-      - name: Save Artifact
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        id: report
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+      # - name: Save Artifact
+      #   uses: actions/upload-artifact@v4
+      #   if: ${{ !cancelled() }}
+      #   id: report
+      #   with:
+      #     name: playwright-report
+      #     path: playwright-report/
+      #     retention-days: 30
            
   # publish-report:
   #   name: Publish HTML Report
@@ -165,9 +165,9 @@ jobs:
     env:
       # Unique URL path for each workflow run attempt
       HTML_REPORT_URL_PATH: reports/${{ github.ref_name }}/${{ github.run_id }}/${{ github.run_attempt }}
-      AWS_S3_ACCESS_KEY_ID: ${{ secrets.LAB_AWS_S3_ACCESS_KEY_ID }}
-      AWS_S3_SECRET_ACCESS_KEY: ${{ secrets.LAB_AWS_S3_SECRET_ACCESS_KEY }}
-      AWS_S3_REGION: "eeur"
+      # AWS_S3_ACCESS_KEY_ID: ${{ secrets.LAB_AWS_S3_ACCESS_KEY_ID }}
+      # AWS_S3_SECRET_ACCESS_KEY: ${{ secrets.LAB_AWS_S3_SECRET_ACCESS_KEY }}
+      # AWS_S3_REGION: "eeur"
     steps:
       - name: Download zipped HTML report
         uses: actions/download-artifact@v4
@@ -182,10 +182,13 @@ jobs:
           unzip -qq awscliv2.zip
           sudo ./aws/install
           aws --version
+          aws configure list
+        env:
+          AWS_S3_ACCESS_KEY_ID: ${{ secrets.LAB_AWS_S3_ACCESS_KEY_ID }}
+          AWS_S3_SECRET_ACCESS_KEY: ${{ secrets.LAB_AWS_S3_SECRET_ACCESS_KEY }}
+          AWS_S3_REGION: "eeur"
 
-      - name: Upload to R2
-        working-directory: ./
-        run: |
-          echo ${{ env.AWS_S3_ACCESS_KEY_ID }};
-          echo ${{ env.AWS_S3_SECRET_ACCESS_KEY }};
-          aws --endpoint-url  https://ae13ef8b693e69bc0f56090c9854eeea.r2.cloudflarestorage.com/ s3 cp ./${{ env.HTML_REPORT_URL_PATH }} s3://playwright/${{ env.HTML_REPORT_URL_PATH }} --recursive
+      # - name: Upload to R2
+      #   working-directory: ./
+      #   run: |
+      #     aws --endpoint-url  https://ae13ef8b693e69bc0f56090c9854eeea.r2.cloudflarestorage.com/ s3 cp ./${{ env.HTML_REPORT_URL_PATH }} s3://playwright/${{ env.HTML_REPORT_URL_PATH }} --recursive
