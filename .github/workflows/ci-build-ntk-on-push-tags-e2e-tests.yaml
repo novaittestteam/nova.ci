@@ -75,7 +75,7 @@ jobs:
 
       - name: Run Once
         # run: cd ./novatalks.tests/novatalks.tests/ && npx playwright test QANT-16-TimerStatus.spec.ts
-        run: npx playwright test QANT-16-TimerStatus.spec.ts
+        run: npx playwright test # QANT-16-TimerStatus.spec.ts
         # run: env; npx playwright test #--grep @bug
         working-directory: ./
         env:
@@ -83,7 +83,7 @@ jobs:
           ENV_URL: "http://ntk-dev-e2e-test-engine.dev-e2e-test.svc.cluster.local"
           # ENV_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
           # BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
-          # BOTFLOW_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
+          BOTFLOW_URL: "http://ntk-dev-e2e-test-botflow.dev-e2e-test.svc.cluster.local"
           BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
           BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}
           UI_ADMIN_LOGIN: ${{ secrets.LAB_UI_ADMIN_LOGIN }}
