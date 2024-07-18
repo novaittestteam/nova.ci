@@ -127,7 +127,7 @@ jobs:
           # ENV_URL: "http://ntk-dev-e2e-test-engine.dev-e2e-test.svc.cluster.local:3000"
           # ENV_URL: "https://novatalks-e2e-tests.k3s.dev.novait.com.ua"
           # BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
-          BOTFLOW_URL: "http://ntk-dev-e2e-test-botflow.dev-e2e-test.svc.cluster.local:1880/redbot"
+          # BOTFLOW_URL: "http://ntk-dev-e2e-test-botflow.dev-e2e-test.svc.cluster.local:1880/redbot"
           BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
           BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}
           UI_ADMIN_LOGIN: ${{ secrets.LAB_UI_ADMIN_LOGIN }}
