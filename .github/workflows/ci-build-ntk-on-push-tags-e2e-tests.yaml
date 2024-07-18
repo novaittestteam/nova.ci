@@ -62,6 +62,7 @@ jobs:
 
       - name: Restore DB
         run: |
+          aws configure list;
           lastdump=$(aws --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl s3 ls s3://$AWS_BUCKET$AWS_BUCKET_PATH --recursive | sort | tail -n 1);
           aws --endpoint-url $AWS_ENDPOINT_URL s3 cp s3://$AWS_BUCKET/${lastdump##* } ./last_backup.gz --no-verify-ssl --cli-connect-timeout 1200 --cli-read-timeout 1200;
           ls -la ./
