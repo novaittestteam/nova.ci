@@ -68,9 +68,9 @@ jobs:
           ls -la ./
           echo "..download complete";
           echo "Starting Restore..";
-          dropdb -f -e --if-exists;
-          createdb -O $PGUSER -e;
-          pg_restore -v ./last_backup.gz;
+          dropdb -U $PGUSER -h $PGHOST -p 5432 $PGDATABASE -f -e --if-exists;
+          createdb -U $PGUSER -h $PGHOST -p 5432 $PGDATABASE -O $PGUSER -e;
+          pg_restore -U $PGUSER -h $PGHOST -p 5432 -d $PGDATABASE -v ./last_backup.gz;
         working-directory: ./
         env:
           PGHOST: ${{ secrets.DATABASE_HOST }}
