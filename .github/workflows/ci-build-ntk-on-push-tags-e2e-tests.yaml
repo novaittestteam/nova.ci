@@ -85,7 +85,7 @@ jobs:
           AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
           AWS_BUCKET_PATH: ${{ secrets.AWS_BUCKET_PATH }}
           AWS_REGION: "eeur"
-          BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
+          BOTFLOW_URL: "http://ntk-dev-e2e-test-botflow.dev-e2e-test.svc.cluster.local:1880"
           BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
           BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}        
 
