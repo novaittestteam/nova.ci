@@ -65,6 +65,25 @@ jobs:
           sudo apt install redis-tools=6:7.0.0-1rl1~focal1
           redis-cli -v
 
+      - name: Sync QA Flow
+        run: |
+          mkdir ./redis
+          lastredisdump=$(aws --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl s3 ls s3://$AWS_BUCKET --recursive | sort | grep redis | tr -s ' ' | tail -n 4 | cut -d ' ' -f 4);
+          for path in $lastredisdump; do aws $AWS_ENDPOINT_URL s3 cp s3://$BUCKET${path} ./redis/ --no-verify-ssl --cli-connect-timeout 1200 --cli-read-timeout 1200; done &&
+          echo "..download complete";
+          redis-cli -h ntk-dev-e2e-test-redis.dev-e2e-test -n 14 FLUSHDB;
+          backup=$(ls ./redis);
+          for key in $backup; do redis-cli -h ntk-dev-e2e-test-redis.dev-e2e-test -n 14 -x SET "nr:$(echo $key | cut -d '_' -f 1)" < ./redis/${key}; done &&
+          echo "Restore complete. Please reboot Nova.Botflow manualy";
+        working-directory: ./
+        env:
+          AWS_ENDPOINT_URL: ${{ secrets.CF_R2_AWS_ENDPOINT_URL }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.BACKUP_AWS_S3_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKUP_AWS_S3_SECRET_ACCESS_KEY }}
+          AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
+          AWS_BUCKET_PATH: ${{ secrets.AWS_BUCKET_PATH }}
+          AWS_REGION: "eeur"          
+
       # - name: Restore DB
       #   run: |
       #     aws configure list;
