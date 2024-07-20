@@ -71,10 +71,12 @@ jobs:
           lastredisdump=$(aws --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl s3 ls s3://$AWS_BUCKET --recursive | grep manual | sort | grep redis | tr -s ' ' | tail -n 4 | cut -d ' ' -f 4);
           for path in $lastredisdump; do aws --endpoint-url $AWS_ENDPOINT_URL s3 cp s3://$AWS_BUCKET/${path} ./redis/ --no-verify-ssl --cli-connect-timeout 1200 --cli-read-timeout 1200; done &&
           echo "..download complete";
-          redis-cli -h ntk-dev-e2e-test-redis.dev-e2e-test -n 14 FLUSHDB;
+          redis-cli -h ntk-dev-e2e-test-redis.dev-e2e-test -n 15 FLUSHDB;
           backup=$(ls ./redis);
-          for key in $backup; do redis-cli -h ntk-dev-e2e-test-redis.dev-e2e-test -n 14 -x SET "nr:$(echo $key | cut -d '_' -f 1)" < ./redis/${key}; done &&
+          for key in $backup; do redis-cli -h ntk-dev-e2e-test-redis.dev-e2e-test -n 15 -x SET "nr:$(echo $key | cut -d '_' -f 1)" < ./redis/${key}; done &&
           echo "Restore complete. Please reboot Nova.Botflow manualy";
+          token=$(curl -s $BOTFLOW_URL/auth/token --data 'client_id=node-red-admin&grant_type=password&scope=*&username=$BOTFLOW_ADMIN_LOGIN&password=$BOTFLOW_ADMIN_PASSWORD' -k | grep -i access_token | awk -F '"' '{print $4}');
+          curl -vs -X POST $BOTFLOW_URL/flows -H "Content-Type: application/json" --header "Node-RED-Deployment-Type: reload" --header "Authorization: Bearer $token" -k;
         working-directory: ./
         env:
           AWS_ENDPOINT_URL: ${{ secrets.CF_R2_AWS_ENDPOINT_URL }}
@@ -82,7 +84,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKUP_AWS_S3_SECRET_ACCESS_KEY }}
           AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
           AWS_BUCKET_PATH: ${{ secrets.AWS_BUCKET_PATH }}
-          AWS_REGION: "eeur"          
+          AWS_REGION: "eeur"
+          BOTFLOW_URL: ${{ secrets.LAB_BOTFLOW_URL }}
+          BOTFLOW_ADMIN_LOGIN: ${{ secrets.LAB_BOTFLOW_ADMIN_LOGIN }}
+          BOTFLOW_ADMIN_PASSWORD: ${{ secrets.LAB_BOTFLOW_ADMIN_PASSWORD }}        
 
       # - name: Restore DB
       #   run: |
