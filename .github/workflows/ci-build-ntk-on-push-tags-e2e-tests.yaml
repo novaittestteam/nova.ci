@@ -68,8 +68,8 @@ jobs:
       - name: Sync QA Flow
         run: |
           mkdir ./redis
-          lastredisdump=$(aws --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl s3 ls s3://$AWS_BUCKET --recursive | sort | grep redis | tr -s ' ' | tail -n 4 | cut -d ' ' -f 4);
-          for path in $lastredisdump; do aws --endpoint-url $AWS_ENDPOINT_URL s3 cp s3://$AWS_BUCKET${path} ./redis/ --no-verify-ssl --cli-connect-timeout 1200 --cli-read-timeout 1200; done &&
+          lastredisdump=$(aws --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl s3 ls s3://$AWS_BUCKET --recursive | grep manual | sort | grep redis | tr -s ' ' | tail -n 4 | cut -d ' ' -f 4);
+          for path in $lastredisdump; do aws --endpoint-url $AWS_ENDPOINT_URL s3 cp s3://$AWS_BUCKET/${path} ./redis/ --no-verify-ssl --cli-connect-timeout 1200 --cli-read-timeout 1200; done &&
           echo "..download complete";
           redis-cli -h ntk-dev-e2e-test-redis.dev-e2e-test -n 14 FLUSHDB;
           backup=$(ls ./redis);
