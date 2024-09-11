@@ -119,6 +119,7 @@ jobs:
           echo "show me the dir"
           ls -la ./src-capacitor/android/app/build/outputs/
           ls -la ./src-capacitor/android/app/build/outputs/bundle/
+          sleep 10000
           zip -r --junk-paths ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip ./src-capacitor/android/app/build/outputs/apk/release/
           cp ./android-release-${{ env.SHORT_REF_NAME }}-${{ env.SHORT_SHA }}.zip /home/runner/work/
           
