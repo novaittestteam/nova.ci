@@ -40,7 +40,7 @@ jobs:
             const privateRepo = context.repo.repo;
             const syncPath = 'sys_flows';
 
-            // Octokit Functions
+            // github.rest Functions
             async function getCommit(repo) {
               try {
                   let commits = await github.rest.repos.listCommits({
@@ -85,13 +85,13 @@ jobs:
                       content: Buffer.from(files.content, files.encoding).toString()
                   });
                 };
-                let { data: { sha: treeSHA }, } = await octokit.git.createTree ({
+                let { data: { sha: treeSHA }, } = await github.rest.git.createTree ({
                   owner,
                   repo: pubRepo,
                   tree: syncItems,
                   base_tree: lastPubCommit,
                 });
-                let { data: { sha: newCommitSHA  }, } = await octokit.git.createCommit({
+                let { data: { sha: newCommitSHA  }, } = await github.rest.git.createCommit({
                   owner,
                   repo: pubRepo,
                   author,
@@ -99,7 +99,7 @@ jobs:
                   message: 'Created from ' + privateRepo + ' commit ' + lastPrivateCommit + ' by CI',
                   parents: [lastPubCommit],
                 }); 
-                let result = await octokit.git.updateRef({
+                let result = await github.rest.git.updateRef({
                   owner,
                   repo: pubRepo,
                   ref,
