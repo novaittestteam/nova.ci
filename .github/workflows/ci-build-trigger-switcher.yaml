@@ -2,8 +2,6 @@ name: CI Build Trigger Switcher
 on:
   workflow_call:
 
-
-
 jobs:
   preparation:
     name: CI Build Trigger Switcher Start
@@ -17,59 +15,81 @@ jobs:
           echo ${{ github.event_name == 'push' }}
           echo ${{ contains(github.ref, 'tags') }}
           echo ${{ contains(github.ref, 'build') }}
-          echo ${{ toJson(github.event.head_commit.message) }}
+  
 
   call-external-on-push-tags:
     name: Call Builder On Push Tags
-    if: ${{ contains(fromJSON('["novatalks.engine", "novatalks.ui", "nova.botflow"]'), github.event.repository.name) && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
+    if: ${{ contains(fromJSON('["novatalks.engine", "novatalks.ui", "nova.botflow", "nova.chatsconnector.telegram-client-api", "novatalks.dialer", "nova.chatsconnector.genesys.cloud.premium.wizard.engine" ]'), github.event.repository.name) && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'build') }}
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
     secrets: inherit
 
   call-external-on-pull-request-merged:
     name: Call Builder On Merge PR
-    if: ${{ contains(fromJSON('["novatalks.engine", "novatalks.ui", "nova.botflow"]'), github.event.repository.name) && github.event_name == 'push' && github.ref_type == 'branch' && contains(github.event.head_commit.message, 'build') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
+    if: ${{ contains(fromJSON('["novatalks.engine", "novatalks.ui", "nova.botflow", "nova.chatsconnector.telegram-client-api", "novatalks.dialer", "nova.chatsconnector.genesys.cloud.premium.wizard.engine" ]'), github.event.repository.name) && github.event_name == 'push' && github.ref_type == 'branch' && contains(github.event.head_commit.message, 'build') }}
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
     secrets: inherit
 
   call-external-on-push-tags-run-test:
     name: Call Test Runner On Push Tags
     if: ${{ github.event.repository.name == 'novatalks.engine' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'int-test') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-test.yaml@main
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-test.yaml@main
     secrets: inherit
 
 
   call-external-on-push-tags-gh-deploy:
     name: Call GH Pages Deploy On Push Tags
     if: ${{ github.event.repository.name == 'nova.docs' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-gh-deploy.yaml@main
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-gh-deploy.yaml@main
     secrets: inherit
 
-  call-external-on-push-tags-mob-build:
-    name: Call GH Pages Deploy On Push Tags
-    if: ${{ github.event.repository.name == 'novatalks.ui-lite' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-mob-build.yaml@main
+  call-external-on-push-tags-mob-apk-build:
+    name: Call Mobile APK Build On Push Tags
+    if: ${{ github.event.repository.name == 'novatalks.ui-lite' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build-apk') }}
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-mob-apk-build.yaml@main
     secrets: inherit
+
+  call-external-on-push-tags-mob-apk-build-public:
+    name: Call Mobile APK Build On Push Tags
+    if: ${{ github.event.repository.name == 'novatalks.mobile' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build-apk') }}
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-mob-apk-build-public.yaml@main
+    secrets: inherit    
+
+    
+  call-external-on-push-tags-mob-pwa-build:
+    name: Call Mobile PWA Build On Push Tags
+    if: ${{ github.event.repository.name == 'novatalks.ui-lite' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build-pwa') }}
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-mob-pwa-build.yaml@main
+    secrets: inherit
+
+  call-external-on-push-tags-mob-spa-build:
+    name: Call Mobile SPA Build On Push Tags
+    if: ${{ github.event.repository.name == 'novatalks.ui-lite' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build-spa') }}
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-mob-pwa-build.yaml@main
+    secrets: inherit
+  
+
+  call-external-on-push-tags-widget-build:
+    name: Call GH Pages Deploy On Push Tags
+    if: ${{ github.event.repository.name == 'novatalks.chatwidget' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build') }}
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-widget-build.yaml@main
+    secrets: inherit
+
 
   call-external-on-push-branches:
     name: Call Builder If Push Certain Branches
     if: ${{ github.event_name == 'push' && github.ref_type == 'branch' && contains(github.ref_name, 'build-me-please') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-branches.yaml@main
-    secrets: inherit
-
-  call-external-on-push-branches-google-chat-notify:
-    name: Call Notifier To Google Chat
-    if: ${{ github.event.repository.name == 'novatalks.engine' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'notify') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-google-chat.yaml@main
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-branches.yaml@main
     secrets: inherit
 
   call-external-on-push-branches-e2e-tests:
-    name: Call Notifier To Google Chat
+    name: Call Playwright Tests
     if: ${{ github.event.repository.name == 'novatalks.tests' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'playtest') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-e2e-tests.yaml@main
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-e2e.yaml@main
     secrets: inherit
 
   call-external-on-push-branches-flows-to-pub:
     name: Call Notifier To Google Chat
     if: ${{ github.event.repository.name == 'novatalks.botflow.flows' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'build') }}
-    uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-flows-to-pub.yaml@main
+    uses: novaitdevteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-flows-to-pub.yaml@main
     secrets: inherit
+

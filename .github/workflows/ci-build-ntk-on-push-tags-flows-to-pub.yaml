@@ -3,8 +3,8 @@ on:
   workflow_call:
 
 jobs:
-  logLatestRelease:
-    name: Call API
+  pushToPub:
+    name: Call github API
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     # permissions:
@@ -36,11 +36,11 @@ jobs:
               name: 'Autodeploy Call',
               email: 'support@novait.com.ua',
             };
-            const pubRepo = 'ntk.flows';
+            const pubRepo = 'novatalks.flows';
             const privateRepo = context.repo.repo;
-            const syncPath = 'sys_flows';
+            const syncPath = 'template_flows';
 
-            // github.rest Functions
+            // Octokit Functions
             async function getCommit(repo) {
               try {
                   let commits = await github.rest.repos.listCommits({

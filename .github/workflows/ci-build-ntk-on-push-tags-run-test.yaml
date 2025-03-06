@@ -18,7 +18,7 @@ jobs:
     environment: ${{ inputs.environment }}
     services:
       postgres:
-        image: postgres:12
+        image: postgres:15.5
         env:
           POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
           POSTGRES_DB: ${{ env.DATABASE_NAME }}
@@ -40,13 +40,14 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     outputs:
-      END_STEP_JOB_ID: ${{ steps.end_step.outputs.END_STEP_JOB_ID }}    
+      END_STEP_JOB_ID: ${{ steps.end_step.outputs.END_STEP_JOB_ID }}
+      REPORT: ${{ steps.report.outputs.artifact-url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Delete Tag
-        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        uses: dev-drprasad/delete-tag-and-release@v0.2.1
         with:
           tag_name: ${{ github.ref_name }}
         env:
@@ -56,7 +57,7 @@ jobs:
         uses: actions/setup-node@v3
         id: node_inst
         with:
-          node-version: 18.12
+          node-version: 18.19
 
 
       - name: ▶️ Get Env From Example
@@ -65,38 +66,10 @@ jobs:
           sed '/^#/d' .env.example > .env
           cat .env >> $GITHUB_ENV
 
-
-      # - name: Step 2
-      #   id: prep_2
+      # - name: ▶️ Delete Lock Files
       #   run: |
-      #     echo $GITHUB_ENV
-
-      # - run: |
-      #     whoami
-      #     pwd
-      #     cat /etc/os-release
-      #     sudo apt-get update
-      #     sudo apt-get install -y postgresql-client python3 make yarn
-      #     psql --version
-      #     docker ps -a
-      #     npm install pg
-
-      # - name: Test connection
-      #   run: |
-      #     psql --version
-      #     pg_isready -h ${{ env.DATABASE_HOST }} -p ${{ env.DATABASE_PORT }}
-
-
-      # - name: Connect to PostgreSQL
-      #   run: node test_db.js
-      #   env:
-      #     POSTGRES_HOST: ${{ env.DATABASE_HOST }} 
-      #     POSTGRES_PORT: ${{ env.DATABASE_PORT }}
-
-      - name: ▶️ Delete Lock Files
-        run: |
-          rm package-lock.json
-          rm yarn.lock
+      #     rm package-lock.json
+      #     rm yarn.lock
 
       - name: ⏬ Install Dependencies
         env:
@@ -104,32 +77,54 @@ jobs:
           #NODE_OPTIONS: "--max-old-space-size=8192"
         run: |
           npm pkg delete scripts.prepare
-          npm install --loglevel info
+          npm ci
           
       - name: ▶️ Migrate DB
         run: npm run db:migrate #--loglevel info
-
 
       - name: 🚶 Run One Test
         if: ${{ contains(github.ref_name, 'int-test') && endsWith( github.ref_name, '.ts' ) }}
         run: |
           echo ${{ github.ref_name }} | cut -d "-" -f3 | xargs npm run test
-        #run: npm run test account.controller.integration.spec.ts #--loglevel info
-        #run: npm run test inbox.controller.integration.spec.ts
         env:
           NODE_ENV: development
           NODE_OPTIONS: "--max-old-space-size=8192"
           LOG_LEVEL: "error"
 
-      - name: 🏃 Run Test Modules
+      # - name: 🏃 Run Test Modules
+      #   if: ${{ endsWith( github.ref_name, 'int-test' ) }}
+      #   run: npm run test #--loglevel info
+      #   #run: npm run test account.controller.integration.spec.ts #--loglevel info
+      #   #run: npm run test inbox.controller.integration.spec.ts
+      #   env:
+      #     NODE_ENV: development
+      #     NODE_OPTIONS: "--max-old-space-size=8192"
+      #     LOG_LEVEL: "error"
+      #     UV_THREADPOOL_SIZE: 32
+
+      - name: 🏃 Run Test Modules by Files
         if: ${{ endsWith( github.ref_name, 'int-test' ) }}
-        run: npm run test #--loglevel info
-        #run: npm run test account.controller.integration.spec.ts #--loglevel info
-        #run: npm run test inbox.controller.integration.spec.ts
+        continue-on-error: true
+        shell: bash {0}
+        run: |
+          a=$(find ./src -name '*.spec.ts' | wc -l); 
+          for i in `find ./src -name '*.spec.ts'` ; do if [ $a -le 0 ]; then break; fi; npm run test ${i##*/} &>> ./results.txt ; echo 'Test '$i' completed with exit code '$? ; ((a--)) ; done
         env:
           NODE_ENV: development
           NODE_OPTIONS: "--max-old-space-size=8192"
           LOG_LEVEL: "error"
+          UV_THREADPOOL_SIZE: 32
+          FORCE_COLOR: "false"
+          NO_COLOR: "true"
+
+      - name: Save Artifact
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        id: report
+        with:
+          name: unit-test-report
+          path: ./results.txt
+          retention-days: 30
 
       - name: End Step On Failure
         if: failure()
@@ -153,8 +148,9 @@ jobs:
             
             Test assembly has been completed ✅
             
-            Repository: ${{ github.repository }}  
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            Repository: ${{ github.repository }}
+            ▶️ GitHub Artifact: ${{ needs.e2e-test.outputs.REPORT }}
+
           if_false: |
             👷 ${{ github.actor }} start test
             
@@ -169,3 +165,21 @@ jobs:
           to: ${{ secrets.TG_NOTIFICATION_BOT_ID }}
           token: ${{ secrets.TG_NOTIFICATION_BOT_TOKEN }}
           message: ${{ steps.telegram_message.outputs.value }}
+
+      - name: Send Message To GChat
+        uses: actions/github-script@v7 
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          debug: 'true'
+          script: |
+            async function webhook() {
+              const url = "${{ secrets.GC_NOTIFICATION_WEBHOOK }}"
+              const res = await fetch(url, {
+                method: "POST",
+                headers: {"Content-Type": "application/json; charset=UTF-8"},
+                body: JSON.stringify({text: `${{ steps.telegram_message.outputs.value }}`})
+              });
+              return await res.json();
+            }
+            
+            webhook();
