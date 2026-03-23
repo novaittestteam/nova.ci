@@ -33,7 +33,7 @@ jobs:
       - name: ▶️ Install Node.js dependencies
         run: |
           yarn add eslint-plugin-security@4.0.0
-          yarn add @typescript-eslint/eslint-plugin@6.0.0
+          yarn add eslint@8.46.0 @typescript-eslint/eslint-plugin
 
       - name: 🇪🇸 Lint SRC
         id: linter
