@@ -153,6 +153,9 @@ jobs:
   delete-runner:
     name: Delete Hetzner Cloud runner
     runs-on: ubuntu-latest
+    needs:
+      - build-image
+      - linter
     if: ${{ always() }}
     steps:
       - name: Delete runner
