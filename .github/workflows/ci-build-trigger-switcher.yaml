@@ -8,6 +8,7 @@ on:
       server_id:
         required: true
         type: string
+    
 
 jobs:
   preparation:
@@ -104,4 +105,33 @@ jobs:
     if: ${{ github.event.repository.name == 'novatalks.tests' && github.event_name == 'push' && github.ref_type == 'tag' && contains(github.ref_name, 'playtest') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-e2e.yaml@main
     secrets: inherit
+
+  delete-runner:
+    name: Delete Hetzner Cloud runner
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs:
+      - preparation
+      - call-external-on-push-tags
+      - call-external-on-pull-request-merged
+      - call-external-on-push-tags-run-test
+      - call-external-on-push-tags-gh-deploy
+      - call-external-on-push-tags-mob-apk-build
+      - call-external-on-push-tags-mob-apk-build-public
+      - call-external-on-push-tags-mob-pwa-build
+      - call-external-on-push-tags-mob-spa-build
+      - call-external-on-push-tags-crm-build
+      - call-external-on-push-tags-widget-build
+      - call-external-on-push-branches
+      - call-external-on-push-branches-e2e-tests
+    steps:
+      - name: Delete runner
+        uses: Cyclenerd/hcloud-github-runner@v1
+        with:
+          mode: delete
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+          name: ${{ inputs.runner_label }}
+          server_id: ${{ inputs.server_id }}
+
 
