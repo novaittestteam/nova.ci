@@ -109,7 +109,18 @@ jobs:
   delete-runner:
     name: Delete Hetzner Cloud runner
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: ${{ needs.call-external-on-push-tags.result != 'success' &&
+          needs.call-external-on-pull-request-merged.result != 'success' &&
+          needs.call-external-on-push-tags-run-test.result != 'success' &&
+          needs.call-external-on-push-tags-gh-deploy.result != 'success' &&
+          needs.call-external-on-push-tags-mob-apk-build.result != 'success' &&
+          needs.call-external-on-push-tags-mob-apk-build-public.result != 'success' &&
+          needs.call-external-on-push-tags-mob-pwa-build.result != 'success' &&
+          needs.call-external-on-push-tags-mob-spa-build.result != 'success' &&
+          needs.call-external-on-push-tags-crm-build.result != 'success' &&
+          needs.call-external-on-push-tags-widget-build.result != 'success' &&
+          needs.call-external-on-push-branches.result != 'success' &&
+          needs.call-external-on-push-branches-e2e-tests.result != 'success' }}
     needs:
       - preparation
       - call-external-on-push-tags
