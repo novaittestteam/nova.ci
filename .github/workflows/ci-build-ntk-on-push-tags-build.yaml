@@ -25,14 +25,14 @@ jobs:
         uses: actions/setup-node@v4
         id: node_inst
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Setup yarn
         run: npm install -g yarn
 
       - name: ▶️ Install Node.js dependencies
         run: |
-          yarn add eslint-plugin-security@4.0.0
+          yarn add eslint-plugin-security
           yarn add eslint@8.46.0 @typescript-eslint/eslint-plugin
 
       - name: 🇪🇸 Lint SRC
