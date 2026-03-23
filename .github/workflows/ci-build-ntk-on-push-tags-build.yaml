@@ -25,7 +25,7 @@ jobs:
         uses: actions/setup-node@v4
         id: node_inst
         with:
-          node-version: 18
+          node-version: 24
 
       - name: Setup yarn
         run: npm install -g yarn
@@ -68,6 +68,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo systemctl start docker
+          sudo usermod -aG docker $USER
 
       - name: Prepare Vars
         id: prep
