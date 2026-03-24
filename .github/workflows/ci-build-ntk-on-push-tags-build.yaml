@@ -145,6 +145,7 @@ jobs:
           id: linter
           if: ${{ steps.lint_plan.outputs.lint_command != '' }}
           run: |
+            export NODE_OPTIONS="--max-old-space-size=4096"
             ${{ steps.lint_plan.outputs.lint_command }}
 
         # ======== end ========
