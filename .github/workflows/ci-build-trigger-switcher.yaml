@@ -137,7 +137,7 @@ jobs:
       - call-external-on-push-branches-e2e-tests
     steps:
       - name: Delete runner
-        uses: Cyclenerd/hcloud-github-runner@v1
+        uses: volodymyrmanzhula-nova/hcloud-github-runner@v1
         with:
           mode: delete
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
