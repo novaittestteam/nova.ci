@@ -290,7 +290,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Delete runner
-        uses: volodymyrmanzhula-nova/hcloud-github-runner@main
+        uses: volodymyrmanzhula-nova/hcloud-github-runner@master
         with:
           mode: delete
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
