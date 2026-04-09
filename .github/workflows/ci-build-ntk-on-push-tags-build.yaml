@@ -10,154 +10,156 @@ on:
         type: string
 
 jobs:
-
   linter:
-      name: Linter
-      runs-on:  ${{ inputs.runner_label }}
-      environment: ${{ inputs.environment }}
-      outputs:
-        LINTER_CHECK: ${{ steps.linter_res.outputs.LINTER_CHECK }}
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v6
+    name: Linter
+    runs-on: ${{ inputs.runner_label }}
+    environment: ${{ inputs.environment }}
+    outputs:
+      LINTER_CHECK: ${{ steps.linter_res.outputs.LINTER_CHECK }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-        - name: Resolve lint plan
-          id: lint_plan
-          env:
-            REPO_NAME: ${{ github.event.repository.name }}
-            REF_NAME: ${{ github.ref_name }}
-          run: |
-            set -euo pipefail
+      - name: Resolve lint plan
+        id: lint_plan
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
 
-            set_output() {
-              local key="$1"
-              shift || true
-              {
-                echo "${key}<<EOF"
-                printf '%s\n' "$@"
-                echo "EOF"
-              } >> "$GITHUB_OUTPUT"
-            }
+          set_output() {
+            local key="$1"
+            shift || true
+            {
+              echo "${key}<<EOF"
+              printf '%s\n' "$@"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          }
 
-            strategy="other"
-            set_output bootstrap_command ""
-            set_output install_command ""
-            set_output lint_command ""
-            set_output node_cache ""
-            set_output cache_dependency_path ""
+          strategy="other"
+          set_output bootstrap_command ""
+          set_output install_command ""
+          set_output lint_command ""
+          set_output node_options ""
+          set_output node_cache ""
+          set_output cache_dependency_path ""
 
-            case "$REPO_NAME" in
-              novatalks.core)
-                strategy="novatalks.core"
-                set_output install_command "npm ci"
-                set_output node_cache "npm"
-                set_output cache_dependency_path "package-lock.json"
-                case "$REF_NAME" in
-                  build-engine)
-                    set_output lint_command "npx eslint apps/engine libs/common libs/database --ext .ts"
-                    ;;
-                  build-reporting)
-                    set_output lint_command "npx eslint apps/reporting libs/common libs/database --ext .ts"
-                    ;;
-                  *)
-                    set_output lint_command "npm run lint"
-                    ;;
-                esac
-                ;;
-              novatalks.ui)
-                strategy="novatalks.ui"
-                set_output install_command "npm ci"
-                set_output node_cache "npm"
-                set_output cache_dependency_path "package-lock.json"
-                set_output lint_command "npx eslint --ext .js,.vue --ignore-path .eslintignore src"
-                ;;
-              novatalks.dialer)
-                strategy="novatalks.dialer"
-                set_output install_command "npm ci"
-                set_output node_cache "npm"
-                set_output cache_dependency_path "package-lock.json"
-                set_output lint_command "npx eslint \"{src,apps,libs,test}/**/*.ts\""
-                ;;
-              nova.chatsconnector.whatsapp-client-api)
-                strategy="nova.chatsconnector.whatsapp-client-api"
-                set_output install_command "npm ci"
-                set_output node_cache "npm"
-                set_output cache_dependency_path "package-lock.json"
-                set_output lint_command "npm run lint"
-                ;;
-              nova.chatsconnector.telegram-client-api)
-                strategy="nova.chatsconnector.telegram-client-api"
-                set_output install_command "npm ci"
-                set_output node_cache "npm"
-                set_output cache_dependency_path "package-lock.json"
-                set_output lint_command "npm run lint"
-                ;;
-              nova.botflow)
-                strategy="nova.botflow"
-                set_output install_command "npm ci"
-                set_output node_cache "npm"
-                set_output cache_dependency_path "package-lock.json"
-                set_output lint_command "npm run lint"
-                ;;
-              novatalks.uspacy.connector)
-                strategy="novatalks.uspacy.connector"
-                set_output install_command "npm install"
-                set_output lint_command "npm run eslint"
-                ;;
-              *)
-                strategy="other"
-                set_output bootstrap_command "npm install -g yarn"
-                set_output install_command "yarn add eslint-plugin-security
-            yarn add @typescript-eslint/eslint-plugin"
-                set_output lint_command "npx eslint --ext .js,.vue,.ts . --quiet"
-                ;;
-            esac
+          case "$REPO_NAME" in
+            novatalks.core)
+              strategy="novatalks.core"
+              set_output install_command "npm i"
+              set_output node_options "--max-old-space-size=4096"
+              set_output node_cache "npm"
+              set_output cache_dependency_path "package-lock.json"
+              case "$REF_NAME" in
+                build-engine)
+                  set_output lint_command "npx eslint apps/engine libs/common libs/database --ext .ts"
+                  ;;
+                build-reporting)
+                  set_output lint_command "npx eslint apps/reporting libs/common libs/database --ext .ts"
+                  ;;
+                *)
+                  set_output lint_command "npm run lint"
+                  ;;
+              esac
+              ;;
+            novatalks.ui)
+              strategy="novatalks.ui"
+              set_output install_command "npm ci"
+              set_output node_cache "npm"
+              set_output cache_dependency_path "package-lock.json"
+              set_output lint_command "npx eslint --ext .js,.vue --ignore-path .eslintignore src"
+              ;;
+            novatalks.dialer)
+              strategy="novatalks.dialer"
+              set_output install_command "npm ci"
+              set_output node_cache "npm"
+              set_output cache_dependency_path "package-lock.json"
+              set_output lint_command "npx eslint \"{src,apps,libs,test}/**/*.ts\""
+              ;;
+            nova.chatsconnector.whatsapp-client-api)
+              strategy="nova.chatsconnector.whatsapp-client-api"
+              set_output install_command "npm ci"
+              set_output node_cache "npm"
+              set_output cache_dependency_path "package-lock.json"
+              set_output lint_command "npm run lint"
+              ;;
+            nova.chatsconnector.telegram-client-api)
+              strategy="nova.chatsconnector.telegram-client-api"
+              set_output install_command "npm ci"
+              set_output node_cache "npm"
+              set_output cache_dependency_path "package-lock.json"
+              set_output lint_command "npm run lint"
+              ;;
+            nova.botflow)
+              strategy="nova.botflow"
+              set_output install_command "npm ci"
+              set_output node_cache "npm"
+              set_output cache_dependency_path "package-lock.json"
+              set_output lint_command "npm run lint"
+              ;;
+            novatalks.uspacy.connector)
+              strategy="novatalks.uspacy.connector"
+              set_output install_command "npm install"
+              set_output lint_command "npm run eslint"
+              ;;
+            *)
+              strategy="other"
+              set_output bootstrap_command "npm install -g yarn"
+              set_output install_command "yarn add eslint-plugin-security
+          yarn add @typescript-eslint/eslint-plugin"
+              set_output lint_command "npx eslint --ext .js,.vue,.ts . --quiet"
+              ;;
+          esac
 
-            set_output strategy "$strategy"
-            echo "Selected lint strategy: $strategy"
+          set_output strategy "$strategy"
+          echo "Selected lint strategy: $strategy"
 
-        - name: 💿 Setup Node.js with npm cache
-          if: ${{ steps.lint_plan.outputs.node_cache == 'npm' }}
-          uses: actions/setup-node@v6
-          with:
-            node-version: 24
-            cache: npm
-            cache-dependency-path: ${{ steps.lint_plan.outputs.cache_dependency_path }}
+      - name: 💿 Setup Node.js with npm cache
+        if: ${{ steps.lint_plan.outputs.node_cache == 'npm' }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: ${{ steps.lint_plan.outputs.cache_dependency_path }}
 
-        - name: 💿 Setup Node.js
-          if: ${{ steps.lint_plan.outputs.node_cache != 'npm' }}
-          uses: actions/setup-node@v6
-          with:
-            node-version: 24
-            package-manager-cache: false
+      - name: 💿 Setup Node.js
+        if: ${{ steps.lint_plan.outputs.node_cache != 'npm' }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
 
-        - name: Prepare lint toolchain
-          if: ${{ steps.lint_plan.outputs.bootstrap_command != '' }}
-          run: |
-            ${{ steps.lint_plan.outputs.bootstrap_command }}
+      - name: Prepare lint toolchain
+        if: ${{ steps.lint_plan.outputs.bootstrap_command != '' }}
+        run: |
+          ${{ steps.lint_plan.outputs.bootstrap_command }}
 
-        - name: Install deps for lint
-          if: ${{ steps.lint_plan.outputs.install_command != '' }}
-          run: |
-            ${{ steps.lint_plan.outputs.install_command }}
+      - name: Install deps for lint
+        if: ${{ steps.lint_plan.outputs.install_command != '' }}
+        run: |
+          ${{ steps.lint_plan.outputs.install_command }}
 
-        - name: Run lint
-          id: linter
-          if: ${{ steps.lint_plan.outputs.lint_command != '' }}
-          run: |
-            export NODE_OPTIONS="--max-old-space-size=4096"
-            ${{ steps.lint_plan.outputs.lint_command }} || true
+      - name: Run lint
+        id: linter
+        if: ${{ steps.lint_plan.outputs.lint_command != '' }}
+        env:
+          NODE_OPTIONS: ${{ steps.lint_plan.outputs.node_options }}
+        run: |
+          ${{ steps.lint_plan.outputs.lint_command }}
 
-        # ======== end ========
-        - name: End Linter Step
-          if: always()
-          id: linter_res
-          run: |
-            if [[ "${{ job.status }}" == "success" ]]; then
-              echo "LINTER_CHECK=✅" | tee -a "$GITHUB_OUTPUT"
-            else
-              echo "LINTER_CHECK=❌" | tee -a "$GITHUB_OUTPUT"
-            fi
+      # ======== end ========
+      - name: End Linter Step
+        if: always()
+        id: linter_res
+        run: |
+          if [[ "${{ job.status }}" == "success" ]]; then
+            echo "LINTER_CHECK=✅" | tee -a "$GITHUB_OUTPUT"
+          else
+            echo "LINTER_CHECK=❌" | tee -a "$GITHUB_OUTPUT"
+          fi
 
   build-image:
     name: Build Image
@@ -240,9 +242,57 @@ jobs:
             echo "IMAGE_SUFFIX=" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build and push
+      - name: Resolve Docker cache policy
+        id: cache_policy
+        env:
+          REPO_NAME: ${{ env.REP_NAME }}
+          IMAGE_SUFFIX: ${{ env.IMAGE_SUFFIX }}
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          BASE_REF: ${{ github.event.base_ref }}
+        run: |
+          set -euo pipefail
+
+          set_output() {
+            local key="$1"
+            shift || true
+            {
+              echo "${key}<<EOF"
+              printf '%s\n' "$@"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          }
+
+          cache_ref="type=registry,ref=ghcr.io/${{ github.repository_owner }}/${REPO_NAME}:buildcache${IMAGE_SUFFIX}"
+          source_branch="$REF_NAME"
+
+          if [[ "$REF_TYPE" != "branch" && -n "$BASE_REF" ]]; then
+            source_branch="${BASE_REF#refs/heads/}"
+          fi
+
+          cache_to="${cache_ref},mode=max"
+          case "$source_branch" in
+            master|development|main)
+              ;;
+            *)
+              cache_to=""
+              ;;
+          esac
+
+          set_output source_branch "$source_branch"
+          set_output cache_from "$cache_ref"
+          set_output cache_to "$cache_to"
+
+          echo "Selected cache source branch: $source_branch"
+          if [[ -n "$cache_to" ]]; then
+            echo "Cache export enabled."
+          else
+            echo "Cache export disabled for this build."
+          fi
+
+      - name: Build and push with cache export
+        if: ${{ steps.cache_policy.outputs.cache_to != '' }}
         uses: docker/build-push-action@v7
-        id: main_build_proc
         with:
           context: .
           file: ${{ env.DOCKERFILE_PATH }}
@@ -250,10 +300,23 @@ jobs:
           pull: true
           push: true
           target: main
-          cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ env.REP_NAME }}:buildcache${{ env.IMAGE_SUFFIX }}
-          cache-to: |
-            type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ env.REP_NAME }}:buildcache${{ env.IMAGE_SUFFIX }},mode=max
+          cache-from: ${{ steps.cache_policy.outputs.cache_from }}
+          cache-to: ${{ steps.cache_policy.outputs.cache_to }}
+          tags: |
+            ${{ secrets.CR_DH_USERNAME }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}${{ env.IMAGE_SUFFIX }}
+            ghcr.io/${{ github.repository_owner }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}${{ env.IMAGE_SUFFIX }}
+
+      - name: Build and push without cache export
+        if: ${{ steps.cache_policy.outputs.cache_to == '' }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ${{ env.DOCKERFILE_PATH }}
+          builder: ${{ steps.buildx.outputs.name }}
+          pull: true
+          push: true
+          target: main
+          cache-from: ${{ steps.cache_policy.outputs.cache_from }}
           tags: |
             ${{ secrets.CR_DH_USERNAME }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}${{ env.IMAGE_SUFFIX }}
             ghcr.io/${{ github.repository_owner }}/${{ env.REP_NAME }}:${{ env.RELEASE }}_${{ env.SHORT_REF_NAME }}_${{ env.SHORT_SHA }}${{ env.IMAGE_SUFFIX }}
@@ -297,6 +360,7 @@ jobs:
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
           name: ${{ inputs.runner_label }}
           server_id: ${{ inputs.server_id }}
+          org: novaittestteam
 
   # notify-telegram:
   #   name: Notifier

@@ -144,5 +144,6 @@ jobs:
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
           name: ${{ inputs.runner_label }}
           server_id: ${{ inputs.server_id }}
+          org: novaittestteam
 
 
