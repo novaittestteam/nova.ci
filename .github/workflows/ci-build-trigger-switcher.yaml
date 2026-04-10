@@ -106,44 +106,4 @@ jobs:
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-run-e2e.yaml@main
     secrets: inherit
 
-  delete-runner:
-    name: Delete Hetzner Cloud runner
-    runs-on: ubuntu-latest
-    if: ${{ needs.call-external-on-push-tags.result != 'success' &&
-          needs.call-external-on-pull-request-merged.result != 'success' &&
-          needs.call-external-on-push-tags-run-test.result != 'success' &&
-          needs.call-external-on-push-tags-gh-deploy.result != 'success' &&
-          needs.call-external-on-push-tags-mob-apk-build.result != 'success' &&
-          needs.call-external-on-push-tags-mob-apk-build-public.result != 'success' &&
-          needs.call-external-on-push-tags-mob-pwa-build.result != 'success' &&
-          needs.call-external-on-push-tags-mob-spa-build.result != 'success' &&
-          needs.call-external-on-push-tags-crm-build.result != 'success' &&
-          needs.call-external-on-push-tags-widget-build.result != 'success' &&
-          needs.call-external-on-push-branches.result != 'success' &&
-          needs.call-external-on-push-branches-e2e-tests.result != 'success' }}
-    needs:
-      - preparation
-      - call-external-on-push-tags
-      - call-external-on-pull-request-merged
-      - call-external-on-push-tags-run-test
-      - call-external-on-push-tags-gh-deploy
-      - call-external-on-push-tags-mob-apk-build
-      - call-external-on-push-tags-mob-apk-build-public
-      - call-external-on-push-tags-mob-pwa-build
-      - call-external-on-push-tags-mob-spa-build
-      - call-external-on-push-tags-crm-build
-      - call-external-on-push-tags-widget-build
-      - call-external-on-push-branches
-      - call-external-on-push-branches-e2e-tests
-    steps:
-      - name: Delete runner
-        uses: volodymyrmanzhula-nova/hcloud-github-runner@master
-        with:
-          mode: delete
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-          name: ${{ inputs.runner_label }}
-          server_id: ${{ inputs.server_id }}
-          org: novaittestteam
-
 
