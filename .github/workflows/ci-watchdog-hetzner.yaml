@@ -41,6 +41,7 @@ jobs:
               continue
             fi
 
+            echo "creation date"
             date -d "$CREATED"
 
             AGE=$(( $(date +%s) - $(date -d "$CREATED" +%s) ))
