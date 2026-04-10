@@ -5,9 +5,6 @@ on:
       runner_label:
         required: true
         type: string
-      server_id:
-        required: true
-        type: string
     
 
 jobs:
@@ -32,7 +29,6 @@ jobs:
     secrets: inherit
     with:
       runner_label: ${{ inputs.runner_label }}
-      server_id: ${{ inputs.server_id }}
 
   call-external-on-pull-request-merged:
     name: Call Builder On Merge PR
@@ -41,7 +37,6 @@ jobs:
     secrets: inherit
     with:
       runner_label: ${{ inputs.runner_label }}
-      server_id: ${{ inputs.server_id }}
 
   call-external-on-push-tags-run-test:
     name: Call Test Runner On Push Tags
