@@ -45,7 +45,7 @@ jobs:
             date -d "$CREATED"
 
             AGE=$(( $(date +%s) - $(date -d "$CREATED" +%s) ))
-            echo "Runner $NAME age: ${AGE}s, idle: true"
+            echo "Runner $NAME age: $((AGE / 60))m, idle: true"
 
             if [ "$AGE" -gt 3300 ]; then
               echo "→ Deleting $NAME"
