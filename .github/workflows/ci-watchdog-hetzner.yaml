@@ -15,7 +15,7 @@ jobs:
           ORG: ${{ github.repository_owner }}
         run: |
           date +%s
-          
+
           RUNNERS=$(curl -s \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
@@ -40,6 +40,8 @@ jobs:
               echo "No Hetzner server found for runner $NAME, skipping"
               continue
             fi
+
+            date -d "$CREATED" +%s
 
             AGE=$(( $(date +%s) - $(date -d "$CREATED" +%s) ))
             echo "Runner $NAME age: ${AGE}s, idle: true"
