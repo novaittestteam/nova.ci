@@ -14,7 +14,7 @@ jobs:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           ORG: ${{ github.repository_owner }}
         run: |
-          date +%s
+          date
 
           RUNNERS=$(curl -s \
             -H "Authorization: Bearer $GH_TOKEN" \
@@ -41,7 +41,7 @@ jobs:
               continue
             fi
 
-            date -d "$CREATED" +%s
+            date -d "$CREATED"
 
             AGE=$(( $(date +%s) - $(date -d "$CREATED" +%s) ))
             echo "Runner $NAME age: ${AGE}s, idle: true"
