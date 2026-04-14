@@ -1,16 +1,12 @@
 name: CI Build Trigger Switcher
 on:
   workflow_call:
-    inputs:
-      runner_label:
-        required: true
-        type: string
     
 
 jobs:
   preparation:
     name: CI Build Trigger Switcher Start
-    runs-on: ${{ inputs.runner_label }}
+    runs-on: hetzner
     steps:
       - name: Catch Github Events
         env:
@@ -27,16 +23,12 @@ jobs:
     if: ${{ contains(fromJSON('["novatalks.engine", "nova.core", "novatalks.ui", "nova.botflow", "nova.chatsconnector.telegram-client-api", "novatalks.dialer", "nova.chatsconnector.genesys.cloud.premium.wizard.engine" ]'), github.event.repository.name) && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, 'build') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
     secrets: inherit
-    with:
-      runner_label: ${{ inputs.runner_label }}
 
   call-external-on-pull-request-merged:
     name: Call Builder On Merge PR
     if: ${{ contains(fromJSON('["novatalks.engine", "novatalks.ui", "nova.core", "nova.botflow", "nova.chatsconnector.telegram-client-api", "novatalks.dialer", "nova.chatsconnector.genesys.cloud.premium.wizard.engine" ]'), github.event.repository.name) && github.event_name == 'push' && github.ref_type == 'branch' && contains(github.event.head_commit.message, 'build') }}
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
     secrets: inherit
-    with:
-      runner_label: ${{ inputs.runner_label }}
 
   call-external-on-push-tags-run-test:
     name: Call Test Runner On Push Tags
