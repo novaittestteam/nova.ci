@@ -40,7 +40,7 @@ jobs:
           set_output cache_dependency_path ""
 
           case "$REPO_NAME" in
-            novatalks.core)
+            nova.core)
               strategy="novatalks.core"
               set_output install_command "npm i"
               set_output node_options "--max-old-space-size=4096"
