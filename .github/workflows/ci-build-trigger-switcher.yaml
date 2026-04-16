@@ -2,7 +2,7 @@ name: CI Build Trigger Switcher
 on:
   workflow_call:
     inputs:
-      runner_label:
+      runner_labels:
         required: true
         type: string
 
@@ -27,7 +27,7 @@ jobs:
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
     secrets: inherit
     with:
-      runner_label: ${{ inputs.runner_label }}
+      runner_labels: ${{ inputs.runner_labels }}
 
   call-external-on-pull-request-merged:
     name: Call Builder On Merge PR
@@ -35,7 +35,7 @@ jobs:
     uses: novaittestteam/nova.ci/.github/workflows/ci-build-ntk-on-push-tags-build.yaml@main
     secrets: inherit
     with:
-      runner_label: ${{ inputs.runner_label }}
+      runner_labels: ${{ inputs.runner_labels }}
 
   call-external-on-push-tags-run-test:
     name: Call Test Runner On Push Tags
