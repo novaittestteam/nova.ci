@@ -55,7 +55,7 @@ CREATING_RUNNERS=$(echo "$HETZNER_RESPONSE" | jq -r \
     ] | length
 ')
 
-
+echo "Runners in creating process: $CREATING_RUNNER"
 
 RESPONSE=$(curl -s \
     -H "Authorization: Bearer $GH_TOKEN" \
