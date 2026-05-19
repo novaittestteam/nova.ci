@@ -36,7 +36,7 @@ REQUIRED_PRIORITY=$(size_priority "$REQUIRED_SIZE")
 
 REQUIRED_TYPE=$(size_type "$REQUIRED_SIZE")
 
-DELAY=$((RANDOM % 60))
+DELAY=$((RANDOM % 30))
 
 echo "Sleep $DELAY sec to avoid runner race..."
 sleep $DELAY
@@ -127,7 +127,7 @@ COUNT_SIZE=$(echo "$PARSED" | jq -r --arg size "$REQUIRED_SIZE" '
     map(select(.size == $size)) | length
 ')
 
-TOTAL_SIZE=$COUNT_SIZE + $CREATING_RUNNERS
+TOTAL_SIZE=$((COUNT_SIZE + CREATING_RUNNERS))
 
 echo "Current $REQUIRED_SIZE runners: $TOTAL_SIZE"
 
