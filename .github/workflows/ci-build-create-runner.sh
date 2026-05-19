@@ -36,7 +36,7 @@ REQUIRED_PRIORITY=$(size_priority "$REQUIRED_SIZE")
 
 REQUIRED_TYPE=$(size_type "$REQUIRED_SIZE")
 
-DELAY=$((RANDOM % 30))
+DELAY=$((RANDOM % 60))
 
 echo "Sleep $DELAY sec to avoid runner race..."
 sleep $DELAY
